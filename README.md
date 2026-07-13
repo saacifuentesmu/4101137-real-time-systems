@@ -41,6 +41,17 @@ ESP32-S3 devkit · ESP-IDF (`idf.py`, CMake) · VS Code · Wokwi / Renode / QEMU
 no-hardware paths · Zephyr (west) for the translation module · trace tooling for
 latency and jitter measurement. Modules 0–1 require no hardware.
 
+## Reference
+
+**Giorgio Buttazzo — *Hard Real-Time Computing Systems: Predictable Scheduling
+Algorithms and Applications*, 4th ed., Springer, 2024**
+([link.springer.com/book/10.1007/978-3-031-45410-3](https://link.springer.com/book/10.1007/978-3-031-45410-3)).
+The course's theory modules (schedulability, RMS/EDF, response-time analysis,
+resource-access protocols) follow this text; the labs validate its predictions by
+measurement. Likely available to students at no cost through UNAL's SpringerLink
+subscription (SINAB). For practice, the primary references are the official ESP-IDF
+and Zephyr documentation.
+
 ## What it demonstrates
 
 Real-time engineering taught through a single product measured at every stage — the
