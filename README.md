@@ -103,7 +103,9 @@ weeks 13–16 belong to the final project.
 ESP32-S3 devkit · Zephyr (`west`, CMake, devicetree, Kconfig) · VS Code ·
 `native_sim` / Renode for no-hardware paths · ESP-IDF for the translation module ·
 Zephyr tracing (SystemView/CTF) · a PREEMPT_RT Linux SBC (e.g. Raspberry Pi) for
-modules 6–7, shared per group.
+modules 6–7, shared per group. Students buy components in groups of 2–3 — see the
+**[BOM](BOM.md)** (pump + flow sensor + servo as the plant, ILI9341 touch display,
+logic analyzer for jitter measurement; ~$190–320k COP per group).
 
 ## Reference
 
