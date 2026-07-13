@@ -21,6 +21,10 @@ built three times:
 3. then **translated to Zephyr**, to see the same real-time concepts under a different
    kernel (devicetree, Kconfig, priority-inheritance mutexes) and learn portability.
 
+The course closes one level up: the same real-time questions asked of **embedded
+Linux** (PREEMPT_RT, `SCHED_DEADLINE`), and a final project that combines both worlds
+— a Linux gateway plus the ESP32-S3 as the hard-real-time node.
+
 Course material is in Spanish; repo names and this overview are in English.
 
 ## Course path
@@ -33,13 +37,15 @@ Course material is in Spanish; repo names and this overview are in English.
 | 3 | Midterm — scheduling & timing | `4101137-3-midterm-scheduling` *(planned)* | RMS/EDF schedulability, priority inversion reproduced and traced, WCET estimation |
 | 4 | Zephyr translation | `4101137-4-zephyr-translation` *(planned)* | Port one lab to Zephyr on the same ESP32-S3: west, devicetree, Kconfig, kernel API mapping |
 | 5 | Lab — instrumented measurement | `4101137-5-tracing-lab` *(planned)* | Latency/jitter/CPU-load measurement with trace tooling; memory/time trade-offs |
-| 6 | Final project | `4101137-6-final-project` *(planned)* | Networked real-time node: Wi-Fi telemetry + command console with deadline guarantees. Optional audio-pipeline track (ESP-ADF, I2S hard deadlines) |
+| 6 | Embedded Linux real-time | `4101137-6-linux-rt` *(planned)* | The same concepts on a PREEMPT_RT Linux SBC: `cyclictest` latency, `SCHED_FIFO`/`SCHED_DEADLINE` (RMS/EDF in a mainline kernel — Buttazzo ch. on Linux). Done in larger groups sharing boards |
+| 7 | Final project | `4101137-7-final-project` *(planned)* | Heterogeneous real-time system: Linux SBC as compute/telemetry gateway + ESP32-S3 as hard-RT node, with end-to-end deadline guarantees. Optional audio-pipeline track (ESP-ADF, I2S hard deadlines) |
 
 ## Hardware & tooling
 
 ESP32-S3 devkit · ESP-IDF (`idf.py`, CMake) · VS Code · Wokwi / Renode / QEMU for
 no-hardware paths · Zephyr (west) for the translation module · trace tooling for
-latency and jitter measurement. Modules 0–1 require no hardware.
+latency and jitter measurement · a PREEMPT_RT Linux SBC (e.g. Raspberry Pi) for
+modules 6–7, shared per group. Modules 0–1 require no hardware.
 
 ## Reference
 
