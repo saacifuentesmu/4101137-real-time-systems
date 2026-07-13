@@ -15,9 +15,31 @@ Renode).
 This is the course hub: the material lives across the repositories below, ordered the
 way the semester runs.
 
-The through-line is one system — a **real-time acquisition & control node** (periodic
-sampling with a hard deadline, a control loop, soft telemetry, and a command console)
-— rebuilt as the course climbs the stack:
+## Project scenario — GreenField Technologies
+
+The course is **project-oriented**: students work inside a realistic product scenario
+rather than doing isolated assignments (see
+[PROJECT_SCENARIO.md](PROJECT_SCENARIO.md)). They join **GreenField Technologies** —
+a fictional agri-tech startup — as **Firmware Engineers on the new Control Systems
+team**. GreenField's sensing product (SoilSense, a soil-monitoring mesh) already
+shipped; monitoring alone doesn't close the loop, so the next product line is
+automated irrigation:
+
+- **SoilSense Control** — an ESP32-S3 real-time irrigation controller: a flow/pressure
+  control loop with a **hard** deadline, periodic sensor sampling, **soft** telemetry,
+  and a **firm** command console. This is the node the course builds and rebuilds.
+- **SoilSense Hub** — a Linux SBC gateway with a local touchscreen **GUI** and remote
+  dashboard, supervising the controllers. This is the final project (weeks 13–16).
+
+The briefing is self-contained. Deliverables are professional engineering documents:
+ADRs and design records, extended here with **timing evidence** (schedulability
+analysis + measured latency/jitter tables). *(Instructor note: GreenField is the same
+fictional universe used in 4201327; students who took it will recognize the company,
+but nothing depends on it.)*
+
+## Through-line
+
+The one system — **SoilSense Control** — is rebuilt as the course climbs the stack:
 
 1. first as a **superloop** — single Zephyr main thread plus ISRs, the 4100901
    architecture revisited — with its latency and jitter measured as the baseline;
@@ -26,13 +48,12 @@ sampling with a hard deadline, a control loop, soft telemetry, and a command con
 3. then **translated to ESP-IDF/FreeRTOS**, the industry-dominant kernel, to see the
    same concepts under a different API and learn portability;
 4. finally **one level up on embedded Linux** (PREEMPT_RT, `SCHED_DEADLINE`), closing
-   with a heterogeneous final project: a Linux gateway plus the ESP32-S3 as the
-   hard-real-time node.
+   with the heterogeneous final project: the **SoilSense Hub** gateway (GUI, telemetry,
+   supervision) plus the ESP32-S3 controller as the hard-real-time node.
 
-The node's tasks embody the deadline taxonomy the course teaches: the control loop is
-**hard**, telemetry is **soft**, the console is **firm** — labeled in the spec and
-verified in the traces. Course material is in Spanish; repo names and this overview
-are in English.
+The node's tasks embody the deadline taxonomy the course teaches — labeled in the
+spec and verified in the traces. Course material is in Spanish; repo names and this
+overview are in English.
 
 ## Course path
 
@@ -45,13 +66,13 @@ are in English.
 | 4 | Translation — ESP-IDF/FreeRTOS | `4101137-4-freertos-translation` *(planned)* | Port one lab to ESP-IDF on the same ESP32-S3: FreeRTOS tasks/queues/semaphores, kernel API mapping — the RTOS students will most likely meet in industry |
 | 5 | Lab — instrumented measurement | `4101137-5-tracing-lab` *(planned)* | Zephyr tracing subsystem (SystemView/CTF), latency/jitter/CPU-load measurement; a proper Zephyr driver with its devicetree binding. Multicore scheduling on the S3's two cores (Zephyr SMP) |
 | 6 | Embedded Linux real-time | `4101137-6-linux-rt` *(planned)* | The same concepts on a PREEMPT_RT Linux SBC: `cyclictest` latency, `SCHED_FIFO`/`SCHED_DEADLINE` (RMS/EDF in a mainline kernel — Buttazzo's Linux chapter); students arrive already reading devicetree. Done in larger groups sharing boards |
-| 7 | Final project | `4101137-7-final-project` *(planned)* | Heterogeneous real-time system: Linux SBC as compute/telemetry gateway + ESP32-S3 Zephyr node with end-to-end deadline guarantees; drivers delivered as reusable out-of-tree Zephyr modules |
+| 7 | Final project — SoilSense Hub | `4101137-7-final-project` *(planned)* | The GreenField gateway: Linux SBC with local GUI (e.g. LVGL/touchscreen or web HMI) + remote dashboard, supervising ESP32-S3 Zephyr controllers with end-to-end deadline guarantees; drivers delivered as reusable out-of-tree Zephyr modules |
 
 ## Semester schedule
 
 16 weekly sessions (Wednesdays, 4–7 pm). Each session runs as a **40-minute talk +
-2-hour lab** (as in 4201327), with the remaining time for wrap-up and Q&A. Content
-closes at week 12; weeks 13–16 belong to the final project.
+2-hour lab**, with the remaining time for wrap-up and Q&A. Content closes at week 12;
+weeks 13–16 belong to the final project.
 
 | Week | Module | Talk (40 min) | Lab (2 h) |
 |------|--------|---------------|-----------|
@@ -67,10 +88,10 @@ closes at week 12; weeks 13–16 belong to the final project.
 | 10 | 5 | Tracing and WCET measurement; multicore scheduling (S3 SMP) | Zephyr tracing (SystemView/CTF); driver with DT binding |
 | 11 | 6 | Aperiodic servers, CBS → `SCHED_DEADLINE`; PREEMPT_RT | Linux SBC bring-up (shared per group); `cyclictest` latency |
 | 12 | 6 | Linux RT in practice: `SCHED_FIFO`/`SCHED_DEADLINE`, affinity | Periodic tasks under Linux; content closes |
-| 13 | 7 | Final project kickoff: requirements, architecture | Proposal + system architecture (Linux gateway + S3 node) |
-| 14 | 7 | — | Checkpoint 1: hard-RT node running with verified deadlines |
-| 15 | 7 | — | Checkpoint 2: gateway integration, end-to-end deadline evidence |
-| 16 | 7 | — | **Demo day**: live demos + measurement reports |
+| 13 | 7 | SoilSense Hub kickoff: product brief, requirements, architecture | Proposal + system architecture (Hub gateway + Control node) as ADRs |
+| 14 | 7 | — | Checkpoint 1: Control node running with verified deadlines |
+| 15 | 7 | — | Checkpoint 2: Hub integration — GUI, telemetry, end-to-end deadline evidence |
+| 16 | 7 | — | **Demo day**: live demos + timing-evidence reports |
 
 ## Hardware & tooling
 
