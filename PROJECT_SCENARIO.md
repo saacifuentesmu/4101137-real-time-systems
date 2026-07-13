@@ -64,12 +64,20 @@ del curso:
 *(Los números son de referencia; se fijan y justifican en los ADRs de cada módulo.)*
 
 ### SoilSense Hub (proyecto final, semanas 13–16)
-Gateway sobre SBC Linux (PREEMPT_RT), compartido por grupo:
+Gateway sobre SBC Linux (PREEMPT_RT), compartido por grupo. El Hub **no es solo un
+supervisor**: es un sistema de criticidad mixta con requisitos duros propios, y su
+diseño de tiempo real es el corazón del proyecto final. En la misma caja conviven:
 
+- **Control duro local**: el lazo de presión de la estación de bombeo y su interlock
+  de seguridad (`SCHED_FIFO`/`SCHED_DEADLINE`, aislamiento de CPU).
 - **GUI local** (pantalla táctil — p. ej. LVGL o HMI web) para operación en campo.
-- Dashboard/telemetría remota y supervisión de múltiples nodos Control.
-- Tareas de supervisión con `SCHED_FIFO`/`SCHED_DEADLINE`; evidencia `cyclictest`.
-- Enlace Hub ↔ Control con presupuesto de deadline extremo a extremo.
+- **Enrutamiento de datos**: telemetría de los nodos Control hacia el dashboard
+  remoto/nube, y comandos de vuelta, con presupuesto de deadline extremo a extremo.
+
+**El reto de diseño**: demostrar que el lazo duro cumple sus plazos *mientras* la GUI
+renderiza y el enrutamiento recibe ráfagas de tráfico — con evidencia (`cyclictest` y
+trazas bajo carga sintética). Además, el ADR de particionamiento: qué funciones viven
+en Linux y cuáles en el MCU (ESP32-S3), y por qué.
 
 ## 3. Tu Rol y Equipo
 
