@@ -47,6 +47,31 @@ are in English.
 | 6 | Embedded Linux real-time | `4101137-6-linux-rt` *(planned)* | The same concepts on a PREEMPT_RT Linux SBC: `cyclictest` latency, `SCHED_FIFO`/`SCHED_DEADLINE` (RMS/EDF in a mainline kernel — Buttazzo's Linux chapter); students arrive already reading devicetree. Done in larger groups sharing boards |
 | 7 | Final project | `4101137-7-final-project` *(planned)* | Heterogeneous real-time system: Linux SBC as compute/telemetry gateway + ESP32-S3 Zephyr node with end-to-end deadline guarantees; drivers delivered as reusable out-of-tree Zephyr modules |
 
+## Semester schedule
+
+16 weekly sessions (Wednesdays, 4–7 pm). Each session runs as a **40-minute talk +
+2-hour lab** (as in 4201327), with the remaining time for wrap-up and Q&A. Content
+closes at week 12; weeks 13–16 belong to the final project.
+
+| Week | Module | Talk (40 min) | Lab (2 h) |
+|------|--------|---------------|-----------|
+| 1 | 0 | Course overview; why real-time; the curriculum's Zephyr strategy | `west` install, first build; blink on ESP32-S3 and `native_sim` |
+| 2 | 0 | Toolchain anatomy: devicetree at a glance, Kconfig, build → flash → monitor | First DT overlay; debug and serial console on the S3 |
+| 3 | 1 | RT taxonomy (hard/firm/soft), task models; 4100901's superloop remembered | Build the node as a Zephyr superloop (main thread + ISRs) |
+| 4 | 1 | Latency anatomy: interrupt → activation → jitter; measurement methods | Baseline experiments: jitter growth, the blocking command, baseline table |
+| 5 | 2 | The scheduler: threads, priorities, preemption | Rebuild the node with threads; sampling task meets its deadline |
+| 6 | 2 | IPC: message queues, workqueues, ISR deferral | Complete the threaded node; A/B measurement against week 4 baseline |
+| 7 | 3 | Schedulability: utilization bounds, RM/DM, EDF | Implement and analyze a periodic task set; verify the math in traces |
+| 8 | 3 | Response-time analysis; priority inversion, PI/PC protocols | **Midterm workshop**: reproduce inversion, fix with PI mutex, quiz |
+| 9 | 4 | FreeRTOS/ESP-IDF: the industry kernel, API mapping from Zephyr | Port one lab to ESP-IDF on the same S3; compare |
+| 10 | 5 | Tracing and WCET measurement; multicore scheduling (S3 SMP) | Zephyr tracing (SystemView/CTF); driver with DT binding |
+| 11 | 6 | Aperiodic servers, CBS → `SCHED_DEADLINE`; PREEMPT_RT | Linux SBC bring-up (shared per group); `cyclictest` latency |
+| 12 | 6 | Linux RT in practice: `SCHED_FIFO`/`SCHED_DEADLINE`, affinity | Periodic tasks under Linux; content closes |
+| 13 | 7 | Final project kickoff: requirements, architecture | Proposal + system architecture (Linux gateway + S3 node) |
+| 14 | 7 | — | Checkpoint 1: hard-RT node running with verified deadlines |
+| 15 | 7 | — | Checkpoint 2: gateway integration, end-to-end deadline evidence |
+| 16 | 7 | — | **Demo day**: live demos + measurement reports |
+
 ## Hardware & tooling
 
 ESP32-S3 devkit · Zephyr (`west`, CMake, devicetree, Kconfig) · VS Code ·
