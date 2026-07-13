@@ -1,51 +1,58 @@
 # Real-Time Systems — UNAL 4101137
 
 A course about **real-time behavior** — scheduling, latency, jitter, deadlines — using
-an **ESP32-S3** and **ESP-IDF (FreeRTOS)** as the vehicle. Taught at the Universidad
-Nacional de Colombia, Sede Manizales. The goal isn't the framework — it's understanding
-*when* code runs and how to guarantee it: why a superloop misses deadlines, how a
-preemptive scheduler fixes it, and what the theory (RMS/EDF, priority inversion, WCET)
-predicts about both.
+an **ESP32-S3** and **Zephyr RTOS** as the vehicle. Taught at the Universidad Nacional
+de Colombia, Sede Manizales. The goal isn't the framework — it's understanding *when*
+code runs and how to guarantee it: what the theory (RMS/EDF, response-time analysis,
+priority inversion, WCET) predicts, verified by measurement at every stage.
+
+Zephyr is the shared platform strategy across the embedded curriculum (4100901,
+4201327, 4101137): one toolchain (`west`, CMake, Kconfig) and **devicetree** as the
+hardware-description language — the same syntax students later meet again in the
+Linux kernel. Its portability also gives every lab a no-hardware path (`native_sim`,
+Renode).
 
 This is the course hub: the material lives across the repositories below, ordered the
 way the semester runs.
 
 The through-line is one system — a **real-time acquisition & control node** (periodic
-sampling, a control loop with a hard deadline, telemetry, and a command console) —
-built three times:
+sampling with a hard deadline, a control loop, soft telemetry, and a command console)
+— rebuilt as the course climbs the stack:
 
-1. first as a **bare-metal superloop** (in simulation — no hardware required), to
-   measure its jitter and watch it miss deadlines;
-2. then **rebuilt on FreeRTOS via ESP-IDF** on the ESP32-S3, with tasks, queues, and
-   ISR deferral — measured again;
-3. then **translated to Zephyr**, to see the same real-time concepts under a different
-   kernel (devicetree, Kconfig, priority-inheritance mutexes) and learn portability.
+1. first as a **superloop** — single Zephyr main thread plus ISRs, the 4100901
+   architecture revisited — with its latency and jitter measured as the baseline;
+2. then **multithreaded on the Zephyr kernel** — threads, message queues, workqueues,
+   priorities — measured again against that baseline;
+3. then **translated to ESP-IDF/FreeRTOS**, the industry-dominant kernel, to see the
+   same concepts under a different API and learn portability;
+4. finally **one level up on embedded Linux** (PREEMPT_RT, `SCHED_DEADLINE`), closing
+   with a heterogeneous final project: a Linux gateway plus the ESP32-S3 as the
+   hard-real-time node.
 
-The course closes one level up: the same real-time questions asked of **embedded
-Linux** (PREEMPT_RT, `SCHED_DEADLINE`), and a final project that combines both worlds
-— a Linux gateway plus the ESP32-S3 as the hard-real-time node.
-
-Course material is in Spanish; repo names and this overview are in English.
+The node's tasks embody the deadline taxonomy the course teaches: the control loop is
+**hard**, telemetry is **soft**, the console is **firm** — labeled in the spec and
+verified in the traces. Course material is in Spanish; repo names and this overview
+are in English.
 
 ## Course path
 
 | # | Module | Repository | What it covers |
 |---|--------|-----------|----------------|
-| 0 | Setup — dev env & first blink | `4101137-0-intro-project` *(planned)* | ESP-IDF toolchain on the ESP32-S3: `idf.py`, first build/flash/monitor. Wokwi browser simulation as the no-hardware fallback |
-| 1 | Bare-metal showcase | [4101137-1-bare-metal-showcase](../4101137-1-bare-metal-showcase) | The superloop node in a Cortex-M simulator: foreground/background, blocking, measured latency and jitter — why an RTOS. No hardware required |
-| 2 | FreeRTOS fundamentals | `4101137-2-freertos-fundamentals` *(planned)* | The same node on ESP-IDF: tasks, queues, semaphores, ISR deferral, priorities — jitter measured again and compared |
-| 3 | Midterm — scheduling & timing | `4101137-3-midterm-scheduling` *(planned)* | RMS/EDF schedulability, priority inversion reproduced and traced, WCET estimation |
-| 4 | Zephyr translation | `4101137-4-zephyr-translation` *(planned)* | Port one lab to Zephyr on the same ESP32-S3: west, devicetree, Kconfig, kernel API mapping |
-| 5 | Lab — instrumented measurement | `4101137-5-tracing-lab` *(planned)* | Latency/jitter/CPU-load measurement with trace tooling; memory/time trade-offs |
-| 6 | Embedded Linux real-time | `4101137-6-linux-rt` *(planned)* | The same concepts on a PREEMPT_RT Linux SBC: `cyclictest` latency, `SCHED_FIFO`/`SCHED_DEADLINE` (RMS/EDF in a mainline kernel — Buttazzo ch. on Linux). Done in larger groups sharing boards |
-| 7 | Final project | `4101137-7-final-project` *(planned)* | Heterogeneous real-time system: Linux SBC as compute/telemetry gateway + ESP32-S3 as hard-RT node, with end-to-end deadline guarantees. Optional audio-pipeline track (ESP-ADF, I2S hard deadlines) |
+| 0 | Setup — dev env & first blink | `4101137-0-intro-project` *(planned)* | Zephyr toolchain: `west`, devicetree at a glance, first build/flash on the ESP32-S3; `native_sim` and Renode as no-hardware fallbacks |
+| 1 | Superloop baseline | [4101137-1-superloop-baseline](../4101137-1-superloop-baseline) | Real-time taxonomy (hard/firm/soft) and latency anatomy; the node as a superloop (main thread + ISRs — 4100901 remembered), its jitter measured as the course baseline |
+| 2 | Zephyr kernel fundamentals | `4101137-2-zephyr-fundamentals` *(planned)* | The same node multithreaded: threads, message queues, workqueues, ISR deferral, a first devicetree overlay — jitter measured against the module 1 baseline |
+| 3 | Midterm — scheduling & timing | `4101137-3-midterm-scheduling` *(planned)* | RMS/EDF schedulability, response-time analysis, WCET estimation; priority inversion reproduced and fixed live (Zephyr mutexes do priority inheritance) |
+| 4 | Translation — ESP-IDF/FreeRTOS | `4101137-4-freertos-translation` *(planned)* | Port one lab to ESP-IDF on the same ESP32-S3: FreeRTOS tasks/queues/semaphores, kernel API mapping — the RTOS students will most likely meet in industry |
+| 5 | Lab — instrumented measurement | `4101137-5-tracing-lab` *(planned)* | Zephyr tracing subsystem (SystemView/CTF), latency/jitter/CPU-load measurement; a proper Zephyr driver with its devicetree binding. Multicore scheduling on the S3's two cores (Zephyr SMP) |
+| 6 | Embedded Linux real-time | `4101137-6-linux-rt` *(planned)* | The same concepts on a PREEMPT_RT Linux SBC: `cyclictest` latency, `SCHED_FIFO`/`SCHED_DEADLINE` (RMS/EDF in a mainline kernel — Buttazzo's Linux chapter); students arrive already reading devicetree. Done in larger groups sharing boards |
+| 7 | Final project | `4101137-7-final-project` *(planned)* | Heterogeneous real-time system: Linux SBC as compute/telemetry gateway + ESP32-S3 Zephyr node with end-to-end deadline guarantees; drivers delivered as reusable out-of-tree Zephyr modules |
 
 ## Hardware & tooling
 
-ESP32-S3 devkit · ESP-IDF (`idf.py`, CMake) · VS Code · Wokwi / Renode / QEMU for
-no-hardware paths · Zephyr (west) for the translation module · trace tooling for
-latency and jitter measurement · a PREEMPT_RT Linux SBC (e.g. Raspberry Pi) for
-modules 6–7, shared per group. Modules 0–1 require no hardware.
+ESP32-S3 devkit · Zephyr (`west`, CMake, devicetree, Kconfig) · VS Code ·
+`native_sim` / Renode for no-hardware paths · ESP-IDF for the translation module ·
+Zephyr tracing (SystemView/CTF) · a PREEMPT_RT Linux SBC (e.g. Raspberry Pi) for
+modules 6–7, shared per group.
 
 ## Reference
 
@@ -53,17 +60,19 @@ modules 6–7, shared per group. Modules 0–1 require no hardware.
 Algorithms and Applications*, 4th ed., Springer, 2024**
 ([link.springer.com/book/10.1007/978-3-031-45410-3](https://link.springer.com/book/10.1007/978-3-031-45410-3)).
 The course's theory modules (schedulability, RMS/EDF, response-time analysis,
-resource-access protocols) follow this text; the labs validate its predictions by
-measurement. Likely available to students at no cost through UNAL's SpringerLink
-subscription (SINAB). For practice, the primary references are the official ESP-IDF
-and Zephyr documentation.
+resource-access protocols, aperiodic servers/CBS) follow this text — it covers soft
+real-time as well as hard, and its Linux chapter anchors module 6; the labs validate
+its predictions by measurement. Likely available to students at no cost through
+UNAL's SpringerLink subscription (SINAB). For practice, the primary references are
+the official Zephyr and ESP-IDF documentation.
 
 ## What it demonstrates
 
 Real-time engineering taught through a single product measured at every stage — the
-same node as a superloop, on FreeRTOS, and on Zephyr, with the scheduling theory tied
-to observed latency and jitter rather than slides. The ESP32-S3 is the teaching
-instrument; the lasting takeaway is knowing *when* your code runs.
+same node as a superloop, multithreaded on Zephyr, translated to FreeRTOS, and scaled
+to Linux — with the scheduling theory tied to observed latency and jitter rather than
+slides. The ESP32-S3 is the teaching instrument; the lasting takeaway is knowing
+*when* your code runs.
 
 ---
 
