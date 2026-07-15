@@ -77,7 +77,9 @@ overview are in English.
 
 16 weekly sessions (Wednesdays, 4–7 pm). Each session runs as a **40-minute talk +
 2-hour lab**, with the remaining time for wrap-up and Q&A. Content closes at week 12;
-weeks 13–16 belong to the final project.
+weeks 13–16 belong to the final project. Per-week readings from the course text are
+in **[LECTURAS.md](LECTURAS.md)** (Spanish), including which sections — and which
+proofs — to skip.
 
 | Week | Module | Talk (40 min) | Lab (2 h) |
 |------|--------|---------------|-----------|
@@ -117,7 +119,9 @@ resource-access protocols, aperiodic servers/CBS) follow this text — it covers
 real-time as well as hard, and its Linux chapters anchor module 6 and the final
 project; the labs validate its predictions by measurement. Likely available to
 students at no cost through UNAL's SpringerLink subscription (SINAB). For practice,
-the primary references are the official Zephyr and ESP-IDF documentation.
+the primary references are the official Zephyr and ESP-IDF documentation. The
+week-by-week reading guide — theorem statements over proofs; the labs supply the
+evidence — is in [LECTURAS.md](LECTURAS.md).
 
 **Edition note:** the 3rd edition (2011) is acceptable for the theory modules — its
 chapters 1–9 match the 4th almost one-to-one. It is **not** sufficient for weeks
