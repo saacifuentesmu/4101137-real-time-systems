@@ -107,13 +107,14 @@ la pregunta de Edwin ("¿qué pasa si el Hub se cae con una válvula abierta?").
 > **Borrador — detalle por fase pendiente de autoría.** Estructura prevista
 > (contexto → tareas → preguntas de stakeholders → entregables):
 
-1. **Fase 1 — Prototipo y línea base** (módulos 1–2): el Control como superloop,
-   medición de la línea base; reconstrucción con hilos; A/B contra la línea base.
+1. **Fase 1 — Prototipo y línea base** (módulos 1–2 + tracing del módulo 5): el
+   Control como superloop, medición de la línea base; reconstrucción con hilos;
+   A/B contra la línea base con tracing instrumentado.
 2. **Fase 2 — Garantías** (módulo 3): análisis de planificabilidad del task set del
    Control; inversión de prioridad reproducida y corregida. *(Parcial: semana 8.)*
 3. **Fase 3 — Portabilidad y drivers** (módulos 4–5): traducción a FreeRTOS (¿y si
-   un cliente exige el kernel de la industria?); tracing y driver con binding de
-   devicetree.
+   un cliente exige el kernel de la industria?); driver con binding de devicetree,
+   WCET y SMP.
 4. **Fase 4 — El Hub** (módulos 6–7): Linux RT en grupos; kickoff del proyecto final,
    dos checkpoints y demo day con reporte de evidencia de tiempos.
 
