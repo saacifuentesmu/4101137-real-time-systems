@@ -123,4 +123,5 @@ la pregunta de Edwin ("¿qué pasa si el Hub se cae con una válvula abierta?").
 ADRs antes de implementar, decisiones justificadas con números, trade-offs
 explícitos. Además, en este proyecto todo requisito temporal se declara (tipo
 duro/firme/suave, período, deadline) y se **verifica con evidencia medida** (tabla de
-latencia/jitter o traza) — el formato se define en el módulo 1.
+latencia/jitter o traza) — todo vive en el **RET** (Reporte de Evidencia de Tiempos,
+plantilla en [plantillas/ret.md](plantillas/ret.md)), el documento vivo del equipo.

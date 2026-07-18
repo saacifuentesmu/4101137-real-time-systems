@@ -12,8 +12,9 @@ hardware-description language — the same syntax students later meet again in t
 Linux kernel. Its portability also gives every lab a no-hardware path (`native_sim`,
 Renode).
 
-This is the course hub: the material lives across the repositories below, ordered the
-way the semester runs.
+Everything lives in this repository — session guides, instructor material, and the
+**course-authored reference firmware** students run, study, and migrate (same
+infrastructure as 4201327's course repo).
 
 ## Project scenario — GreenField Technologies
 
@@ -44,12 +45,15 @@ but nothing depends on it.)*
 
 The one system — **SoilSense Control** — is rebuilt as the course climbs the stack:
 
-1. first as a **superloop** — single Zephyr main thread plus ISRs, the 4100901
-   architecture revisited — measured on a cache-free Cortex-M0+ (STM32C0116-DK) as
-   the baseline, then ported to the ESP32-S3 with one devicetree overlay and
-   re-measured (same code, two chips: microarchitectural jitter made visible);
-2. then **multithreaded on the Zephyr kernel** — threads, message queues, workqueues,
-   priorities — measured again against that baseline;
+1. first as the **provided superloop** (`firmware/superloop/`, course-authored) —
+   single Zephyr main thread plus ISRs, the 4100901 architecture revisited — which
+   students run as their Zephyr get-started, then instrument and measure on a
+   cache-free Cortex-M0+ (STM32C0116-DK) as the baseline, then port to the ESP32-S3
+   with one devicetree overlay and re-measure (same code, two chips:
+   microarchitectural jitter made visible);
+2. then **migrated to the Zephyr kernel** — a guided mapping of each superloop piece
+   to its kernel counterpart: flags → message queues, polled work → threads, ISR
+   bottom halves → workqueues — measured again against that baseline;
 3. finally **one level up on embedded Linux** (PREEMPT_RT, `SCHED_DEADLINE`), closing
    with the **SoilSense Hub**: a mixed-criticality gateway whose hard control loop
    must coexist with a GUI and data routing on the same box — where real-time
@@ -65,17 +69,26 @@ The node's tasks embody the deadline taxonomy the course teaches — labeled in 
 spec and verified in the traces. Course material is in Spanish; repo names and this
 overview are in English.
 
-## Course path
+## Repository layout
 
-| # | Module | Repository | What it covers |
-|---|--------|-----------|----------------|
-| 0 | Setup — dev env & first blink | `4101137-0-intro-project` *(planned)* | **Pre-course setup guide** (done at home, verified week 1) + prerequisite recap bridging digital systems, 4100901 and control into *why real-time*. Zephyr toolchain: `west`, devicetree at a glance, first build/flash on the ESP32-S3; `native_sim` and Renode as no-hardware fallbacks |
-| 1 | Superloop baseline | [4101137-1-superloop-baseline](../4101137-1-superloop-baseline) | Real-time taxonomy (hard/firm/soft) and latency anatomy; the node as a superloop (main thread + ISRs — 4100901 remembered), its jitter measured as the course baseline on the STM32C0116-DK (course-provided, cache-free Cortex-M0+) |
-| 2 | Zephyr kernel fundamentals | `4101137-2-zephyr-fundamentals` *(planned)* | Opens with the port: the superloop rebuilt for the ESP32-S3 with one devicetree overlay, baseline re-measured (two chips compared). Then the node multithreaded: threads, message queues, workqueues, ISR deferral — jitter measured against the S3 baseline |
-| 3 | Midterm — scheduling & timing | `4101137-3-midterm-scheduling` *(planned)* | RMS/EDF schedulability, response-time analysis, WCET estimation; priority inversion reproduced and fixed live (Zephyr mutexes do priority inheritance) |
-| 4 | Lab — instrumented measurement | `4101137-4-measurement-lab` *(planned)* | Two sessions bracketing the theory module: tracing (SystemView/CTF) and latency/jitter/CPU-load measurement at week 5 — so the schedulability labs verify by trace — then WCET methodology, a proper Zephyr driver with its devicetree binding, and multicore at week 9: hands-on **partitioned** scheduling via Zephyr AMP (sysbuild, one image per core, IPM between them — the S3's real in-tree capability), with global/SMP as the talk contrast (FreeRTOS has it on this chip; Zephyr's Xtensa port doesn't yet — itself a lesson in port maturity). Week 9's talk is also FreeRTOS's dedicated slot: API mapping, where it's strong and where it's weak |
-| 5 | Embedded Linux real-time | `4101137-5-linux-rt` *(planned)* | Three sessions (weeks 10–12): the same concepts on a PREEMPT_RT Linux SBC — `cyclictest` latency, servers/CBS → `SCHED_FIFO`/`SCHED_DEADLINE` (RMS/EDF in a mainline kernel — Buttazzo's Linux chapters, incl. the ch. 12 pthread/ptask lab); students arrive already reading devicetree. Done in larger groups sharing boards |
-| 6 | Final project — SoilSense Hub | `4101137-6-final-project` *(planned)* | The GreenField gateway as a mixed-criticality system: a hard control loop (pump station + safety interlock) sharing a PREEMPT_RT Linux SBC with a local GUI (e.g. LVGL/touchscreen or web HMI) and Control-node/cloud data routing. Deliverables: the Linux-vs-MCU partitioning ADR, priority/deadline/CPU-isolation design, a watchdog + defined fail-safe state, and interference evidence showing the hard loop holds under GUI + routing load |
+| Path | What it is |
+|---|---|
+| [labs/](labs/) | One lab guide per session (Spanish), plus `lectures/` (instructor scripts) and `sops/` (bring-up mechanics) — format in [FORMATO_SESIONES.md](FORMATO_SESIONES.md) |
+| [firmware/](firmware/) | **Course-authored reference apps.** `superloop/` is the get-started: students run it in week 2, it gets explained in the talk, and module 2 is its guided migration to kernel threads. More stages land as the semester climbs |
+| [plantillas/](plantillas/) | lab / lecture / SOP / RET templates |
+| [PROJECT_SCENARIO.md](PROJECT_SCENARIO.md) · [LECTURAS.md](LECTURAS.md) · [BOM.md](BOM.md) | The GreenField briefing, the per-week reading guide, and the parts list |
+
+## Modules (logical units within this repo)
+
+| # | Module | What it covers |
+|---|--------|----------------|
+| 0 | Setup & recap | **Pre-course setup guide** (done at home, verified week 1) + prerequisite recap bridging digital systems, 4100901 and control into *why real-time*; `west`, devicetree at a glance, `native_sim`/Renode fallbacks |
+| 1 | Superloop baseline | Real-time taxonomy (hard/firm/soft) and latency anatomy; students **run and study the provided superloop** (`firmware/superloop/`, main thread + ISRs — 4100901 remembered) and measure its jitter as the course baseline on the STM32C0116-DK (course-provided, cache-free Cortex-M0+) |
+| 2 | Zephyr kernel fundamentals | Opens with the port: the provided superloop rebuilt for the ESP32-S3 with one devicetree overlay, baseline re-measured (two chips compared). Then the **guided migration** superloop → threads, message queues, workqueues, ISR deferral — the talk maps each superloop piece to its kernel counterpart; jitter measured against the S3 baseline |
+| 3 | Midterm — scheduling & timing | RMS/EDF schedulability, response-time analysis, WCET estimation; priority inversion reproduced and fixed live (Zephyr mutexes do priority inheritance) |
+| 4 | Instrumented measurement | Two sessions bracketing the theory module: tracing (SystemView/CTF) at week 5 — so the schedulability labs verify by trace — then WCET methodology, a Zephyr driver with its devicetree binding, and multicore at week 9: partitioned scheduling via **Zephyr AMP** (sysbuild, one image per core), with global/SMP as the talk contrast. Week 9's talk is also FreeRTOS's dedicated slot |
+| 5 | Embedded Linux real-time | Three sessions (weeks 10–12) on a PREEMPT_RT Linux SBC: `cyclictest`, servers/CBS → `SCHED_FIFO`/`SCHED_DEADLINE` (Buttazzo's Linux chapters, incl. the ch. 12 pthread/ptask lab); larger groups sharing boards |
+| 6 | Final project — SoilSense Hub | Mixed-criticality gateway: hard control loop + safety interlock sharing a PREEMPT_RT SBC with a GUI and data routing. Deliverables: partitioning ADR, priority/deadline/CPU-isolation design, watchdog + defined fail-safe state, interference evidence |
 
 ## Semester schedule
 
@@ -93,8 +106,8 @@ proofs — to skip.
 | Week | Module | Talk (40 min) | Lab (2 h) |
 |------|--------|---------------|-----------|
 | 1 | 0 | Recap: digital systems → computation structures (4100901) → control systems — converging on *why real-time*; course overview | Toolchain check (pre-course setup guide done at home), first build; blink on the STM32C0116-DK and `native_sim` |
-| 2 | 1 | Quick RT recap, then the vocabulary: taxonomy (hard/firm/soft), task models, latency anatomy (interrupt → activation → jitter) | Build the node as a Zephyr superloop on the C0116-DK (skeleton provided); measure the jitter baseline table on cache-free silicon |
-| 3 | 2 | The scheduler: threads, priorities, preemption | Port the superloop to the ESP32-S3 (one devicetree overlay — Zephyr portability, demonstrated); re-measure the baseline, compare silicon; rebuild with threads |
+| 2 | 1 | Quick RT recap, then the vocabulary: taxonomy (hard/firm/soft), task models, latency anatomy (interrupt → activation → jitter) | Run the provided superloop (`firmware/superloop/`) on the C0116-DK as the Zephyr get-started; walk the code, instrument it, measure the jitter baseline table on cache-free silicon |
+| 3 | 2 | The scheduler: threads, priorities, preemption | Port the provided superloop to the ESP32-S3 (one devicetree overlay — Zephyr portability, demonstrated); re-measure the baseline, compare silicon; begin the guided migration to threads |
 | 4 | 2 | IPC: message queues, workqueues, ISR deferral | Complete the threaded node; A/B measurement against the week-3 S3 baseline |
 | 5 | 5 | Instrumented measurement: Zephyr tracing (SystemView/CTF), latency/jitter/CPU load | Trace the threaded node; quantify kernel overhead vs. the baseline |
 | 6 | 3 | Schedulability: utilization bounds, RM/DM, EDF — and what jitter does to a control loop | Implement and analyze a periodic task set; verify the math in traces; induce jitter in the flow loop and measure the control degradation. Problem set 1 out (ch. 2, 4; due at midterm) |
