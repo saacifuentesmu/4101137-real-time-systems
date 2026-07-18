@@ -71,7 +71,7 @@ overview are in English.
 | 4 | Translation — ESP-IDF/FreeRTOS | `4101137-4-freertos-translation` *(planned)* | Port one lab to ESP-IDF on the same ESP32-S3: FreeRTOS tasks/queues/semaphores, kernel API mapping — the RTOS students will most likely meet in industry |
 | 5 | Lab — instrumented measurement | `4101137-5-tracing-lab` *(planned)* | Zephyr tracing subsystem (SystemView/CTF), latency/jitter/CPU-load measurement; a proper Zephyr driver with its devicetree binding. Multicore scheduling on the S3's two cores (Zephyr SMP) |
 | 6 | Embedded Linux real-time | `4101137-6-linux-rt` *(planned)* | The same concepts on a PREEMPT_RT Linux SBC: `cyclictest` latency, `SCHED_FIFO`/`SCHED_DEADLINE` (RMS/EDF in a mainline kernel — Buttazzo's Linux chapter); students arrive already reading devicetree. Done in larger groups sharing boards |
-| 7 | Final project — SoilSense Hub | `4101137-7-final-project` *(planned)* | The GreenField gateway as a mixed-criticality system: a hard control loop (pump station + safety interlock) sharing a PREEMPT_RT Linux SBC with a local GUI (e.g. LVGL/touchscreen or web HMI) and Control-node/cloud data routing. Deliverables: the Linux-vs-MCU partitioning ADR, priority/deadline/CPU-isolation design, and interference evidence showing the hard loop holds under GUI + routing load |
+| 7 | Final project — SoilSense Hub | `4101137-7-final-project` *(planned)* | The GreenField gateway as a mixed-criticality system: a hard control loop (pump station + safety interlock) sharing a PREEMPT_RT Linux SBC with a local GUI (e.g. LVGL/touchscreen or web HMI) and Control-node/cloud data routing. Deliverables: the Linux-vs-MCU partitioning ADR, priority/deadline/CPU-isolation design, a watchdog + defined fail-safe state, and interference evidence showing the hard loop holds under GUI + routing load |
 
 ## Semester schedule
 
@@ -89,13 +89,13 @@ proofs — to skip.
 | 4 | 1 | Latency anatomy: interrupt → activation → jitter; measurement methods | Baseline experiments: jitter growth, the blocking command, baseline table |
 | 5 | 2 | The scheduler: threads, priorities, preemption | Rebuild the node with threads; sampling task meets its deadline |
 | 6 | 2 | IPC: message queues, workqueues, ISR deferral | Complete the threaded node; A/B measurement against week 4 baseline |
-| 7 | 3 | Schedulability: utilization bounds, RM/DM, EDF | Implement and analyze a periodic task set; verify the math in traces |
-| 8 | 3 | Response-time analysis; priority inversion, PI/PC protocols | **Midterm workshop**: reproduce inversion, fix with PI mutex, quiz |
+| 7 | 3 | Schedulability: utilization bounds, RM/DM, EDF — and what jitter does to a control loop | Implement and analyze a periodic task set; verify the math in traces; induce jitter in the flow loop and measure the control degradation. Problem set 1 out (ch. 2, 4; due at midterm) |
+| 8 | 3 | Response-time analysis; priority inversion, PI/PC protocols | **Midterm workshop**: reproduce inversion, fix with PI mutex, quiz. Problem set 2 out (ch. 7 + RTA; due week 9) |
 | 9 | 4 | FreeRTOS/ESP-IDF: the industry kernel, API mapping from Zephyr | Port one lab to ESP-IDF on the same S3; compare |
-| 10 | 5 | Tracing and WCET measurement; multicore scheduling (S3 SMP) | Zephyr tracing (SystemView/CTF); driver with DT binding |
-| 11 | 6 | Aperiodic servers, CBS → `SCHED_DEADLINE`; PREEMPT_RT | Linux SBC bring-up (shared per group); `cyclictest` latency |
+| 10 | 5 | Tracing and WCET: measurement vs. static analysis, high-water-mark + margin; multicore scheduling (S3 SMP) | Zephyr tracing (SystemView/CTF); driver with DT binding |
+| 11 | 6 | Aperiodic servers, overload & resource reservation, CBS → `SCHED_DEADLINE`; PREEMPT_RT | Linux SBC bring-up (shared per group); `cyclictest` latency |
 | 12 | 6 | Linux RT in practice: `SCHED_FIFO`/`SCHED_DEADLINE`, affinity | Periodic tasks under Linux; content closes |
-| 13 | 7 | SoilSense Hub kickoff: mixed criticality, Linux-vs-MCU partitioning | Proposal + architecture ADRs: what runs where, priorities/deadlines, CPU isolation plan |
+| 13 | 7 | SoilSense Hub kickoff: mixed criticality, Linux-vs-MCU partitioning; safety vocabulary — watchdogs, fail-safe states, IEC 61508 / DO-178C | Proposal + architecture ADRs: what runs where, priorities/deadlines, CPU isolation plan, fail-safe design |
 | 14 | 7 | — | Checkpoint 1: Hub's hard control loop meets deadlines under synthetic load |
 | 15 | 7 | — | Checkpoint 2: GUI + data routing integrated; interference evidence + end-to-end deadline budget |
 | 16 | 7 | — | **Demo day**: live demos + timing-evidence reports |
@@ -122,6 +122,12 @@ students at no cost through UNAL's SpringerLink subscription (SINAB). For practi
 the primary references are the official Zephyr and ESP-IDF documentation. The
 week-by-week reading guide — theorem statements over proofs; the labs supply the
 evidence — is in [LECTURAS.md](LECTURAS.md).
+
+For the control-loop session (week 7), the free **Lee & Seshia, *Introduction to
+Embedded Systems*** ([leeseshia.org](https://leeseshia.org)) is optional reading.
+The course design is benchmarked against CMU 18-349, Berkeley EECS 149, ETH
+Embedded Systems, UIUC CS 424, York's Real-Time Systems module, and Sant'Anna's
+Real-Time Systems course — taught by the textbook's author from this same edition.
 
 **Edition note:** the 3rd edition (2011) is acceptable for the theory modules — its
 chapters 1–9 match the 4th almost one-to-one. It is **not** sufficient for weeks

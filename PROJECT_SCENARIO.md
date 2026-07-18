@@ -79,6 +79,11 @@ renderiza y el enrutamiento recibe ráfagas de tráfico — con evidencia (`cycl
 trazas bajo carga sintética). Además, el ADR de particionamiento: qué funciones viven
 en Linux y cuáles en el MCU (ESP32-S3), y por qué.
 
+**Requisito de seguridad (entregable explícito)**: el sistema declara su **estado
+seguro** (falla ⇒ válvula cerrada) y lo protege con un **watchdog** — si el lazo de
+control muere, el hardware llega solo al estado seguro. Es la respuesta de diseño a
+la pregunta de Edwin ("¿qué pasa si el Hub se cae con una válvula abierta?").
+
 ## 3. Tu Rol y Equipo
 
 - **Rol**: Ingeniero/a de Firmware, equipo de Sistemas de Control.
