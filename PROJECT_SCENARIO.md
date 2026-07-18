@@ -121,7 +121,8 @@ la pregunta de Edwin ("¿qué pasa si el Hub se cae con una válvula abierta?").
 ## 5. Estándares de Documentación
 
 ADRs antes de implementar, decisiones justificadas con números, trade-offs
-explícitos. Además, en este proyecto todo requisito temporal se declara (tipo
+explícitos. Además, en este proyecto todo requisito temporal se declara con ID
+(`REQ-…`, una frase estilo EARS: condición → respuesta → plazo; tipo
 duro/firme/suave, período, deadline) y se **verifica con evidencia medida** (tabla de
 latencia/jitter o traza) — todo vive en el **RET** (Reporte de Evidencia de Tiempos,
 plantilla en [plantillas/ret.md](plantillas/ret.md)), el documento vivo del equipo.

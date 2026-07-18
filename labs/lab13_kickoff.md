@@ -14,7 +14,7 @@ el [escenario](../PROJECT_SCENARIO.md).
 | ADR | La decisión | La evidencia que la sostiene |
 |---|---|---|
 | **ADR-P1 — Partición Linux vs. MCU** | Qué corre en el SBC y qué exigiría un MCU (S3) | Colas: sem. 9 (µs, MCU) vs. sem. 10 (Linux RT) |
-| **ADR-P2 — Presupuesto temporal** | Task set del Hub: tipos D/F/S, períodos, deadlines, presupuesto extremo-a-extremo sensor→válvula | Task set del RET §1 + RTA/CBS de §4 |
+| **ADR-P2 — Presupuesto temporal** | Task set del Hub con sus `REQ-HUB-xx` (EARS, como en la sem. 2): tipos D/F/S, períodos, deadlines, presupuesto extremo-a-extremo sensor→válvula | Task set del RET §1 + RTA/CBS de §4 |
 | **ADR-P3 — Aislamiento** | Política + runtime/period + CPU + IRQs del lazo | La receta de la sem. 12 (ADR-004), adaptada |
 | **ADR-P4 — Seguridad funcional** | **Estado seguro** (falla ⇒ válvula cerrada) + watchdog: quién patea, quién muerde, qué pasa al morder | Requisito del escenario; se demuestra en el checkpoint 2 |
 

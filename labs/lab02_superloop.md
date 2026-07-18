@@ -44,6 +44,21 @@ tarea): tu instrumento es el analizador lógico.
   la línea de código responsable.
 - **Evidencia:** captura del "antes/después" + la explicación en el RET.
 
+### Tarea D — Los requisitos, por escrito
+- De la tabla de tareas del [escenario](../PROJECT_SCENARIO.md), extrae **5–8
+  requisitos temporales** y escribe cada uno como una frase estilo **EARS**
+  (*cuando/mientras <condición>, el sistema <respuesta> en <plazo>*), con su ID:
+
+| ID | Requisito |
+|---|---|
+| REQ-CTRL-01 | Mientras el sistema riega, el lazo de control ejecutará cada 10 ms (deadline = período). |
+| REQ-CTRL-02 | Cuando la presión supere el umbral, el sistema cerrará la válvula en < 5 ms. |
+
+- Van al **RET §1**, y desde hoy toda evidencia cita el REQ que verifica (p. ej.
+  "la fila 2 de la tabla verifica REQ-CTRL-03"). En la semana 8 sabrás cómo se
+  llama esta disciplina en la industria.
+- **Evidencia:** la tabla de requisitos en el RET §1.
+
 ## ¿Y en FreeRTOS?
 
 Igual que en Zephyr: muchos productos con FreeRTOS *también* empiezan como
@@ -53,7 +68,8 @@ misma en ambos mundos: ¿qué te da un scheduler apropiativo?
 
 ## Entregables (RET)
 
-- **§1 Task set:** primera columna de `C_i` medidos (ancho de pulso de cada tarea).
+- **§1 Task set:** la tabla de requisitos (Tarea D) + primera columna de `C_i`
+  medidos (ancho de pulso de cada tarea).
 - **§3 Evidencia semana 2:** la tabla de arriba, llena, con una frase de lectura.
 - **§2 (aún no):** la decisión superloop-vs-kernel se toma en la semana 4, con el A/B.
 
@@ -63,4 +79,4 @@ misma en ambos mundos: ¿qué te da un scheduler apropiativo?
 |---|---|
 | **Ejecución** — firmware corriendo (10) · diagrama de flujo correcto (15) · comando bloqueante reproducido (15) | 40 |
 | **Evidencia** — tabla completa con capturas (20) · condiciones de medición anotadas (duración, carga) (10) | 30 |
-| **Análisis** — explicación causa-raíz de la degradación, con línea de código (20) · lectura de la línea base en una frase (10) | 30 |
+| **Análisis** — explicación causa-raíz de la degradación, con línea de código (15) · lectura de la línea base en una frase (5) · requisitos EARS bien formados, con condición y plazo verificables (10) | 30 |

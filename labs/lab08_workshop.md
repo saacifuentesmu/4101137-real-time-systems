@@ -20,9 +20,14 @@ nombre: design review. El quiz es individual — necesito saber que **ambos** sa
 1. **Task set** (§1): las cinco tareas del Control, `C_i` medidos y su instrumento.
 2. **Utilización** (§4): U, prueba aplicable (RM/hiperbólica/EDF) y veredicto.
 3. **RTA** (§4): script, salida por tarea, `R_i ≤ D_i` — incluyendo `B_i` del mutex.
-4. **Evidencia** (§3): cada número de arriba apunta a una captura o traza.
+4. **Evidencia** (§3): cada `REQ` del §1 llega a una captura o traza en dos
+   saltos (requisito → tarea → medición).
 5. **Pregunta sorpresa**: Samuel cambia un parámetro (un período, un `C_i`) en vivo
    — la pareja re-corre el script y re-lee el veredicto en minutos, no en días.
+
+> **El nombre industrial**: la cadena requisito → tarea → análisis → evidencia que
+> van a defender se llama **RTM** (*Requirements Traceability Matrix*). La vienen
+> manteniendo desde la semana 2; hoy solo le ponen el nombre en la hoja de vida.
 
 ## Entregables
 
