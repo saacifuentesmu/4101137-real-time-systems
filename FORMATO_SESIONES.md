@@ -24,7 +24,7 @@ Secciones fijas del lab.md:
 
 El entregable vivo del curso es el **RET — Reporte de Evidencia de Tiempos**
 (plantilla en [plantillas/ret.md](plantillas/ret.md)): el equivalente ligero del DDR
-de 4201327. Se actualiza cada semana, se entrega en el parcial y al cierre.
+de 4201327. Se actualiza cada semana, se entrega en el workshop (semana 8) y al cierre.
 
 Plantillas: [plantillas/lab.md](plantillas/lab.md) ·
 [plantillas/lecture.md](plantillas/lecture.md) ·

@@ -2,21 +2,22 @@
 
 Una guía por sesión (formato en [FORMATO_SESIONES.md](../FORMATO_SESIONES.md):
 lab ≤ ~1.500 palabras; `lectures/` = guion del profesor; `sops/` solo para
-bring-ups pesados). Plantillas en [plantillas/](../plantillas/).
+bring-ups pesados). Antes de la semana 1: [setup_previo.md](setup_previo.md).
 
-| Semana | Lab | Estado |
+| Semana | Lab | SOP |
 |---|---|---|
-| 1 | `lab01_arranque.md` — verificación del setup + blink (C0116-DK, `native_sim`) | pendiente |
-| 2 | `lab02_superloop.md` — correr y medir el superloop provisto ([firmware/superloop/](../firmware/superloop/)) | pendiente |
-| 3 | `lab03_migracion.md` — porte a la S3 + inicio de la migración a hilos | pendiente |
-| 4 | `lab04_ipc.md` — nodo con hilos completo; A/B contra la línea base | pendiente |
-| 5 | `lab05_tracing.md` — tracing (SystemView/CTF) · SOP probable | pendiente |
-| 6 | `lab06_planificabilidad.md` — task set periódico, Fig. 4.13, jitter vs. control · Taller 1 | pendiente |
-| 7 | `lab07_rta_inversion.md` — RTA, inversión de prioridad + PI · Taller 2 | pendiente |
-| 8 | `lab08_parcial.md` — taller del parcial | pendiente |
-| 9 | `lab09_amp.md` — driver con binding DT + AMP en la S3 (sysbuild) · SOP probable | pendiente |
-| 10 | `lab10_preempt_rt.md` — bring-up del SBC + `cyclictest` · SOP probable | pendiente |
-| 11 | `lab11_sched_deadline.md` — cap. 12 parte 1: `SCHED_FIFO` vs `SCHED_DEADLINE` | pendiente |
-| 12 | `lab12_aislamiento.md` — cap. 12 completo; afinidad, aislamiento, interferencia | pendiente |
-| 13 | `lab13_kickoff.md` — kickoff del Hub: ADRs de particionamiento y fail-safe | pendiente |
-| 14–16 | checkpoints y demo day (sin guía nueva: rúbricas en el kickoff) | — |
+| 1 | [Arranque: equipo, placa, toolchain](lab01_arranque.md) | — |
+| 2 | [El superloop provisto: correr, leer, medir](lab02_superloop.md) | — |
+| 3 | [El porte a la S3 y el primer hilo](lab03_migracion.md) | — |
+| 4 | [La migración completa y el A/B](lab04_ipc.md) | — |
+| 5 | [Tracing: ver lo que el analizador no ve](lab05_tracing.md) | SOP-05 *(pendiente)* |
+| 6 | [Planificabilidad: la teoría, puesta a prueba](lab06_planificabilidad.md) · Taller 1 | — |
+| 7 | [RTA e inversión de prioridad](lab07_rta_inversion.md) · Taller 2 | — |
+| 8 | [**Workshop** — la revisión de diseño](lab08_workshop.md) | — |
+| 9 | [Driver con devicetree y los dos núcleos (AMP)](lab09_amp.md) | SOP-09 *(pendiente)* |
+| 10 | [PREEMPT_RT: Linux entra al lazo](lab10_preempt_rt.md) | SOP-10 *(pendiente)* |
+| 11 | [Tareas periódicas en Linux: de CBS a SCHED_DEADLINE](lab11_sched_deadline.md) | — |
+| 12 | [Aislamiento e interferencia: el ensayo general](lab12_aislamiento.md) | — |
+| 13 | [Kickoff del SoilSense Hub](lab13_kickoff.md) (cubre checkpoints y demo day) | — |
+
+Guiones de charla en [lectures/](lectures/) *(pendientes de autoría)*.

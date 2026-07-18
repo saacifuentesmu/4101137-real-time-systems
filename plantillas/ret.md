@@ -1,7 +1,7 @@
 # RET — Reporte de Evidencia de Tiempos
 
 **Equipo:** <nombres> · **Placas:** <seriales/apodos> · Documento **vivo**: se
-actualiza cada semana; se entrega en el parcial (semana 8) y al cierre (semana 16).
+actualiza cada semana; se entrega en el workshop (semana 8) (semana 8) y al cierre (semana 16).
 Regla de la casa: *"muéstrame la traza"* — toda afirmación temporal cita una medición.
 
 ## 1. El sistema y su task set

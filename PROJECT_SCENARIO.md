@@ -111,7 +111,7 @@ la pregunta de Edwin ("¿qué pasa si el Hub se cae con una válvula abierta?").
    Control como superloop, medición de la línea base; reconstrucción con hilos;
    A/B contra la línea base con tracing instrumentado.
 2. **Fase 2 — Garantías** (módulo 3): análisis de planificabilidad del task set del
-   Control; inversión de prioridad reproducida y corregida. *(Parcial: semana 8.)*
+   Control; inversión de prioridad reproducida y corregida. *(Workshop: semana 8.)*
 3. **Fase 3 — Medición y drivers** (módulo 4): driver con binding de devicetree,
    WCET y multinúcleo (AMP particionado). La charla compara con FreeRTOS: ¿y si un
    cliente exige el kernel de la industria?
