@@ -1,7 +1,7 @@
 # Lista de Componentes (BOM) — por grupo de 2–3 estudiantes
 
 Los laboratorios se hacen en grupos de 2–3. Cada grupo compra un **Kit Control**
-(módulos 0–5 y proyecto final). El **Kit Hub** (módulos 6–7) es uno por grupo grande
+(módulos 0–4 y proyecto final). El **Kit Hub** (módulos 5–6) es uno por grupo grande
 (4–6, dos grupos fusionados) o lo presta el laboratorio.
 
 > Precios de referencia julio 2026 en COP; **verificar en el enlace antes de
@@ -31,11 +31,11 @@ Los laboratorios se hacen en grupos de 2–3. Cada grupo compra un **Kit Control
 **Total Kit Control**: ~**$190.000–320.000 COP** por grupo (≈ $65.000–110.000 por
 estudiante en grupos de 3). Vía AliExpress: ≈ **US$32–50** + envío.
 
-## Kit Hub (uno por grupo grande de 4–6, módulos 6–7)
+## Kit Hub (uno por grupo grande de 4–6, módulos 5–6)
 
 | # | Componente | Cant. | Para qué | Precio aprox. |
 |---|-----------|-------|----------|---------------|
-| 11 | **Raspberry Pi 4 (4 GB)** o Pi 5 + microSD 32 GB + fuente oficial | 1 | El Hub: PREEMPT_RT, `SCHED_DEADLINE`, GUI, enrutamiento | [$350.000–550.000](https://listado.mercadolibre.com.co/raspberry-pi-4) (verificar; también [Sigma](https://www.sigmaelectronica.net/fabricante/raspberry-pi/)) |
+| 11 | **Raspberry Pi 4 (4 GB)** o Pi 5 + microSD 32 GB + fuente oficial | 1 | El Hub (módulos 5–6): PREEMPT_RT, `SCHED_DEADLINE`, GUI, enrutamiento | [$350.000–550.000](https://listado.mercadolibre.com.co/raspberry-pi-4) (verificar; también [Sigma](https://www.sigmaelectronica.net/fabricante/raspberry-pi/)) |
 | 12 | Pantalla del Hub | 1 | GUI local | Opción A: **HMI web** (navegador del portátil) — $0. Opción B: monitor HDMI del laboratorio — $0. Opción C: táctil 7" ($200.000–300.000), solo si el grupo la quiere |
 
 > **Recomendación**: para contener el costo, la GUI del Hub se diseña como HMI web o
@@ -54,4 +54,4 @@ sensores y módulos; envío nacional a Manizales.
 - **Semana 2**: analizador lógico (#2) y kit protoboard (#9) — la línea base de jitter se mide aquí.
 - **Semana 3**: placa ESP32-S3 (#1) — comprar local, sin esperar AliExpress.
 - **Semana 5–6**: bomba, driver, flujo, servo, DS18B20, potenciómetro, pantalla TFT (#3–8) — el lab de control con jitter (semana 6) usa la bomba y el sensor de flujo.
-- **Semana 11**: Kit Hub (#11–12).
+- **Semana 10**: Kit Hub (#11–12).

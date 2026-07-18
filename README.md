@@ -50,13 +50,16 @@ The one system — **SoilSense Control** — is rebuilt as the course climbs the
    re-measured (same code, two chips: microarchitectural jitter made visible);
 2. then **multithreaded on the Zephyr kernel** — threads, message queues, workqueues,
    priorities — measured again against that baseline;
-3. then **translated to ESP-IDF/FreeRTOS**, the industry-dominant kernel, to see the
-   same concepts under a different API and learn portability;
-4. finally **one level up on embedded Linux** (PREEMPT_RT, `SCHED_DEADLINE`), closing
+3. finally **one level up on embedded Linux** (PREEMPT_RT, `SCHED_DEADLINE`), closing
    with the **SoilSense Hub**: a mixed-criticality gateway whose hard control loop
    must coexist with a GUI and data routing on the same box — where real-time
    *design* (priority/deadline assignment, CPU isolation, Linux-vs-MCU partitioning)
    is the deliverable, not just working code.
+
+**FreeRTOS runs through the course as a comparison, not an installation**: the talks
+regularly show how each Zephyr concept looks in FreeRTOS — the kernel students will
+most likely meet in industry — with a dedicated strengths-and-weaknesses session at
+week 9. Hands-on stays on one toolchain; no second SDK to install.
 
 The node's tasks embody the deadline taxonomy the course teaches — labeled in the
 spec and verified in the traces. Course material is in Spanish; repo names and this
@@ -70,10 +73,9 @@ overview are in English.
 | 1 | Superloop baseline | [4101137-1-superloop-baseline](../4101137-1-superloop-baseline) | Real-time taxonomy (hard/firm/soft) and latency anatomy; the node as a superloop (main thread + ISRs — 4100901 remembered), its jitter measured as the course baseline on the STM32C0116-DK (course-provided, cache-free Cortex-M0+) |
 | 2 | Zephyr kernel fundamentals | `4101137-2-zephyr-fundamentals` *(planned)* | Opens with the port: the superloop rebuilt for the ESP32-S3 with one devicetree overlay, baseline re-measured (two chips compared). Then the node multithreaded: threads, message queues, workqueues, ISR deferral — jitter measured against the S3 baseline |
 | 3 | Midterm — scheduling & timing | `4101137-3-midterm-scheduling` *(planned)* | RMS/EDF schedulability, response-time analysis, WCET estimation; priority inversion reproduced and fixed live (Zephyr mutexes do priority inheritance) |
-| 4 | Translation — ESP-IDF/FreeRTOS | `4101137-4-freertos-translation` *(planned)* | Port one lab to ESP-IDF on the same ESP32-S3: FreeRTOS tasks/queues/semaphores, kernel API mapping — the RTOS students will most likely meet in industry. ESP-IDF runs from the official Docker image or lab machines (no heavyweight per-laptop install) |
-| 5 | Lab — instrumented measurement | `4101137-5-tracing-lab` *(planned)* | Two sessions bracketing the theory module: tracing (SystemView/CTF) and latency/jitter/CPU-load measurement at week 5 — so the schedulability labs verify by trace — then WCET methodology, a proper Zephyr driver with its devicetree binding, and multicore at week 10: hands-on **partitioned** scheduling via Zephyr AMP (sysbuild, one image per core, IPM between them — the S3's real in-tree capability), with global/SMP as the talk contrast (FreeRTOS has it on this chip; Zephyr's Xtensa port doesn't yet — itself a lesson in port maturity) |
-| 6 | Embedded Linux real-time | `4101137-6-linux-rt` *(planned)* | The same concepts on a PREEMPT_RT Linux SBC: `cyclictest` latency, `SCHED_FIFO`/`SCHED_DEADLINE` (RMS/EDF in a mainline kernel — Buttazzo's Linux chapter); students arrive already reading devicetree. Done in larger groups sharing boards |
-| 7 | Final project — SoilSense Hub | `4101137-7-final-project` *(planned)* | The GreenField gateway as a mixed-criticality system: a hard control loop (pump station + safety interlock) sharing a PREEMPT_RT Linux SBC with a local GUI (e.g. LVGL/touchscreen or web HMI) and Control-node/cloud data routing. Deliverables: the Linux-vs-MCU partitioning ADR, priority/deadline/CPU-isolation design, a watchdog + defined fail-safe state, and interference evidence showing the hard loop holds under GUI + routing load |
+| 4 | Lab — instrumented measurement | `4101137-4-measurement-lab` *(planned)* | Two sessions bracketing the theory module: tracing (SystemView/CTF) and latency/jitter/CPU-load measurement at week 5 — so the schedulability labs verify by trace — then WCET methodology, a proper Zephyr driver with its devicetree binding, and multicore at week 9: hands-on **partitioned** scheduling via Zephyr AMP (sysbuild, one image per core, IPM between them — the S3's real in-tree capability), with global/SMP as the talk contrast (FreeRTOS has it on this chip; Zephyr's Xtensa port doesn't yet — itself a lesson in port maturity). Week 9's talk is also FreeRTOS's dedicated slot: API mapping, where it's strong and where it's weak |
+| 5 | Embedded Linux real-time | `4101137-5-linux-rt` *(planned)* | Three sessions (weeks 10–12): the same concepts on a PREEMPT_RT Linux SBC — `cyclictest` latency, servers/CBS → `SCHED_FIFO`/`SCHED_DEADLINE` (RMS/EDF in a mainline kernel — Buttazzo's Linux chapters, incl. the ch. 12 pthread/ptask lab); students arrive already reading devicetree. Done in larger groups sharing boards |
+| 6 | Final project — SoilSense Hub | `4101137-6-final-project` *(planned)* | The GreenField gateway as a mixed-criticality system: a hard control loop (pump station + safety interlock) sharing a PREEMPT_RT Linux SBC with a local GUI (e.g. LVGL/touchscreen or web HMI) and Control-node/cloud data routing. Deliverables: the Linux-vs-MCU partitioning ADR, priority/deadline/CPU-isolation design, a watchdog + defined fail-safe state, and interference evidence showing the hard loop holds under GUI + routing load |
 
 ## Semester schedule
 
@@ -98,22 +100,22 @@ proofs — to skip.
 | 6 | 3 | Schedulability: utilization bounds, RM/DM, EDF — and what jitter does to a control loop | Implement and analyze a periodic task set; verify the math in traces; induce jitter in the flow loop and measure the control degradation. Problem set 1 out (ch. 2, 4; due at midterm) |
 | 7 | 3 | Response-time analysis; priority inversion, PI/PC protocols | Reproduce inversion, fix with PI mutex. Problem set 2 out (ch. 7 + RTA; due week 9) |
 | 8 | 3 | Synthesis and Q&A | **Midterm workshop**: schedulability analysis of the Control task set + quiz |
-| 9 | 4 | FreeRTOS/ESP-IDF: the industry kernel, API mapping from Zephyr | Port one lab to ESP-IDF on the same S3; compare |
-| 10 | 5 | WCET: measurement vs. static analysis, high-water-mark + margin; multicore: global vs. partitioned scheduling | Driver with DT binding; **Zephyr AMP lab** on the S3 (sysbuild, two images: APPCPU runs the hard loop, PROCPU runs the load) — cross-core jitter tail measured with the logic analyzer. SMP contrast in the talk (FreeRTOS does it on this chip; Zephyr's Xtensa SMP doesn't yet) |
-| 11 | 6 | Aperiodic servers, overload & resource reservation, CBS → `SCHED_DEADLINE`; PREEMPT_RT | Linux SBC bring-up (shared per group); `cyclictest` latency |
-| 12 | 6 | Linux RT in practice: `SCHED_FIFO`/`SCHED_DEADLINE`, affinity | Periodic tasks under Linux; content closes |
-| 13 | 7 | SoilSense Hub kickoff: mixed criticality, Linux-vs-MCU partitioning; safety vocabulary — watchdogs, fail-safe states, IEC 61508 / DO-178C | Proposal + architecture ADRs: what runs where, priorities/deadlines, CPU isolation plan, fail-safe design |
-| 14 | 7 | — | Checkpoint 1: Hub's hard control loop meets deadlines under synthetic load |
-| 15 | 7 | — | Checkpoint 2: GUI + data routing integrated; interference evidence + end-to-end deadline budget |
-| 16 | 7 | — | **Demo day**: live demos + timing-evidence reports |
+| 9 | 4 | FreeRTOS, the industry alternative: API mapping from Zephyr, where it's strong and weak (talk only — nothing to install); multicore: global vs. partitioned; WCET: measurement vs. static analysis, high-water-mark + margin | Driver with DT binding; **Zephyr AMP lab** on the S3 (sysbuild, two images: APPCPU runs the hard loop, PROCPU runs the load) — cross-core jitter tail measured with the logic analyzer |
+| 10 | 5 | PREEMPT_RT: what it changes in the kernel | Linux SBC bring-up (shared per group); `cyclictest` latency |
+| 11 | 5 | Aperiodic servers, overload & resource reservation, CBS → `SCHED_DEADLINE` | Periodic tasks under Linux: `SCHED_FIFO` vs. `SCHED_DEADLINE` (Buttazzo ch. 12 pthread/ptask lab, part 1) |
+| 12 | 5 | Linux RT in practice: affinity, CPU isolation, priorities for mixed loads | ch. 12 lab completed; interference measurement under load; content closes |
+| 13 | 6 | SoilSense Hub kickoff: mixed criticality, Linux-vs-MCU partitioning; safety vocabulary — watchdogs, fail-safe states, IEC 61508 / DO-178C | Proposal + architecture ADRs: what runs where, priorities/deadlines, CPU isolation plan, fail-safe design |
+| 14 | 6 | — | Checkpoint 1: Hub's hard control loop meets deadlines under synthetic load |
+| 15 | 6 | — | Checkpoint 2: GUI + data routing integrated; interference evidence + end-to-end deadline budget |
+| 16 | 6 | — | **Demo day**: live demos + timing-evidence reports |
 
 ## Hardware & tooling
 
 STM32C0116-DK (course-provided; weeks 1–2 cache-free baseline) · ESP32-S3 devkit ·
 Zephyr (`west`, CMake, devicetree, Kconfig) · VS Code ·
-`native_sim` / Renode for no-hardware paths · ESP-IDF for the translation module ·
+`native_sim` / Renode for no-hardware paths ·
 Zephyr tracing (SystemView/CTF) · a PREEMPT_RT Linux SBC (e.g. Raspberry Pi) for
-modules 6–7, shared per group. Students buy components in groups of 2–3 — see the
+modules 5–6, shared per group. Students buy components in groups of 2–3 — see the
 **[BOM](BOM.md)** (pump + flow sensor + servo as the plant, ILI9341 touch display,
 logic analyzer for jitter measurement; ~$190–320k COP per group).
 
@@ -124,14 +126,15 @@ Algorithms and Applications*, 4th ed., Springer, 2024**
 ([link.springer.com/book/10.1007/978-3-031-45410-3](https://link.springer.com/book/10.1007/978-3-031-45410-3)).
 The course's theory modules (schedulability, RMS/EDF, response-time analysis,
 resource-access protocols, aperiodic servers/CBS) follow this text — it covers soft
-real-time as well as hard, and its Linux chapters anchor module 6 and the final
+real-time as well as hard, and its Linux chapters anchor module 5 and the final
 project; the labs validate its predictions by measurement. Likely available to
 students at no cost through UNAL's SpringerLink subscription (SINAB). For practice,
-the primary references are the official Zephyr and ESP-IDF documentation. The
+the primary reference is the official Zephyr documentation (FreeRTOS docs back the
+comparison talks — nothing to install). The
 week-by-week reading guide — theorem statements over proofs; the labs supply the
 evidence — is in [LECTURAS.md](LECTURAS.md).
 
-For the control-loop session (week 7), the free **Lee & Seshia, *Introduction to
+For the control-loop session (week 6), the free **Lee & Seshia, *Introduction to
 Embedded Systems*** ([leeseshia.org](https://leeseshia.org)) is optional reading.
 The course design is benchmarked against CMU 18-349, Berkeley EECS 149, ETH
 Embedded Systems, UIUC CS 424, York's Real-Time Systems module, and Sant'Anna's
@@ -139,16 +142,16 @@ Real-Time Systems course — taught by the textbook's author from this same edit
 
 **Edition note:** the 3rd edition (2011) is acceptable for the theory modules — its
 chapters 1–9 match the 4th almost one-to-one. It is **not** sufficient for weeks
-11–16: the 4th edition's ch. 12 (*Implementing Periodic Tasks in Linux*) is new, and
+10–16: the 4th edition's ch. 12 (*Implementing Periodic Tasks in Linux*) is new, and
 its ch. 13 covers `PREEMPT_RT` and `SCHED_DEADLINE`, which post-date the 3rd
 edition's Linux coverage (the 3rd's final chapter is the RTLinux/RTAI/Xenomai era).
 
 ## What it demonstrates
 
 Real-time engineering taught through a single product measured at every stage — the
-same node as a superloop, multithreaded on Zephyr, translated to FreeRTOS, and scaled
-to Linux — with the scheduling theory tied to observed latency and jitter rather than
-slides. The ESP32-S3 is the teaching instrument; the lasting takeaway is knowing
+same node as a superloop, multithreaded on Zephyr, and scaled to PREEMPT_RT Linux,
+with FreeRTOS as the running industry comparison — and the scheduling theory tied to
+observed latency and jitter rather than slides. The ESP32-S3 is the teaching instrument; the lasting takeaway is knowing
 *when* your code runs.
 
 ---

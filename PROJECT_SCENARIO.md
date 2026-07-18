@@ -49,7 +49,7 @@ físicos.
 
 ## 2. Los Productos
 
-### SoilSense Control (módulos 1–5 del curso)
+### SoilSense Control (módulos 1–4 del curso)
 Controlador de riego basado en ESP32-S3 + Zephyr. Sus tareas encarnan la taxonomía
 del curso:
 
@@ -87,8 +87,8 @@ la pregunta de Edwin ("¿qué pasa si el Hub se cae con una válvula abierta?").
 ## 3. Tu Rol y Equipo
 
 - **Rol**: Ingeniero/a de Firmware, equipo de Sistemas de Control.
-- **Módulos 1–5**: en parejas, un kit ESP32-S3 por pareja.
-- **Módulos 6–7**: parejas se fusionan en grupos (4–6) compartiendo el SBC del Hub.
+- **Módulos 1–4**: en parejas, un kit ESP32-S3 por pareja.
+- **Módulos 5–6**: parejas se fusionan en grupos (4–6) compartiendo el SBC del Hub.
 - **Mentor**: Ing. Samuel Cifuentes (Arquitecto Senior). Revisa ADRs y evidencia de
   tiempos. Frase de cabecera: *"muéstrame la traza"*.
 
@@ -107,15 +107,15 @@ la pregunta de Edwin ("¿qué pasa si el Hub se cae con una válvula abierta?").
 > **Borrador — detalle por fase pendiente de autoría.** Estructura prevista
 > (contexto → tareas → preguntas de stakeholders → entregables):
 
-1. **Fase 1 — Prototipo y línea base** (módulos 1–2 + tracing del módulo 5): el
+1. **Fase 1 — Prototipo y línea base** (módulos 1–2 + tracing del módulo 4): el
    Control como superloop, medición de la línea base; reconstrucción con hilos;
    A/B contra la línea base con tracing instrumentado.
 2. **Fase 2 — Garantías** (módulo 3): análisis de planificabilidad del task set del
    Control; inversión de prioridad reproducida y corregida. *(Parcial: semana 8.)*
-3. **Fase 3 — Portabilidad y drivers** (módulos 4–5): traducción a FreeRTOS (¿y si
-   un cliente exige el kernel de la industria?); driver con binding de devicetree,
-   WCET y SMP.
-4. **Fase 4 — El Hub** (módulos 6–7): Linux RT en grupos; kickoff del proyecto final,
+3. **Fase 3 — Medición y drivers** (módulo 4): driver con binding de devicetree,
+   WCET y multinúcleo (AMP particionado). La charla compara con FreeRTOS: ¿y si un
+   cliente exige el kernel de la industria?
+4. **Fase 4 — El Hub** (módulos 5–6): Linux RT en grupos; kickoff del proyecto final,
    dos checkpoints y demo day con reporte de evidencia de tiempos.
 
 ## 5. Estándares de Documentación
