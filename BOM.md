@@ -10,6 +10,9 @@ Los laboratorios se hacen en grupos de 2–3. Cada grupo compra un **Kit Control
 > semestre (solo para lo que se usa de la semana 5 en adelante — la placa cómprenla
 > local).
 
+> **Placa de arranque (semanas 1–2)**: la **STM32C0116-DK** (Cortex-M0+) **la presta
+> el curso** — no hace parte del kit. Desde la semana 3 todo corre en la ESP32-S3.
+
 ## Kit Control (uno por grupo de 2–3)
 
 | # | Componente | Cant. | Para qué | MercadoLibre CO (aprox.) | AliExpress (aprox.) |
@@ -47,7 +50,8 @@ sensores y módulos; envío nacional a Manizales.
 
 ## Cuándo se necesita cada cosa
 
-- **Semana 1**: placa (#1) y cable (#10) — comprar local, sin esperar AliExpress.
-- **Semana 3–4**: analizador lógico (#2), kit protoboard (#9), potenciómetro.
-- **Semana 5+**: bomba, driver, flujo, servo, DS18B20, pantalla TFT (#3–8).
+- **Semana 1**: cable (#10); la STM32C0116-DK la presta el curso.
+- **Semana 2**: analizador lógico (#2) y kit protoboard (#9) — la línea base de jitter se mide aquí.
+- **Semana 3**: placa ESP32-S3 (#1) — comprar local, sin esperar AliExpress.
+- **Semana 5–6**: bomba, driver, flujo, servo, DS18B20, potenciómetro, pantalla TFT (#3–8) — el lab de control con jitter (semana 6) usa la bomba y el sensor de flujo.
 - **Semana 11**: Kit Hub (#11–12).

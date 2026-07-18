@@ -45,7 +45,9 @@ but nothing depends on it.)*
 The one system — **SoilSense Control** — is rebuilt as the course climbs the stack:
 
 1. first as a **superloop** — single Zephyr main thread plus ISRs, the 4100901
-   architecture revisited — with its latency and jitter measured as the baseline;
+   architecture revisited — measured on a cache-free Cortex-M0+ (STM32C0116-DK) as
+   the baseline, then ported to the ESP32-S3 with one devicetree overlay and
+   re-measured (same code, two chips: microarchitectural jitter made visible);
 2. then **multithreaded on the Zephyr kernel** — threads, message queues, workqueues,
    priorities — measured again against that baseline;
 3. then **translated to ESP-IDF/FreeRTOS**, the industry-dominant kernel, to see the
@@ -65,11 +67,11 @@ overview are in English.
 | # | Module | Repository | What it covers |
 |---|--------|-----------|----------------|
 | 0 | Setup — dev env & first blink | `4101137-0-intro-project` *(planned)* | **Pre-course setup guide** (done at home, verified week 1) + prerequisite recap bridging digital systems, 4100901 and control into *why real-time*. Zephyr toolchain: `west`, devicetree at a glance, first build/flash on the ESP32-S3; `native_sim` and Renode as no-hardware fallbacks |
-| 1 | Superloop baseline | [4101137-1-superloop-baseline](../4101137-1-superloop-baseline) | Real-time taxonomy (hard/firm/soft) and latency anatomy; the node as a superloop (main thread + ISRs — 4100901 remembered), its jitter measured as the course baseline |
-| 2 | Zephyr kernel fundamentals | `4101137-2-zephyr-fundamentals` *(planned)* | The same node multithreaded: threads, message queues, workqueues, ISR deferral, a first devicetree overlay — jitter measured against the module 1 baseline |
+| 1 | Superloop baseline | [4101137-1-superloop-baseline](../4101137-1-superloop-baseline) | Real-time taxonomy (hard/firm/soft) and latency anatomy; the node as a superloop (main thread + ISRs — 4100901 remembered), its jitter measured as the course baseline on the STM32C0116-DK (course-provided, cache-free Cortex-M0+) |
+| 2 | Zephyr kernel fundamentals | `4101137-2-zephyr-fundamentals` *(planned)* | Opens with the port: the superloop rebuilt for the ESP32-S3 with one devicetree overlay, baseline re-measured (two chips compared). Then the node multithreaded: threads, message queues, workqueues, ISR deferral — jitter measured against the S3 baseline |
 | 3 | Midterm — scheduling & timing | `4101137-3-midterm-scheduling` *(planned)* | RMS/EDF schedulability, response-time analysis, WCET estimation; priority inversion reproduced and fixed live (Zephyr mutexes do priority inheritance) |
 | 4 | Translation — ESP-IDF/FreeRTOS | `4101137-4-freertos-translation` *(planned)* | Port one lab to ESP-IDF on the same ESP32-S3: FreeRTOS tasks/queues/semaphores, kernel API mapping — the RTOS students will most likely meet in industry |
-| 5 | Lab — instrumented measurement | `4101137-5-tracing-lab` *(planned)* | Two sessions bracketing the theory module: tracing (SystemView/CTF) and latency/jitter/CPU-load measurement at week 5 — so the schedulability labs verify by trace — then WCET methodology, a proper Zephyr driver with its devicetree binding, and multicore/SMP on the S3's two cores at week 10 |
+| 5 | Lab — instrumented measurement | `4101137-5-tracing-lab` *(planned)* | Two sessions bracketing the theory module: tracing (SystemView/CTF) and latency/jitter/CPU-load measurement at week 5 — so the schedulability labs verify by trace — then WCET methodology, a proper Zephyr driver with its devicetree binding, and multicore/SMP on the S3's two cores at week 10 (hands-on under ESP-IDF/FreeRTOS — Zephyr's Xtensa SMP remains non-functional, itself a lesson in port maturity) |
 | 6 | Embedded Linux real-time | `4101137-6-linux-rt` *(planned)* | The same concepts on a PREEMPT_RT Linux SBC: `cyclictest` latency, `SCHED_FIFO`/`SCHED_DEADLINE` (RMS/EDF in a mainline kernel — Buttazzo's Linux chapter); students arrive already reading devicetree. Done in larger groups sharing boards |
 | 7 | Final project — SoilSense Hub | `4101137-7-final-project` *(planned)* | The GreenField gateway as a mixed-criticality system: a hard control loop (pump station + safety interlock) sharing a PREEMPT_RT Linux SBC with a local GUI (e.g. LVGL/touchscreen or web HMI) and Control-node/cloud data routing. Deliverables: the Linux-vs-MCU partitioning ADR, priority/deadline/CPU-isolation design, a watchdog + defined fail-safe state, and interference evidence showing the hard loop holds under GUI + routing load |
 
@@ -88,16 +90,16 @@ proofs — to skip.
 
 | Week | Module | Talk (40 min) | Lab (2 h) |
 |------|--------|---------------|-----------|
-| 1 | 0 | Recap: digital systems → computation structures (4100901) → control systems — converging on *why real-time*; course overview | Toolchain check (pre-course setup guide done at home), first build; blink on ESP32-S3 and `native_sim` |
-| 2 | 1 | Quick RT recap, then the vocabulary: taxonomy (hard/firm/soft), task models, latency anatomy (interrupt → activation → jitter) | Build the node as a Zephyr superloop (skeleton provided); measure the jitter baseline table |
-| 3 | 2 | The scheduler: threads, priorities, preemption | Rebuild the node with threads; first DT overlay; sampling task meets its deadline |
-| 4 | 2 | IPC: message queues, workqueues, ISR deferral | Complete the threaded node; A/B measurement against week 2 baseline |
+| 1 | 0 | Recap: digital systems → computation structures (4100901) → control systems — converging on *why real-time*; course overview | Toolchain check (pre-course setup guide done at home), first build; blink on the STM32C0116-DK and `native_sim` |
+| 2 | 1 | Quick RT recap, then the vocabulary: taxonomy (hard/firm/soft), task models, latency anatomy (interrupt → activation → jitter) | Build the node as a Zephyr superloop on the C0116-DK (skeleton provided); measure the jitter baseline table on cache-free silicon |
+| 3 | 2 | The scheduler: threads, priorities, preemption | Port the superloop to the ESP32-S3 (one devicetree overlay — Zephyr portability, demonstrated); re-measure the baseline, compare silicon; rebuild with threads |
+| 4 | 2 | IPC: message queues, workqueues, ISR deferral | Complete the threaded node; A/B measurement against the week-3 S3 baseline |
 | 5 | 5 | Instrumented measurement: Zephyr tracing (SystemView/CTF), latency/jitter/CPU load | Trace the threaded node; quantify kernel overhead vs. the baseline |
 | 6 | 3 | Schedulability: utilization bounds, RM/DM, EDF — and what jitter does to a control loop | Implement and analyze a periodic task set; verify the math in traces; induce jitter in the flow loop and measure the control degradation. Problem set 1 out (ch. 2, 4; due at midterm) |
 | 7 | 3 | Response-time analysis; priority inversion, PI/PC protocols | Reproduce inversion, fix with PI mutex. Problem set 2 out (ch. 7 + RTA; due week 9) |
 | 8 | 3 | Synthesis and Q&A | **Midterm workshop**: schedulability analysis of the Control task set + quiz |
 | 9 | 4 | FreeRTOS/ESP-IDF: the industry kernel, API mapping from Zephyr | Port one lab to ESP-IDF on the same S3; compare |
-| 10 | 5 | WCET: measurement vs. static analysis, high-water-mark + margin; multicore scheduling (S3 SMP) | Driver with DT binding; SMP experiment on the S3's two cores |
+| 10 | 5 | WCET: measurement vs. static analysis, high-water-mark + margin; multicore scheduling on the S3's two cores | Driver with DT binding; SMP experiment on the S3 under ESP-IDF/FreeRTOS (Zephyr's Xtensa SMP is still non-functional — a port-maturity lesson) |
 | 11 | 6 | Aperiodic servers, overload & resource reservation, CBS → `SCHED_DEADLINE`; PREEMPT_RT | Linux SBC bring-up (shared per group); `cyclictest` latency |
 | 12 | 6 | Linux RT in practice: `SCHED_FIFO`/`SCHED_DEADLINE`, affinity | Periodic tasks under Linux; content closes |
 | 13 | 7 | SoilSense Hub kickoff: mixed criticality, Linux-vs-MCU partitioning; safety vocabulary — watchdogs, fail-safe states, IEC 61508 / DO-178C | Proposal + architecture ADRs: what runs where, priorities/deadlines, CPU isolation plan, fail-safe design |
@@ -107,7 +109,8 @@ proofs — to skip.
 
 ## Hardware & tooling
 
-ESP32-S3 devkit · Zephyr (`west`, CMake, devicetree, Kconfig) · VS Code ·
+STM32C0116-DK (course-provided; weeks 1–2 cache-free baseline) · ESP32-S3 devkit ·
+Zephyr (`west`, CMake, devicetree, Kconfig) · VS Code ·
 `native_sim` / Renode for no-hardware paths · ESP-IDF for the translation module ·
 Zephyr tracing (SystemView/CTF) · a PREEMPT_RT Linux SBC (e.g. Raspberry Pi) for
 modules 6–7, shared per group. Students buy components in groups of 2–3 — see the
