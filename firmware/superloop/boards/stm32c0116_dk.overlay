@@ -1,0 +1,51 @@
+/*
+ * STM32C0116-DK pin map — DRAFT, validate against the DIL20 silk before class.
+ * Console stays on the ST-LINK VCP (USART2, PA2/PA3) — do not reuse those pins.
+ */
+
+/ {
+	instr {
+		compatible = "gpio-leds";
+		instr_samp: instr_samp { gpios = <&gpioa 1 GPIO_ACTIVE_HIGH>; };
+		instr_ctrl: instr_ctrl { gpios = <&gpioa 4 GPIO_ACTIVE_HIGH>; };
+		instr_cons: instr_cons { gpios = <&gpioa 5 GPIO_ACTIVE_HIGH>; };
+		instr_tele: instr_tele { gpios = <&gpioa 6 GPIO_ACTIVE_HIGH>; };
+		instr_flow: instr_flow { gpios = <&gpioa 7 GPIO_ACTIVE_HIGH>; };
+	};
+
+	keys {
+		compatible = "gpio-keys";
+		flow_pulse: flow_pulse {
+			gpios = <&gpiob 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+		};
+	};
+
+	zephyr,user {
+		/* idx 0 = joystick ladder (PA8), idx 1 = "pressure" pot (PA0) */
+		io-channels = <&adc1 8>, <&adc1 0>;
+	};
+};
+
+&adc1 {
+	status = "okay";
+	pinctrl-0 = <&adc1_in8_pa8 &adc1_in0_pa0>;
+	pinctrl-names = "default";
+	vref-mv = <3300>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	channel@8 {
+		reg = <8>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+	channel@0 {
+		reg = <0>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+};
