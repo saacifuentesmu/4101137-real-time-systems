@@ -20,4 +20,4 @@ bring-ups). Before week 1: [setup.md](setup.md).
 | 12 | [Isolation and interference: the dress rehearsal](lab12_isolation.md) | — |
 | 13 | [SoilSense Hub kickoff](lab13_kickoff.md) (covers checkpoints and demo day) | — |
 
-Talk scripts in [lectures/](lectures/) *(pending authoring)*.
+Talk scripts in [lectures/](lectures/) *(drafts)*.
