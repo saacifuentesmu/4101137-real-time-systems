@@ -1,65 +1,64 @@
-# Semana 1 — Arranque: el equipo, la placa, el toolchain
-> **Lectura:** [LECTURAS.md](../LECTURAS.md), semana 1 · **Módulo:** 0
-> **Prerrequisito:** [setup_previo.md](setup_previo.md) hecho en casa.
+# Week 1 — Bring-up: the team, the board, the toolchain
+> **Reading:** [LECTURAS.md](../LECTURAS.md), week 1 · **Module:** 0
+> **Prerequisite:** [setup_previo.md](setup_previo.md) done at home.
 
-**De:** Ing. Samuel Cifuentes (Arquitecto Senior) — *"Bienvenidos al equipo de
-Sistemas de Control. SoilSense ya mide; ahora tiene que **actuar**, y una válvula
-que cierra tarde revienta mangueras. Antes de hablar de kernels: quiero a todo el
-mundo compilando y flasheando sin fricción. Esta semana el entregable es un entorno
-que funciona."*
+**From:** Eng. Samuel Cifuentes (Senior Architect) — *"Welcome to the Control
+Systems team. SoilSense already measures; now it has to **act**, and a valve that
+closes late bursts hoses. Before we talk kernels: I want everyone compiling and
+flashing without friction. This week's deliverable is a working environment."*
 
-Hoy: formar parejas, verificar el entorno de cada uno, y correr código en las dos
-plataformas de arranque (STM32C0116-DK física y `native_sim`).
+Today: form pairs, verify each member's environment, and run code on both starter
+platforms (physical STM32C0116-DK and `native_sim`).
 
-| Stakeholder | Su pregunta | Cómo la responde esta sesión |
+| Stakeholder | Their question | How this session answers it |
 |---|---|---|
-| **Samuel** | ¿El equipo puede iterar rápido? | Ciclo compilar→flashear→monitor < 1 min, demostrado |
+| **Samuel** | Can the team iterate fast? | Build→flash→monitor cycle < 1 min, demonstrated |
 
-## Lo que vas a medir
+## What you'll measure
 
-Todavía nada de tiempos — esta semana se mide el *setup*:
+No timing yet — this week you measure the *setup*:
 
-| Verificación | ✓ |
+| Check | ✓ |
 |---|---|
-| blinky corre en la C0116-DK de la pareja | |
-| `hello_world` corre en `native_sim` | |
-| Consola serial abierta y con eco | |
-| RET del equipo creado desde la plantilla | |
+| blinky runs on the pair's C0116-DK | |
+| `hello_world` runs on `native_sim` | |
+| Serial console open and echoing | |
+| Team RET created from the template | |
 
-## Tareas
+## Tasks
 
-### Tarea A — Verificación cruzada del entorno
-- Cada integrante compila y flashea blinky en la C0116-DK **desde su propio portátil**.
+### Task A — Cross-check the environment
+- Each member builds and flashes blinky on the C0116-DK **from their own laptop**.
 - `west build -p -b stm32c0116_dk zephyr/samples/basic/blinky && west flash`
-- **Evidencia:** LED parpadeando, un flash por integrante.
+- **Evidence:** blinking LED, one flash per member.
 
-### Tarea B — Consola serial
-- Flashea `zephyr/samples/hello_world` y abre el monitor serial (115200 8N1).
-- Cambia el mensaje, recompila, verifica el ciclo completo de iteración.
-- **Evidencia:** captura del monitor con el mensaje modificado.
+### Task B — Serial console
+- Flash `zephyr/samples/hello_world` and open the serial monitor (115200 8N1).
+- Change the message, rebuild, verify the full iteration cycle.
+- **Evidence:** monitor screenshot with the modified message.
 
-### Tarea C — Crear el RET del equipo
-- Copien [plantillas/ret.md](../plantillas/ret.md) a su repo de equipo; llenen
-  encabezado y la fila del lazo de control con los valores del
-  [escenario](../PROJECT_SCENARIO.md) (período 10 ms; `C_i` queda `____` hasta medirlo).
-- **Evidencia:** enlace al repo del equipo con el RET versionado.
+### Task C — Create the team RET
+- Copy [plantillas/ret.md](../plantillas/ret.md) into your team repo; fill in the
+  header and the control-loop row with the values from the
+  [scenario](../PROJECT_SCENARIO.md) (period 10 ms; `C_i` stays `____` until measured).
+- **Evidence:** link to the team repo with the RET under version control.
 
-## ¿Y en FreeRTOS?
+## What about FreeRTOS?
 
-No hay equivalente de `west`/devicetree: cada silicio trae su SDK del fabricante
-(ESP-IDF, STM32Cube, nRF Connect) y FreeRTOS va embebido dentro. Ese es el
-trade-off que iremos midiendo: Zephyr paga curva de aprendizaje una vez y viaja
-entre chips; FreeRTOS se aprende rápido pero el entorno cambia con cada fabricante.
+There is no `west`/devicetree equivalent: each silicon comes with its vendor SDK
+(ESP-IDF, STM32Cube, nRF Connect) and FreeRTOS ships embedded inside it. That's the
+trade-off we'll keep measuring: Zephyr pays its learning curve once and travels
+across chips; FreeRTOS is quick to learn but the environment changes with every vendor.
 
-## Entregables (RET)
+## Deliverables (RET)
 
-- **Encabezado + §1:** equipo, placas, task set inicial del Control (de la charla y
-  el escenario), todos los `C_i` en `____`.
+- **Header + §1:** team, boards, initial Control task set (from the talk and the
+  scenario), all `C_i` as `____`.
 
-## Rúbrica (100 pts)
+## Rubric (100 pts)
 
 | | pts |
 |---|---|
-| **Ejecución** — blinky por integrante (20) · ciclo serial completo (20) | 40 |
-| **Evidencia** — capturas + repo del equipo con RET (30) | 30 |
-| **Análisis** — task set inicial correcto en el RET: tipos D/F/S bien asignados (30) | 30 |
+| **Execution** — blinky per member (20) · full serial cycle (20) | 40 |
+| **Evidence** — screenshots + team repo with RET (30) | 30 |
+| **Analysis** — correct initial task set in the RET: H/F/S types well assigned (30) | 30 |

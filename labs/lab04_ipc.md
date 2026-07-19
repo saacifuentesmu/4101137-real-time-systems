@@ -1,70 +1,70 @@
-# Semana 4 — La migración completa y el A/B
-> **Lectura:** [LECTURAS.md](../LECTURAS.md), semana 4 · **Módulo:** 2
+# Week 4 — The full migration and the A/B
+> **Reading:** [LECTURAS.md](../LECTURAS.md), week 4 · **Module:** 2
 
-**De:** Ing. Samuel Cifuentes — *"Terminen la migración y tráiganme el A/B:
-superloop vs. kernel, mismas tareas, misma placa, mismas condiciones. Con esa tabla
-decidimos la arquitectura del producto — y la defiendo yo ante Gustavo, así que
-quiero poder citarla sin vergüenza."*
+**From:** Eng. Samuel Cifuentes — *"Finish the migration and bring me the A/B:
+superloop vs. kernel, same tasks, same board, same conditions. That table decides
+the product architecture — and I'm the one defending it to Gustavo, so I want to be
+able to cite it without embarrassment."*
 
-Hoy se completa el mapeo de la charla: cada pieza del superloop encuentra su
-contraparte del kernel.
+Today the talk's mapping is completed: every piece of the superloop finds its
+kernel counterpart.
 
-| Pieza del superloop | Contraparte kernel |
+| Superloop piece | Kernel counterpart |
 |---|---|
-| Bandera de ISR + chequeo en el loop | ISR corta + `k_msgq` / `k_sem` |
-| Trabajo pesado poleado | Hilo con prioridad propia |
-| "Bottom half" improvisado en el loop | `k_work` en la workqueue |
-| Consola que bloquea todo | Hilo de consola en prioridad baja |
+| ISR flag + check in the loop | Short ISR + `k_msgq` / `k_sem` |
+| Heavy polled work | Thread with its own priority |
+| Improvised "bottom half" in the loop | `k_work` on the workqueue |
+| Console that blocks everything | Console thread at low priority |
 
-| Stakeholder | Su pregunta | Cómo la responde esta sesión |
+| Stakeholder | Their question | How this session answers it |
 |---|---|---|
-| **Samuel** | ¿El kernel mejora el peor caso, no solo el promedio? | A/B con máximos, no promedios |
-| **Gustavo** | ¿Qué compramos con la complejidad nueva? | El comando bloqueante ya no rompe nada — medido |
+| **Samuel** | Does the kernel improve the worst case, not just the average? | A/B with maxima, not averages |
+| **Gustavo** | What did we buy with the new complexity? | The blocking command no longer breaks anything — measured |
 
-## Lo que vas a medir
+## What you'll measure
 
-| Medición (S3) | Superloop (sem. 3) | Kernel (hoy) |
+| Measurement (S3) | Superloop (wk 3) | Kernel (today) |
 |---|---|---|
-| Jitter máx del muestreo | (copiar) | ____ µs |
-| Jitter máx del muestreo con comando bloqueante | (copiar) | ____ µs |
-| Latencia ISR → hilo (vía msgq) | — | ____ µs |
-| Overhead: ancho del cambio de contexto visible | — | ____ µs |
+| Max sampling jitter | (copy) | ____ µs |
+| Max sampling jitter with blocking command | (copy) | ____ µs |
+| ISR → thread latency (via msgq) | — | ____ µs |
+| Overhead: visible context-switch width | — | ____ µs |
 
-## Tareas
+## Tasks
 
-### Tarea A — Completar la migración
-- Control → hilo de prioridad alta; consola → hilo de prioridad baja; el trabajo
-  diferido de la ISR de flujo → `k_work`. El `main` queda casi vacío.
-- Mantén los mismos GPIO de instrumentación (la comparación exige simetría).
-- **Evidencia:** el nodo completo corriendo, árbol de hilos (`kernel threads` en el shell o listado en código).
+### Task A — Complete the migration
+- Control → high-priority thread; console → low-priority thread; the flow ISR's
+  deferred work → `k_work`. `main` ends up nearly empty.
+- Keep the same instrumentation GPIOs (the comparison demands symmetry).
+- **Evidence:** the full node running, thread tree (`kernel threads` in the shell or listed in code).
 
-### Tarea B — El A/B
-- Repite el protocolo de medición de la semana 2 exacto (misma duración, mismas
-  condiciones) sobre la versión kernel. Llena la tabla.
-- **Evidencia:** tabla A/B completa + capturas de ambas condiciones.
+### Task B — The A/B
+- Repeat the week-2 measurement protocol exactly (same duration, same conditions)
+  on the kernel version. Fill in the table.
+- **Evidence:** complete A/B table + captures of both conditions.
 
-### Tarea C — El costo
-- El kernel no es gratis: mide el cambio de contexto (dos toggles consecutivos de
-  hilos distintos) y estima el overhead por segundo a tu carga actual.
-- **Evidencia:** el número + el cálculo en una línea.
+### Task C — The cost
+- The kernel isn't free: measure the context switch (two consecutive toggles from
+  different threads) and estimate the overhead per second at your current load.
+- **Evidence:** the number + the one-line calculation.
 
-## ¿Y en FreeRTOS?
+## What about FreeRTOS?
 
-El mapeo es 1:1: `k_msgq`→`xQueue`, `k_work`→timer daemon o tarea propia,
-prioridades apropiativas iguales. La diferencia práctica está en los defaults:
-FreeRTOS arranca con menos servicios (footprint menor — su fortaleza en chips
-chicos); Zephyr trae consola/log/shell listos (su fortaleza en productos grandes).
+The mapping is 1:1: `k_msgq`→`xQueue`, `k_work`→timer daemon or a dedicated task,
+same preemptive priorities. The practical difference is in the defaults: FreeRTOS
+boots with fewer services (smaller footprint — its strength on small chips); Zephyr
+ships console/log/shell ready (its strength in larger products).
 
-## Entregables (RET)
+## Deliverables (RET)
 
-- **§2 ADR-001 — Arquitectura del nodo: kernel multihilo.** Contexto (línea base +
-  comando bloqueante), decisión, justificación **citando la tabla A/B**, estado.
-- **§3 Evidencia semana 4:** tabla A/B + overhead medido.
+- **§2 ADR-001 — Node architecture: multithreaded kernel.** Context (baseline +
+  blocking command), decision, justification **citing the A/B table**, status.
+- **§3 Week-4 evidence:** A/B table + measured overhead.
 
-## Rúbrica (100 pts)
+## Rubric (100 pts)
 
 | | pts |
 |---|---|
-| **Ejecución** — migración completa según el mapeo (25) · instrumentación simétrica (15) | 40 |
-| **Evidencia** — A/B con protocolo idéntico al de la sem. 2 (20) · overhead medido (10) | 30 |
-| **Análisis** — ADR-001 citando números, con el costo reconocido (no solo el beneficio) (30) | 30 |
+| **Execution** — migration complete per the mapping (25) · symmetric instrumentation (15) | 40 |
+| **Evidence** — A/B with a protocol identical to week 2's (20) · overhead measured (10) | 30 |
+| **Analysis** — ADR-001 citing numbers, with the cost acknowledged (not just the benefit) (30) | 30 |

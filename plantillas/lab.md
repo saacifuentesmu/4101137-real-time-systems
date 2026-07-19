@@ -1,50 +1,50 @@
-# Semana N — <Título de la sesión>
-> **Guía técnica:** [SOP-NN](sop.md) *(borrar esta línea si la sesión no tiene SOP)*
-> **Lectura:** [LECTURAS.md](../LECTURAS.md), semana N · **Módulo:** M
+# Week N — <Session title>
+> **Tech guide:** [SOP-NN](sop.md) *(delete this line if the session has no SOP)*
+> **Reading:** [LECTURAS.md](../LECTURAS.md), week N · **Module:** M
 
-**De:** <Stakeholder> (<rol>) — *"<El problema, en una o dos frases del proyecto.>"*
+**From:** <Stakeholder> (<role>) — *"<The problem, in one or two sentences from the project.>"*
 
-<Un párrafo: qué se construye/mide hoy y por qué importa. Cerrar con:>
-**Misión:** <una frase operativa>.
+<One paragraph: what gets built/measured today and why it matters. Close with:>
+**Mission:** <one operational sentence>.
 
-| Stakeholder | Su pregunta | Cómo la responde esta sesión |
+| Stakeholder | Their question | How this session answers it |
 |---|---|---|
-| **<Nombre>** | <pregunta> | <respuesta medible> |
+| **<Name>** | <question> | <measurable answer> |
 
-## Lo que vas a medir
+## What you'll measure
 
-<La tabla que esta sesión debe llenar — columnas definidas, celdas vacías:>
+<The table this session must fill in — columns defined, cells empty:>
 
-| Medición | Tu valor | Objetivo | Nota |
+| Measurement | Your value | Target | Note |
 |---|---|---|---|
-| <p. ej. jitter p99 del lazo> | ____ µs | < ___ µs | <condición> |
+| <e.g. loop p99 jitter> | ____ µs | < ___ µs | <condition> |
 
-## Tareas
+## Tasks
 
-### Tarea A — <nombre>
-- <pasos mínimos; los comandos exactos van en el SOP>
-- **Evidencia:** <log / captura del analizador / tabla llena>
+### Task A — <name>
+- <minimal steps; exact commands go in the SOP>
+- **Evidence:** <log / analyzer capture / filled table>
 
-### Tarea B — <nombre>
+### Task B — <name>
 - ...
-- **Evidencia:** ...
+- **Evidence:** ...
 
-## ¿Y en FreeRTOS?
+## What about FreeRTOS?
 
-<3–5 líneas: la API equivalente (`xTaskCreate`/`xQueueSend`/...), qué cambia, y
-cuándo elegir FreeRTOS sería lo correcto. Sin instalar nada — es comparación.>
+<3–5 lines: the equivalent API (`xTaskCreate`/`xQueueSend`/...), what changes, and
+when choosing FreeRTOS would be the right call. Nothing installed — it's a comparison.>
 
-## Entregables (RET)
+## Deliverables (RET)
 
-- **§1 Task set:** <qué fila se agrega/actualiza, con C_i medido>
-- **§2 ADR-NNN:** <decisión de hoy: contexto, decisión, números, estado>
-- **§3 Evidencia semana N:** la tabla de arriba, llena, con una frase de lectura.
-- **§4 Planificabilidad:** <si aplica: U, prueba usada, RTA>
+- **§1 Task set:** <which row is added/updated, with measured C_i>
+- **§2 ADR-NNN:** <today's decision: context, decision, numbers, status>
+- **§3 Week-N evidence:** the table above, filled in, with a one-sentence reading.
+- **§4 Schedulability:** <if applicable: U, test used, RTA>
 
-## Rúbrica (100 pts)
+## Rubric (100 pts)
 
 | | pts |
 |---|---|
-| **Ejecución** — <ítem> (xx) · <ítem> (xx) | 40 |
-| **Evidencia** — tabla completa y bien leída (xx) · trazas anexas (xx) | 30 |
-| **Análisis** — ADR justificado con números (xx) · <ítem> (xx) | 30 |
+| **Execution** — <item> (xx) · <item> (xx) | 40 |
+| **Evidence** — table complete and well read (xx) · traces attached (xx) | 30 |
+| **Analysis** — ADR justified with numbers (xx) · <item> (xx) | 30 |

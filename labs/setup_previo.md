@@ -1,43 +1,44 @@
-# Setup previo — antes de la semana 1
+# Pre-course setup — before week 1
 
-Trabajo **en casa, antes de la primera clase**. La semana 1 solo *verifica* esto;
-si llegas sin el entorno, pierdes el lab.
+Work **at home, before the first class**. Week 1 only *verifies* this; if you show
+up without the environment, you lose the lab.
 
-## 1. Entorno Zephyr
+## 1. Zephyr environment
 
-Sigue la guía oficial de Zephyr ([Getting Started](https://docs.zephyrproject.org/latest/develop/getting_started/index.html))
-en Linux nativo o WSL2. Para WSL2 hay una guía probada del profesor:
+Follow Zephyr's official guide ([Getting Started](https://docs.zephyrproject.org/latest/develop/getting_started/index.html))
+on native Linux or WSL2. For WSL2 there's a tested guide from the instructor:
 [wsl2-embedded-dev-setup](https://github.com/saacifuentesmu/wsl2-embedded-dev-setup).
 
-Al final debes tener: `west`, el SDK de Zephyr, y el workspace (`west init` +
-`west update`) funcionando.
+By the end you must have: `west`, the Zephyr SDK, and a working workspace
+(`west init` + `west update`).
 
-## 2. Compila los dos targets del curso
+## 2. Build the course's two targets
 
 ```bash
 west build -p -b stm32c0116_dk  zephyr/samples/basic/blinky
 west build -p -b native_sim     zephyr/samples/hello_world
-./build/zephyr/zephyr.exe        # native_sim corre en tu PC
+./build/zephyr/zephyr.exe        # native_sim runs on your PC
 ```
 
-Ambas compilaciones deben terminar sin errores. (La ESP32-S3 se agrega en la
-semana 3 — no la necesitas aún.)
+Both builds must finish without errors. (The ESP32-S3 joins in week 3 — you don't
+need it yet.)
 
-## 3. Acceso al puerto serial (Linux/WSL2)
+## 3. Serial-port access (Linux/WSL2)
 
 ```bash
-sudo usermod -aG dialout $USER   # cerrar sesión y volver a entrar
+sudo usermod -aG dialout $USER   # log out and back in
 ```
 
-En WSL2: instala `usbipd-win` en Windows para pasar el USB a Linux (está en la guía).
+On WSL2: install `usbipd-win` on Windows to pass USB through to Linux (covered in
+the guide).
 
-## Checklist para la semana 1
+## Week-1 checklist
 
-- [ ] `west --version` responde.
-- [ ] blinky compila para `stm32c0116_dk`.
-- [ ] `hello_world` corre en `native_sim`.
-- [ ] Tu usuario está en el grupo `dialout` (o equivalente).
-- [ ] VS Code con la extensión C/C++ (o tu editor preferido) abre el workspace.
+- [ ] `west --version` responds.
+- [ ] blinky builds for `stm32c0116_dk`.
+- [ ] `hello_world` runs on `native_sim`.
+- [ ] Your user is in the `dialout` group (or equivalent).
+- [ ] VS Code with the C/C++ extension (or your preferred editor) opens the workspace.
 
-¿Problemas? Trae el error exacto (texto, no foto) a la semana 1 — el lab empieza
-resolviendo lo que falte.
+Problems? Bring the exact error (text, not a photo) to week 1 — the lab starts by
+fixing whatever is missing.

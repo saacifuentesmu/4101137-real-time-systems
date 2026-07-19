@@ -1,31 +1,32 @@
-# Formato de las sesiones
+# Session format
 
-Formato heredado de 4201327 (donde funcionó), adaptado y compactado. Cada sesión
-tiene hasta tres documentos, cada uno con un trabajo distinto:
+Format inherited from 4201327 (where it worked), adapted and compacted. Each
+session has up to three documents, each with a distinct job:
 
-| Doc | Audiencia | Contenido | Presupuesto |
+| Doc | Audience | Content | Budget |
 |---|---|---|---|
-| **lab.md** | Estudiantes | Misión (memo GreenField) → qué se mide → tareas con evidencia → entregables RET → rúbrica | ≤ ~1.500 palabras |
-| **lecture.md** | Profesor (guion de los 40 min) | Objetivos, tabla de tiempos, ideas de tablero, malentendidos a anticipar, puente al lab | guion, no prosa |
-| **sop.md** | Estudiantes (mecánica) | Solo comandos, cableado, verificaciones y troubleshooting — el *porqué* vive en el lab | **solo si la sesión lo necesita** (bring-ups pesados: SBC Linux, AMP/sysbuild, tracing) |
+| **lab.md** | Students | Mission (GreenField memo) → what gets measured → tasks with evidence → RET deliverables → rubric | ≤ ~1,500 words |
+| **lecture.md** | Instructor (script for the 40 min) | Objectives, timing table, board sketches, misconceptions to anticipate, bridge to the lab | a script, not prose |
+| **sop.md** | Students (mechanics) | Commands, wiring, checks, and troubleshooting only — the *why* lives in the lab | **only if the session needs it** (heavy bring-ups: Linux SBC, AMP/sysbuild, tracing) |
 
-Reglas de compacidad (obligatorias): una sola explicación por concepto; tablas y
-diagramas antes que prosa; preguntas sin respuesta incluida; matemática avanzada en
-`<details>`; nada de secciones "TL;DR + In plain English + técnico" repitiéndose.
+Compactness rules (mandatory): one explanation per concept; tables and diagrams
+over prose; questions without the answer included; advanced math in `<details>`;
+no "TL;DR + In plain English + technical" sections repeating each other.
 
-Secciones fijas del lab.md:
+Fixed lab.md sections:
 
-1. **Memo** del stakeholder (abre la sesión; también es el objetivo).
-2. **Lo que vas a medir** — la tabla de evidencia con celdas `____` que el lab llena.
-3. **Tareas** A/B/C, cada una con su línea **Evidencia:**.
-4. **¿Y en FreeRTOS?** — 3–5 líneas: cómo se haría con esa API y cuándo esa opción gana.
-5. **Entregables (RET)** — qué secciones del RET se actualizan hoy.
-6. **Rúbrica** (tabla, 100 pts).
+1. **Memo** from the stakeholder (opens the session; it is also the objective).
+2. **What you'll measure** — the evidence table with `____` cells the lab fills in.
+3. **Tasks** A/B/C, each with its **Evidence:** line.
+4. **What about FreeRTOS?** — 3–5 lines: how it would be done with that API and when that option wins.
+5. **Deliverables (RET)** — which RET sections get updated today.
+6. **Rubric** (table, 100 pts).
 
-El entregable vivo del curso es el **RET — Reporte de Evidencia de Tiempos**
-(plantilla en [plantillas/ret.md](plantillas/ret.md)): el equivalente ligero del DDR
-de 4201327. Se actualiza cada semana, se entrega en el workshop (semana 8) y al cierre.
+The course's living deliverable is the **RET — Timing Evidence Report**
+(template in [plantillas/ret.md](plantillas/ret.md)): the lightweight equivalent
+of 4201327's DDR. Updated every week, handed in at the workshop (week 8) and at
+the close.
 
-Plantillas: [plantillas/lab.md](plantillas/lab.md) ·
+Templates: [plantillas/lab.md](plantillas/lab.md) ·
 [plantillas/lecture.md](plantillas/lecture.md) ·
 [plantillas/sop.md](plantillas/sop.md) · [plantillas/ret.md](plantillas/ret.md)

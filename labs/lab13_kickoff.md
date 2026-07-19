@@ -1,47 +1,47 @@
-# Semana 13 — Kickoff del SoilSense Hub
-> **Lectura:** [LECTURAS.md](../LECTURAS.md), semana 13 · **Módulo:** 6
-> Cubre también los checkpoints (sem. 14–15) y el demo day (sem. 16).
+# Week 13 — SoilSense Hub kickoff
+> **Reading:** [LECTURAS.md](../LECTURAS.md), week 13 · **Module:** 6
+> Also covers the checkpoints (wks 14–15) and demo day (wk 16).
 
-**De:** Ing. Samuel Cifuentes — *"Arranca el proyecto. El Hub es una sola caja con
-tres personalidades: controla las bombas (duro), atiende a un humano (GUI) y mueve
-datos (enrutamiento). Ya midieron todo lo que necesitan para diseñarlo — hoy no se
-programa: hoy se **decide**, por escrito. Un sistema de criticidad mixta se diseña
-antes de teclear, o se depura para siempre."* — Detalle del reto y stakeholders en
-el [escenario](../PROJECT_SCENARIO.md).
+**From:** Eng. Samuel Cifuentes — *"The project starts. The Hub is one box with
+three personalities: it controls the pumps (hard), serves a human (GUI), and moves
+data (routing). You've already measured everything you need to design it — today
+nobody codes: today you **decide**, in writing. A mixed-criticality system is
+designed before typing, or debugged forever."* — Challenge details and
+stakeholders in the [scenario](../PROJECT_SCENARIO.md).
 
-## Lo que se decide hoy (los ADRs del kickoff)
+## What gets decided today (the kickoff ADRs)
 
-| ADR | La decisión | La evidencia que la sostiene |
+| ADR | The decision | The evidence behind it |
 |---|---|---|
-| **ADR-P1 — Partición Linux vs. MCU** | Qué corre en el SBC y qué exigiría un MCU (S3) | Colas: sem. 9 (µs, MCU) vs. sem. 10 (Linux RT) |
-| **ADR-P2 — Presupuesto temporal** | Task set del Hub con sus `REQ-HUB-xx` (EARS, como en la sem. 2): tipos D/F/S, períodos, deadlines, presupuesto extremo-a-extremo sensor→válvula | Task set del RET §1 + RTA/CBS de §4 |
-| **ADR-P3 — Aislamiento** | Política + runtime/period + CPU + IRQs del lazo | La receta de la sem. 12 (ADR-004), adaptada |
-| **ADR-P4 — Seguridad funcional** | **Estado seguro** (falla ⇒ válvula cerrada) + watchdog: quién patea, quién muerde, qué pasa al morder | Requisito del escenario; se demuestra en el checkpoint 2 |
+| **ADR-P1 — Linux vs. MCU partitioning** | What runs on the SBC and what would demand an MCU (S3) | Tails: wk 9 (µs, MCU) vs. wk 10 (RT Linux) |
+| **ADR-P2 — Timing budget** | The Hub's task set with its `REQ-HUB-xx` (EARS, as in wk 2): H/F/S types, periods, deadlines, end-to-end sensor→valve budget | RET §1 task set + §4 RTA/CBS |
+| **ADR-P3 — Isolation** | Policy + runtime/period + CPU + IRQs for the loop | Week 12's recipe (ADR-004), adapted |
+| **ADR-P4 — Functional safety** | **Safe state** (failure ⇒ valve closed) + watchdog: who kicks, who bites, what happens on a bite | Scenario requirement; demonstrated at checkpoint 2 |
 
-## Tareas de la sesión
+## Session tasks
 
-### Tarea A — Propuesta de arquitectura
-- Diagrama de la caja: procesos/hilos, políticas de scheduling, CPUs, y el camino
-  del dato crítico (sensor de presión → interlock → válvula) marcado en rojo.
-- **Evidencia:** el diagrama + los 4 ADRs en borrador defendido ante Samuel (en el aula).
+### Task A — Architecture proposal
+- Diagram of the box: processes/threads, scheduling policies, CPUs, and the
+  critical data path (pressure sensor → interlock → valve) marked in red.
+- **Evidence:** the diagram + the 4 draft ADRs defended before Samuel (in class).
 
-### Tarea B — Plan de checkpoints
-- Declaren *qué número* demostrará cada checkpoint (no "avance": un número).
-- **Evidencia:** las dos metas escritas en el RET, con su condición de carga.
+### Task B — Checkpoint plan
+- Declare *what number* each checkpoint will demonstrate (not "progress": a number).
+- **Evidence:** both targets written in the RET, with their load condition.
 
-## Los tres hitos
+## The three milestones
 
-| Semana | Hito | Se aprueba si… |
+| Week | Milestone | Passes if… |
 |---|---|---|
-| 14 | **Checkpoint 1** | El lazo duro del Hub cumple deadlines bajo carga sintética (protocolo sem. 12), misses = 0, tabla presentada |
-| 15 | **Checkpoint 2** | GUI + enrutamiento reales integrados; evidencia de interferencia + presupuesto extremo-a-extremo medido; **el watchdog muerde en vivo** (se mata el lazo y la válvula cierra sola) |
-| 16 | **Demo day** | Demo en vivo + **RET final** + reporte de evidencia de tiempos del Hub |
+| 14 | **Checkpoint 1** | The Hub's hard loop meets deadlines under synthetic load (wk-12 protocol), misses = 0, table presented |
+| 15 | **Checkpoint 2** | Real GUI + routing integrated; interference evidence + measured end-to-end budget; **the watchdog bites live** (the loop is killed and the valve closes on its own) |
+| 16 | **Demo day** | Live demo + **final RET** + the Hub's timing-evidence report |
 
-## Rúbrica del proyecto (100 pts)
+## Project rubric (100 pts)
 
 | | pts |
 |---|---|
-| **Kickoff** — 4 ADRs defendidos, con evidencia citada, no opinión (20) | 20 |
-| **Checkpoint 1** — meta numérica cumplida y medida con protocolo declarado (15) | 15 |
-| **Checkpoint 2** — interferencia real + presupuesto e2e + fail-safe demostrado (20) | 20 |
-| **Demo day** — demo en vivo estable (15) · RET final: task set, análisis y evidencia coherentes de punta a punta (25) · postmortem honesto: qué no cumplió y por qué (5) | 45 |
+| **Kickoff** — 4 ADRs defended, citing evidence, not opinion (20) | 20 |
+| **Checkpoint 1** — numeric target met and measured with a declared protocol (15) | 15 |
+| **Checkpoint 2** — real interference + e2e budget + fail-safe demonstrated (20) | 20 |
+| **Demo day** — stable live demo (15) · final RET: task set, analysis, and evidence coherent end to end (25) · honest postmortem: what fell short and why (5) | 45 |

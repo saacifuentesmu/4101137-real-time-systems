@@ -1,82 +1,83 @@
-# Semana 2 — El superloop provisto: correr, leer, medir
-> **Lectura:** [LECTURAS.md](../LECTURAS.md), semana 2 · **Módulo:** 1
-> **Firmware:** [firmware/superloop/](../firmware/superloop/) (provisto — hoy no se escribe código)
+# Week 2 — The provided superloop: run, read, measure
+> **Reading:** [LECTURAS.md](../LECTURAS.md), week 2 · **Module:** 1
+> **Firmware:** [firmware/superloop/](../firmware/superloop/) (provided — no code is written today)
 
-**De:** Ing. Samuel Cifuentes — *"Antes de proponerme un kernel, midan lo que ya
-tenemos. Les entrego el nodo Control como superloop — la arquitectura de 4100901,
-la que la empresa sabe mantener. Quiero la línea base: latencia y jitter de cada
-tarea, con números, no con adjetivos. Si el superloop alcanza, nos quedamos con él."*
+**From:** Eng. Samuel Cifuentes — *"Before you pitch me a kernel, measure what we
+already have. I'm handing you the Control node as a superloop — the 4100901
+architecture, the one this company knows how to maintain. I want the baseline:
+latency and jitter for every task, with numbers, not adjectives. If the superloop
+is enough, we keep it."*
 
-El firmware ya trae **instrumentación por GPIO** (un toggle al entrar/salir de cada
-tarea): tu instrumento es el analizador lógico.
+The firmware already ships with **GPIO instrumentation** (a toggle on entry/exit of
+each task): your instrument is the logic analyzer.
 
-| Stakeholder | Su pregunta | Cómo la responde esta sesión |
+| Stakeholder | Their question | How this session answers it |
 |---|---|---|
-| **Samuel** | ¿El superloop cumple el task set del escenario? | Tabla de jitter por tarea vs. sus deadlines |
-| **Gustavo** | ¿Por qué pagaríamos la complejidad de un kernel? | El comando bloqueante: la degradación, medida |
+| **Samuel** | Does the superloop meet the scenario's task set? | Per-task jitter table vs. its deadlines |
+| **Gustavo** | Why would we pay for a kernel's complexity? | The blocking command: the degradation, measured |
 
-## Lo que vas a medir
+## What you'll measure
 
-| Medición (C0116-DK, silicio sin caché) | Tu valor | Referencia |
+| Measurement (C0116-DK, cache-free silicon) | Your value | Reference |
 |---|---|---|
-| Período real del muestreo (nominal 1 kHz): promedio | ____ µs | 1000 µs |
-| Jitter del muestreo: máx sobre ≥ 30 s | ____ µs | anótalo: es *la línea base del curso* |
-| Latencia ISR → atención en el loop (botón/flujo) | ____ µs | |
-| Jitter del muestreo **con el comando bloqueante activo** | ____ µs | compara contra la fila 2 |
+| Actual sampling period (nominal 1 kHz): average | ____ µs | 1000 µs |
+| Sampling jitter: max over ≥ 30 s | ____ µs | write it down: it's *the course baseline* |
+| ISR → loop-service latency (button/flow) | ____ µs | |
+| Sampling jitter **with the blocking command active** | ____ µs | compare against row 2 |
 
-## Tareas
+## Tasks
 
-### Tarea A — Correr y leer
-- Compila y flashea `firmware/superloop/` para `stm32c0116_dk`; verifica la consola.
-- Lee `main.c` con tu pareja: identifica las banderas de ISR, el trabajo poleado y
-  dónde toggle-a cada GPIO de instrumentación. Dibuja el flujo en ≤ 10 cajas.
-- **Evidencia:** el diagrama (foto de papel vale) con los GPIO de instrumentación marcados.
+### Task A — Run and read
+- Build and flash `firmware/superloop/` for `stm32c0116_dk`; verify the console.
+- Read `main.c` with your partner: identify the ISR flags, the polled work, and
+  where each instrumentation GPIO toggles. Draw the flow in ≤ 10 boxes.
+- **Evidence:** the diagram (a photo of paper is fine) with the instrumentation GPIOs marked.
 
-### Tarea B — La línea base
-- Conecta el analizador lógico a los GPIO de instrumentación; captura ≥ 30 s.
-- Llena las tres primeras filas de la tabla. Usa las estadísticas de pulso del
-  software del analizador (period/width min–max).
-- **Evidencia:** capturas del analizador + tabla llena en el RET.
+### Task B — The baseline
+- Hook the logic analyzer to the instrumentation GPIOs; capture ≥ 30 s.
+- Fill in the first three rows of the table. Use the pulse statistics in the
+  analyzer software (period/width min–max).
+- **Evidence:** analyzer screenshots + filled table in the RET.
 
-### Tarea C — Romperlo a propósito
-- Activa el **comando bloqueante** de la consola mientras capturas.
-- Llena la fila 4. ¿Cuál tarea sufre y por qué? Explícalo en 2–3 frases apuntando a
-  la línea de código responsable.
-- **Evidencia:** captura del "antes/después" + la explicación en el RET.
+### Task C — Break it on purpose
+- Trigger the console's **blocking command** while capturing.
+- Fill in row 4. Which task suffers, and why? Explain in 2–3 sentences pointing at
+  the responsible line of code.
+- **Evidence:** before/after capture + the explanation in the RET.
 
-### Tarea D — Los requisitos, por escrito
-- De la tabla de tareas del [escenario](../PROJECT_SCENARIO.md), extrae **5–8
-  requisitos temporales** y escribe cada uno como una frase estilo **EARS**
-  (*cuando/mientras <condición>, el sistema <respuesta> en <plazo>*), con su ID:
+### Task D — The requirements, in writing
+- From the task table in the [scenario](../PROJECT_SCENARIO.md), extract **5–8
+  timing requirements** and write each as one **EARS-style** sentence
+  (*when/while <condition>, the system shall <response> within <deadline>*), with an ID:
 
-| ID | Requisito |
+| ID | Requirement |
 |---|---|
-| REQ-CTRL-01 | Mientras el sistema riega, el lazo de control ejecutará cada 10 ms (deadline = período). |
-| REQ-CTRL-02 | Cuando la presión supere el umbral, el sistema cerrará la válvula en < 5 ms. |
+| REQ-CTRL-01 | While the system is irrigating, the control loop shall run every 10 ms (deadline = period). |
+| REQ-CTRL-02 | When pressure exceeds the threshold, the system shall close the valve within 5 ms. |
 
-- Van al **RET §1**, y desde hoy toda evidencia cita el REQ que verifica (p. ej.
-  "la fila 2 de la tabla verifica REQ-CTRL-03"). En la semana 8 sabrás cómo se
-  llama esta disciplina en la industria.
-- **Evidencia:** la tabla de requisitos en el RET §1.
+- They go in **RET §1**, and from today on every piece of evidence cites the REQ it
+  verifies (e.g. "row 2 of the table verifies REQ-CTRL-03"). In week 8 you'll learn
+  what industry calls this discipline.
+- **Evidence:** the requirements table in RET §1.
 
-## ¿Y en FreeRTOS?
+## What about FreeRTOS?
 
-Igual que en Zephyr: muchos productos con FreeRTOS *también* empiezan como
-superloop + ISRs, y migran al kernel cuando aparece exactamente lo que viste en la
-Tarea C — una tarea que bloquea a las demás. La pregunta de la próxima semana es la
-misma en ambos mundos: ¿qué te da un scheduler apropiativo?
+Same as in Zephyr: many FreeRTOS products *also* start as superloop + ISRs, and
+migrate to the kernel when exactly what you saw in Task C shows up — one task
+blocking the rest. Next week's question is the same in both worlds: what does a
+preemptive scheduler buy you?
 
-## Entregables (RET)
+## Deliverables (RET)
 
-- **§1 Task set:** la tabla de requisitos (Tarea D) + primera columna de `C_i`
-  medidos (ancho de pulso de cada tarea).
-- **§3 Evidencia semana 2:** la tabla de arriba, llena, con una frase de lectura.
-- **§2 (aún no):** la decisión superloop-vs-kernel se toma en la semana 4, con el A/B.
+- **§1 Task set:** the requirements table (Task D) + first column of measured
+  `C_i` (each task's pulse width).
+- **§3 Week-2 evidence:** the table above, filled in, with a one-sentence reading.
+- **§2 (not yet):** the superloop-vs-kernel decision is made in week 4, with the A/B.
 
-## Rúbrica (100 pts)
+## Rubric (100 pts)
 
 | | pts |
 |---|---|
-| **Ejecución** — firmware corriendo (10) · diagrama de flujo correcto (15) · comando bloqueante reproducido (15) | 40 |
-| **Evidencia** — tabla completa con capturas (20) · condiciones de medición anotadas (duración, carga) (10) | 30 |
-| **Análisis** — explicación causa-raíz de la degradación, con línea de código (15) · lectura de la línea base en una frase (5) · requisitos EARS bien formados, con condición y plazo verificables (10) | 30 |
+| **Execution** — firmware running (10) · correct flow diagram (15) · blocking command reproduced (15) | 40 |
+| **Evidence** — complete table with captures (20) · measurement conditions noted (duration, load) (10) | 30 |
+| **Analysis** — root-cause explanation of the degradation, with the line of code (15) · baseline reading in one sentence (5) · well-formed EARS requirements, with verifiable condition and deadline (10) | 30 |

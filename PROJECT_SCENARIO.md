@@ -1,128 +1,126 @@
-# GreenField Technologies: Briefing del Proyecto
+# GreenField Technologies: Project Briefing
 
-**Tipo de documento**: Contexto de proyecto y guía de stakeholders
+**Document type**: Project context and stakeholder guide
 
-**Audiencia**: Ingenieros de Firmware — Equipo de Sistemas de Control (estudiantes)
+**Audience**: Firmware Engineers — Control Systems team (students)
 
 ---
 
 ## 📌 TL;DR
 
-**Tu rol**: Ingeniero/a de Firmware en el nuevo **equipo de Sistemas de Control** de
-GreenField Technologies (startup ficticia de agro-tecnología).
+**Your role**: Firmware Engineer on GreenField Technologies' new **Control
+Systems team** (a fictional agri-tech startup).
 
-**El contexto**: GreenField ya vende **SoilSense**, una red mesh de sensores de suelo
-para fincas pequeñas, desarrollada antes de que te unieras. Pero monitorear no cierra
-el lazo: los agricultores quieren que el riego se **automatice**. Tu equipo construye
-la nueva línea de producto:
+**The context**: GreenField already sells **SoilSense**, a soil-sensor mesh
+network for small farms, built before you joined. But monitoring doesn't close
+the loop: farmers want irrigation to be **automated**. Your team builds the new
+product line:
 
-- **SoilSense Control** — controlador de riego en tiempo real (ESP32-S3 + Zephyr):
-  lazo de control de flujo/presión con deadline **duro**, muestreo periódico,
-  telemetría **suave**, consola **firme**.
-- **SoilSense Hub** — gateway Linux con GUI local (pantalla táctil) y dashboard
-  remoto, que supervisa los controladores. Es el proyecto final (semanas 13–16).
+- **SoilSense Control** — real-time irrigation controller (ESP32-S3 + Zephyr):
+  flow/pressure control loop with a **hard** deadline, periodic sampling,
+  **soft** telemetry, **firm** console.
+- **SoilSense Hub** — Linux gateway with a local GUI (touchscreen) and a remote
+  dashboard, supervising the controllers. It's the final project (weeks 13–16).
 
-**Tus entregables**: ADRs y registros de diseño profesionales, más **evidencia de
-tiempos**: análisis de planificabilidad y tablas de latencia/jitter medidas. "Funciona"
-no basta — hay que demostrar *cuándo*.
+**Your deliverables**: professional ADRs and design records, plus **timing
+evidence**: schedulability analysis and measured latency/jitter tables. "It
+works" isn't enough — you have to show *when*.
 
-**Tu mentor**: Ing. Samuel Cifuentes, que espera que entiendas el "por qué" — y que
-muestres los números.
+**Your mentor**: Eng. Samuel Cifuentes, who expects you to understand the
+"why" — and to show the numbers.
 
 ---
 
-## 1. La Empresa
+## 1. The Company
 
-**GreenField Technologies** es una startup ficticia de agricultura de precisión para
-fincas pequeñas y medianas (5–50 ha). Valores: asequibilidad, simplicidad,
-sostenibilidad, resiliencia. Su primer producto, la red de sensores **SoilSense**,
-ya está desplegado en fincas piloto y reporta humedad y temperatura del suelo.
+**GreenField Technologies** is a fictional precision-agriculture startup for
+small and mid-size farms (5–50 ha). Values: affordability, simplicity,
+sustainability, resilience. Its first product, the **SoilSense** sensor network,
+is already deployed on pilot farms reporting soil moisture and temperature.
 
-**El problema nuevo**: los datos le dicen a la agricultora *cuándo* regar, pero ella
-sigue abriendo válvulas a mano. Sobre-riega por precaución, o llega tarde. GreenField
-decidió cerrar el lazo: sensado → decisión → **actuación**.
+**The new problem**: the data tells the farmer *when* to irrigate, but she still
+opens valves by hand. She over-irrigates to be safe, or arrives late. GreenField
+decided to close the loop: sensing → decision → **actuation**.
 
-**Por qué esto es un problema de tiempo real**: una válvula que cierra tarde ante una
-sobrepresión revienta una manguera; un lazo de control de flujo con jitter riega mal;
-una parada de emergencia tiene un plazo, no una sugerencia. Los deadlines ahora son
-físicos.
+**Why this is a real-time problem**: a valve that closes late during an
+overpressure bursts a hose; a flow control loop with jitter irrigates poorly; an
+emergency stop has a deadline, not a suggestion. The deadlines are now physical.
 
-## 2. Los Productos
+## 2. The Products
 
-### SoilSense Control (módulos 1–4 del curso)
-Controlador de riego basado en ESP32-S3 + Zephyr. Sus tareas encarnan la taxonomía
-del curso:
+### SoilSense Control (course modules 1–4)
+ESP32-S3 + Zephyr irrigation controller. Its tasks embody the course taxonomy:
 
-| Tarea | Tipo | Ejemplo de requisito |
-|-------|------|----------------------|
-| Lazo de control de flujo/presión (PWM sobre válvula/bomba) | **Duro** | período 10 ms, deadline = período |
-| Parada de emergencia por sobrepresión | **Duro** | respuesta < 5 ms |
-| Muestreo de sensores | **Duro** | 1 kHz, jitter acotado |
-| Telemetría hacia el Hub | **Suave** | atrasos degradan, no rompen |
-| Consola de comandos | **Firme** | respuesta tardía no vale, pero no daña |
+| Task | Type | Example requirement |
+|------|------|---------------------|
+| Flow/pressure control loop (PWM to valve/pump) | **Hard** | period 10 ms, deadline = period |
+| Overpressure emergency stop | **Hard** | response < 5 ms |
+| Sensor sampling | **Hard** | 1 kHz, bounded jitter |
+| Telemetry to the Hub | **Soft** | delays degrade, don't break |
+| Command console | **Firm** | a late response is worthless, but harmless |
 
-*(Los números son de referencia; se fijan y justifican en los ADRs de cada módulo.)*
+*(Numbers are references; they're fixed and justified in each module's ADRs.)*
 
-### SoilSense Hub (proyecto final, semanas 13–16)
-Gateway sobre SBC Linux (PREEMPT_RT), compartido por grupo. El Hub **no es solo un
-supervisor**: es un sistema de criticidad mixta con requisitos duros propios, y su
-diseño de tiempo real es el corazón del proyecto final. En la misma caja conviven:
+### SoilSense Hub (final project, weeks 13–16)
+Gateway on a Linux SBC (PREEMPT_RT), shared per group. The Hub is **not just a
+supervisor**: it's a mixed-criticality system with hard requirements of its own,
+and its real-time design is the heart of the final project. In the same box coexist:
 
-- **Control duro local**: el lazo de presión de la estación de bombeo y su interlock
-  de seguridad (`SCHED_FIFO`/`SCHED_DEADLINE`, aislamiento de CPU).
-- **GUI local** (pantalla táctil — p. ej. LVGL o HMI web) para operación en campo.
-- **Enrutamiento de datos**: telemetría de los nodos Control hacia el dashboard
-  remoto/nube, y comandos de vuelta, con presupuesto de deadline extremo a extremo.
+- **Local hard control**: the pump station's pressure loop and its safety
+  interlock (`SCHED_FIFO`/`SCHED_DEADLINE`, CPU isolation).
+- **Local GUI** (touchscreen — e.g. LVGL or a web HMI) for field operation.
+- **Data routing**: telemetry from the Control nodes to the remote
+  dashboard/cloud, and commands back, with an end-to-end deadline budget.
 
-**El reto de diseño**: demostrar que el lazo duro cumple sus plazos *mientras* la GUI
-renderiza y el enrutamiento recibe ráfagas de tráfico — con evidencia (`cyclictest` y
-trazas bajo carga sintética). Además, el ADR de particionamiento: qué funciones viven
-en Linux y cuáles en el MCU (ESP32-S3), y por qué.
+**The design challenge**: prove the hard loop meets its deadlines *while* the GUI
+renders and the routing takes traffic bursts — with evidence (`cyclictest` and
+traces under synthetic load). Plus the partitioning ADR: which functions live in
+Linux and which on the MCU (ESP32-S3), and why.
 
-**Requisito de seguridad (entregable explícito)**: el sistema declara su **estado
-seguro** (falla ⇒ válvula cerrada) y lo protege con un **watchdog** — si el lazo de
-control muere, el hardware llega solo al estado seguro. Es la respuesta de diseño a
-la pregunta de Edwin ("¿qué pasa si el Hub se cae con una válvula abierta?").
+**Safety requirement (explicit deliverable)**: the system declares its **safe
+state** (failure ⇒ valve closed) and protects it with a **watchdog** — if the
+control loop dies, the hardware reaches the safe state on its own. It's the
+design answer to Edwin's question ("what if the Hub goes down with a valve open?").
 
-## 3. Tu Rol y Equipo
+## 3. Your Role and Team
 
-- **Rol**: Ingeniero/a de Firmware, equipo de Sistemas de Control.
-- **Módulos 1–4**: en parejas, un kit ESP32-S3 por pareja.
-- **Módulos 5–6**: parejas se fusionan en grupos (4–6) compartiendo el SBC del Hub.
-- **Mentor**: Ing. Samuel Cifuentes (Arquitecto Senior). Revisa ADRs y evidencia de
-  tiempos. Frase de cabecera: *"muéstrame la traza"*.
+- **Role**: Firmware Engineer, Control Systems team.
+- **Modules 1–4**: in pairs, one ESP32-S3 kit per pair.
+- **Modules 5–6**: pairs merge into groups (4–6) sharing the Hub's SBC.
+- **Mentor**: Eng. Samuel Cifuentes (Senior Architect). Reviews ADRs and timing
+  evidence. Signature phrase: *"show me the trace"*.
 
 ### Stakeholders
 
-| Stakeholder | Rol | Le importa | Pregunta típica |
-|-------------|-----|-----------|-----------------|
-| **Samuel** | Arquitecto Senior | Correctitud, análisis de planificabilidad | "¿Cuál es el peor caso, y cómo lo mediste?" |
-| **Gustavo** | Product Owner | Costo, valor al cliente | "¿Por qué un kernel de tiempo real encarece el producto?" |
-| **Edwin** | Operaciones de Campo | Confiabilidad, fallas | "¿Qué pasa si el Hub se cae mientras una válvula está abierta?" |
-| **Edward** | Seguridad | Superficie de ataque | "¿Un comando remoto malicioso puede violar un deadline?" |
-| **Daniela** | Clienta piloto | Usabilidad, ROI | "¿La pantalla me dice qué está pasando sin llamar a soporte?" |
+| Stakeholder | Role | Cares about | Typical question |
+|-------------|------|-------------|------------------|
+| **Samuel** | Senior Architect | Correctness, schedulability analysis | "What's the worst case, and how did you measure it?" |
+| **Gustavo** | Product Owner | Cost, customer value | "Why does a real-time kernel make the product more expensive?" |
+| **Edwin** | Field Operations | Reliability, failures | "What happens if the Hub goes down while a valve is open?" |
+| **Edward** | Security | Attack surface | "Can a malicious remote command violate a deadline?" |
+| **Daniela** | Pilot customer | Usability, ROI | "Does the screen tell me what's going on without calling support?" |
 
-## 4. Fases del Proyecto (mapeadas a módulos)
+## 4. Project Phases (mapped to modules)
 
-> **Borrador — detalle por fase pendiente de autoría.** Estructura prevista
-> (contexto → tareas → preguntas de stakeholders → entregables):
+> **Draft — per-phase detail pending authoring.** Planned structure
+> (context → tasks → stakeholder questions → deliverables):
 
-1. **Fase 1 — Prototipo y línea base** (módulos 1–2 + tracing del módulo 4): el
-   Control como superloop, medición de la línea base; reconstrucción con hilos;
-   A/B contra la línea base con tracing instrumentado.
-2. **Fase 2 — Garantías** (módulo 3): análisis de planificabilidad del task set del
-   Control; inversión de prioridad reproducida y corregida. *(Workshop: semana 8.)*
-3. **Fase 3 — Medición y drivers** (módulo 4): driver con binding de devicetree,
-   WCET y multinúcleo (AMP particionado). La charla compara con FreeRTOS: ¿y si un
-   cliente exige el kernel de la industria?
-4. **Fase 4 — El Hub** (módulos 5–6): Linux RT en grupos; kickoff del proyecto final,
-   dos checkpoints y demo day con reporte de evidencia de tiempos.
+1. **Phase 1 — Prototype and baseline** (modules 1–2 + module 4's tracing): the
+   Control node as a superloop, baseline measurement; rebuild with threads;
+   A/B against the baseline with instrumented tracing.
+2. **Phase 2 — Guarantees** (module 3): schedulability analysis of the Control
+   task set; priority inversion reproduced and fixed. *(Workshop: week 8.)*
+3. **Phase 3 — Measurement and drivers** (module 4): driver with a devicetree
+   binding, WCET, and multicore (partitioned AMP). The talk compares with
+   FreeRTOS: what if a customer demands the industry's kernel?
+4. **Phase 4 — The Hub** (modules 5–6): RT Linux in groups; final-project
+   kickoff, two checkpoints, and demo day with a timing-evidence report.
 
-## 5. Estándares de Documentación
+## 5. Documentation Standards
 
-ADRs antes de implementar, decisiones justificadas con números, trade-offs
-explícitos. Además, en este proyecto todo requisito temporal se declara con ID
-(`REQ-…`, una frase estilo EARS: condición → respuesta → plazo; tipo
-duro/firme/suave, período, deadline) y se **verifica con evidencia medida** (tabla de
-latencia/jitter o traza) — todo vive en el **RET** (Reporte de Evidencia de Tiempos,
-plantilla en [plantillas/ret.md](plantillas/ret.md)), el documento vivo del equipo.
+ADRs before implementing, decisions justified with numbers, explicit trade-offs.
+Additionally, in this project every timing requirement is declared with an ID
+(`REQ-…`, one EARS-style sentence: condition → response → deadline; hard/firm/soft
+type, period, deadline) and **verified with measured evidence** (latency/jitter
+table or trace) — all of it lives in the **RET** (Timing Evidence Report, template
+in [plantillas/ret.md](plantillas/ret.md)), the team's living document.

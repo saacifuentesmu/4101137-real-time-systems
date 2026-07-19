@@ -1,63 +1,63 @@
-# Semana 12 — Aislamiento e interferencia: el ensayo general del Hub
-> **Lectura:** [LECTURAS.md](../LECTURAS.md), semana 12 · **Módulo:** 5
-> **Hoy cierra el contenido del curso** — lo que sigue es el proyecto.
+# Week 12 — Isolation and interference: the Hub's dress rehearsal
+> **Reading:** [LECTURAS.md](../LECTURAS.md), week 12 · **Module:** 5
+> **Course content closes today** — what follows is the project.
 
-**De:** Ing. Samuel Cifuentes — *"Último ensayo antes del proyecto. El Hub real
-tendrá una GUI renderizando y telemetría entrando en ráfagas — quiero el lazo de
-bombas blindado contra eso por **diseño**: afinidad, aislamiento de CPU y su
-contrato DEADLINE, todo junto. Móntenme la maqueta de interferencia y muéstrenme el
-lazo impávido. Ese montaje es, literalmente, el checkpoint 2 del proyecto."*
+**From:** Eng. Samuel Cifuentes — *"Last rehearsal before the project. The real Hub
+will have a GUI rendering and telemetry arriving in bursts — I want the pump loop
+armored against that by **design**: affinity, CPU isolation, and its DEADLINE
+contract, all together. Build me the interference rig and show me the loop
+unmoved. That rig is, literally, the project's checkpoint 2."*
 
-| Stakeholder | Su pregunta | Cómo la responde esta sesión |
+| Stakeholder | Their question | How this session answers it |
 |---|---|---|
-| **Samuel** | ¿El diseño de aislamiento completo funciona junto? | Lazo + GUI sintética + ráfagas, medido |
-| **Edwin** | ¿Qué configuración exacta despliego en campo? | La receta queda en el ADR, reproducible |
+| **Samuel** | Does the full isolation design work as a whole? | Loop + synthetic GUI + bursts, measured |
+| **Edwin** | What exact configuration do I deploy in the field? | The recipe lands in the ADR, reproducible |
 
-## Lo que vas a medir
+## What you'll measure
 
-| Medición (lazo de 10 ms, ≥ 5 min c/u) | Misses | Jitter máx (µs) |
+| Measurement (10 ms loop, ≥ 5 min each) | Misses | Max jitter (µs) |
 |---|---|---|
-| Lazo DEADLINE, CPUs compartidas, interferencia completa | ____ | ____ |
-| Lazo DEADLINE **+ afinidad a CPU aislada**, misma interferencia | ____ | ____ |
-| Igual que la anterior + IRQs movidas fuera de la CPU aislada | ____ | ____ |
+| DEADLINE loop, shared CPUs, full interference | ____ | ____ |
+| DEADLINE loop **+ affinity to an isolated CPU**, same interference | ____ | ____ |
+| Same as above + IRQs moved off the isolated CPU | ____ | ____ |
 
-Interferencia completa = carga de render sintética (`glxgears`/`stress-ng --vm`) +
-ráfagas de red (`iperf3` hacia el SBC) — la GUI y el enrutamiento del Hub, simulados.
+Full interference = synthetic render load (`glxgears`/`stress-ng --vm`) + network
+bursts (`iperf3` toward the SBC) — the Hub's GUI and routing, simulated.
 
-## Tareas
+## Tasks
 
-### Tarea A — La CPU del lazo
-- Aísla un core (cmdline: `isolcpus=3 nohz_full=3 rcu_nocbs=3`, SOP-10) y fija el
-  lazo con `taskset -c 3` (o `sched_setaffinity`).
-- **Evidencia:** `cat /sys/devices/system/cpu/isolated` + el lazo corriendo allí (`ps -o psr`).
+### Task A — The loop's CPU
+- Isolate a core (cmdline: `isolcpus=3 nohz_full=3 rcu_nocbs=3`, SOP-10) and pin
+  the loop with `taskset -c 3` (or `sched_setaffinity`).
+- **Evidence:** `cat /sys/devices/system/cpu/isolated` + the loop running there (`ps -o psr`).
 
-### Tarea B — La maqueta de interferencia
-- Lanza la interferencia completa en las CPUs restantes. Corre las tres filas de la
-  tabla (sin aislamiento / con aislamiento / con IRQs movidas — `/proc/irq/*/smp_affinity`).
-- **Evidencia:** tabla + histogramas por condición.
+### Task B — The interference rig
+- Launch the full interference on the remaining CPUs. Run the table's three rows
+  (no isolation / with isolation / with IRQs moved — `/proc/irq/*/smp_affinity`).
+- **Evidence:** table + per-condition histograms.
 
-### Tarea C — La receta de despliegue
-- Escribe el ADR: la configuración completa del lazo del Hub (política + runtime/period
-  + CPU + IRQs) como lista reproducible de comandos/cmdline, con el porqué de cada línea
-  citando una fila de la tabla.
-- **Evidencia:** ADR-004 en el RET; otro grupo debe poder replicarlo en 10 min.
+### Task C — The deployment recipe
+- Write the ADR: the Hub loop's complete configuration (policy + runtime/period +
+  CPU + IRQs) as a reproducible list of commands/cmdline, with the why of each
+  line citing a row of the table.
+- **Evidence:** ADR-004 in the RET; another group must be able to replicate it in 10 min.
 
-## ¿Y en FreeRTOS?
+## What about FreeRTOS?
 
-La afinidad existe en FreeRTOS SMP (`vTaskCoreAffinitySet`) y el aislamiento es
-"no pongas nada más en ese core" — posible porque todo el software es tuyo. Linux
-necesita `isolcpus` + contratos porque el sistema corre software ajeno. Misma idea
-de la semana 9 (particionar corta colas), un ecosistema más hostil.
+Affinity exists in FreeRTOS SMP (`vTaskCoreAffinitySet`) and isolation is "don't
+put anything else on that core" — feasible because all the software is yours.
+Linux needs `isolcpus` + contracts because the system runs software you don't own.
+Same idea as week 9 (partitioning cuts tails), a more hostile ecosystem.
 
-## Entregables (RET)
+## Deliverables (RET)
 
-- **§3 Evidencia semana 12:** tabla de tres configuraciones + histogramas.
-- **§2 ADR-004 — Configuración RT del Hub** (la receta completa, justificada).
+- **§3 Week-12 evidence:** three-configuration table + histograms.
+- **§2 ADR-004 — The Hub's RT configuration** (the full recipe, justified).
 
-## Rúbrica (100 pts)
+## Rubric (100 pts)
 
 | | pts |
 |---|---|
-| **Ejecución** — aislamiento verificado (15) · maqueta de interferencia completa (25) | 40 |
-| **Evidencia** — tres configuraciones con protocolo constante (30) | 30 |
-| **Análisis** — ADR-004 reproducible, cada línea justificada con una medición (30) | 30 |
+| **Execution** — isolation verified (15) · full interference rig (25) | 40 |
+| **Evidence** — three configurations with a constant protocol (30) | 30 |
+| **Analysis** — ADR-004 reproducible, every line justified by a measurement (30) | 30 |

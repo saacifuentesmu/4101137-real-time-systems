@@ -1,45 +1,44 @@
-# RET — Reporte de Evidencia de Tiempos
+# RET — Timing Evidence Report
 
-**Equipo:** <nombres> · **Placas:** <seriales/apodos> · Documento **vivo**: se
-actualiza cada semana; se entrega en el workshop (semana 8) y al cierre (semana 16).
-Regla de la casa: *"muéstrame la traza"* — toda afirmación temporal cita una medición.
+**Team:** <names> · **Boards:** <serials/nicknames> · **Living** document: updated
+every week; handed in at the workshop (week 8) and at the close (week 16).
+House rule: *"show me the trace"* — every timing claim cites a measurement.
 
-## 1. El sistema y su task set
+## 1. The system and its task set
 
-Requisitos primero — una frase cada uno, estilo EARS (*cuando/mientras
-<condición>, el sistema <respuesta> en <plazo>*) — y luego la tarea que
-los implementa:
+Requirements first — one sentence each, EARS style (*when/while <condition>, the
+system shall <response> within <deadline>*) — then the task that implements them:
 
-| ID | Requisito |
+| ID | Requirement |
 |---|---|
-| REQ-CTRL-01 | Mientras el sistema riega, el lazo de control ejecutará cada 10 ms (deadline = período). |
+| REQ-CTRL-01 | While the system is irrigating, the control loop shall run every 10 ms (deadline = period). |
 
-| Tarea | Req. | Tipo (D/F/S) | Período | Deadline | C_i medido | Cómo se midió |
+| Task | Req. | Type (H/F/S) | Period | Deadline | Measured C_i | How it was measured |
 |---|---|---|---|---|---|---|
-| Lazo de control | REQ-CTRL-01 | Duro | 10 ms | = T | ____ | <GPIO + analizador / traza> |
+| Control loop | REQ-CTRL-01 | Hard | 10 ms | = T | ____ | <GPIO + analyzer / trace> |
 
 ## 2. ADRs
 
-### ADR-001 — <título>
-**Contexto:** … · **Decisión:** … · **Justificación (con números):** … · **Estado:** …
+### ADR-001 — <title>
+**Context:** … · **Decision:** … · **Justification (with numbers):** … · **Status:** …
 
-## 3. Evidencia por semana
+## 3. Evidence by week
 
-Cada entrada cita el/los `REQ` que verifica.
+Each entry cites the `REQ`(s) it verifies.
 
-### Semana 2 — línea base superloop (C0116-DK)
-<tabla de jitter/latencia + una frase de lectura>
+### Week 2 — superloop baseline (C0116-DK)
+<jitter/latency table + a one-sentence reading>
 
-### Semana 3 — línea base S3 y comparación de silicio
+### Week 3 — S3 baseline and silicon comparison
 …
 
-## 4. Análisis de planificabilidad
+## 4. Schedulability analysis
 
-U = ΣC_i/T_i con los C_i **medidos**; prueba usada (RM / hiperbólica / EDF); RTA
-como script con su salida; bloqueo B_i si hay mutexes. (Fórmulas: LECTURAS.md,
-"La matemática que sí se usa".)
+U = ΣC_i/T_i with **measured** C_i; test used (RM / hyperbolic / EDF); RTA as a
+script with its output; blocking B_i if there are mutexes. (Formulas: LECTURAS.md,
+"The math that does get used".)
 
-## 5. Seguridad funcional (proyecto final)
+## 5. Functional safety (final project)
 
-Estado seguro declarado (falla ⇒ válvula cerrada), watchdog, y la evidencia del
-fail-safe disparándose.
+Declared safe state (failure ⇒ valve closed), watchdog, and the evidence of the
+fail-safe firing.

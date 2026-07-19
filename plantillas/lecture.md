@@ -1,27 +1,27 @@
-# Charla semana N — <título> (40 min)
+# Week-N talk — <title> (40 min)
 
-**Precede a:** `labs/labNN_*.md` · **Audiencia:** estudiantes justo antes del lab.
+**Precedes:** `labs/labNN_*.md` · **Audience:** students right before the lab.
 
-## Objetivos
-Al final, el estudiante puede: 1. <verbo medible> … 2. … 3. …
+## Objectives
+By the end, the student can: 1. <measurable verb> … 2. … 3. …
 
-## Estructura
-| Min | Segmento | Propósito en una línea |
+## Structure
+| Min | Segment | Purpose in one line |
 |---|---|---|
-| 0–5 | Gancho / callback a la semana pasada | <la pregunta que quedó abierta> |
-| 5–20 | Concepto central | |
-| 20–30 | <segundo concepto / demo en vivo> | |
-| 30–35 | ¿Y en FreeRTOS? | la API equivalente y cuándo gana |
-| 35–40 | Puente al lab | qué van a medir y qué número debe salir |
+| 0–5 | Hook / callback to last week | <the question left open> |
+| 5–20 | Core concept | |
+| 20–30 | <second concept / live demo> | |
+| 30–35 | What about FreeRTOS? | the equivalent API and when it wins |
+| 35–40 | Bridge to the lab | what they'll measure and what number should come out |
 
-## Segmento 1 — <nombre>
-- Idea clave: <una frase>.
-- **Dibujo de tablero:** <qué dibujar>.
-- **Pregunta para la sala:** <sin respuesta en el material del estudiante>.
+## Segment 1 — <name>
+- Key idea: <one sentence>.
+- **Board sketch:** <what to draw>.
+- **Question for the room:** <no answer in the student material>.
 
-> **Malentendido a anticipar:** <el error típico y cómo desarmarlo en 1 min>.
+> **Misconception to anticipate:** <the typical mistake and how to dismantle it in 1 min>.
 
-## Segmento 2 — …
+## Segment 2 — …
 
-## Puente al lab
-<La tabla "Lo que vas a medir" del lab, y el resultado esperado en una frase.>
+## Bridge to the lab
+<The lab's "What you'll measure" table, and the expected result in one sentence.>

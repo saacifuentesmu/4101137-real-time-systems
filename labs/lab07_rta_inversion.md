@@ -1,65 +1,65 @@
-# Semana 7 — RTA e inversión de prioridad
-> **Lectura:** [LECTURAS.md](../LECTURAS.md), semana 7 · **Módulo:** 3
-> **Taller 2 sale hoy** (ejercicios de cap. 7 + RTA; entrega semana 9).
+# Week 7 — RTA and priority inversion
+> **Reading:** [LECTURAS.md](../LECTURAS.md), week 7 · **Module:** 3
+> **Problem Set 2 goes out today** (exercises from ch. 7 + RTA; due week 9).
 
-**De:** Ing. Samuel Cifuentes — *"La prueba de utilización me dice si el conjunto
-cabe; no me dice **cuánto tarda cada tarea en el peor caso** — y el e-stop tiene un
-plazo de 5 ms, no un porcentaje. Impleménteme la RTA como script, con los C_i
-medidos. Y ojo con los mutex: el Pathfinder se reinició en Marte por una inversión
-de prioridad. Reprodúzcanla aquí, donde cuesta risa y no una misión."*
+**From:** Eng. Samuel Cifuentes — *"The utilization test tells me whether the set
+fits; it doesn't tell me **how long each task takes in the worst case** — and the
+e-stop has a 5 ms deadline, not a percentage. Implement RTA as a script, fed with
+the measured C_i. And watch the mutexes: Pathfinder rebooted on Mars because of a
+priority inversion. Reproduce it here, where it costs a laugh and not a mission."*
 
-| Stakeholder | Su pregunta | Cómo la responde esta sesión |
+| Stakeholder | Their question | How this session answers it |
 |---|---|---|
-| **Samuel** | ¿R_i ≤ D_i para *cada* tarea, con bloqueo incluido? | RTA en script + B_i medido |
-| **Edward** | ¿Un comando malicioso lento puede retrasar el e-stop? | La inversión: reproducida y cerrada con PI |
+| **Samuel** | Is R_i ≤ D_i for *every* task, blocking included? | RTA as a script + measured B_i |
+| **Edward** | Can a slow malicious command delay the e-stop? | The inversion: reproduced and closed with PI |
 
-## Lo que vas a medir
+## What you'll measure
 
-| Medición | Tu valor | Predicción RTA |
+| Measurement | Your value | RTA prediction |
 |---|---|---|
-| R máx de la tarea de control (sin mutex) | ____ µs | ____ µs |
-| R máx del control **durante la inversión** | ____ µs | — (eso es lo roto) |
-| R máx del control con mutex PI | ____ µs | ≤ C + B_i + interferencia: ____ µs |
-| B_i real (sección crítica más larga del tercero) | ____ µs | |
+| Max R of the control task (no mutex) | ____ µs | ____ µs |
+| Max R of control **during the inversion** | ____ µs | — (that's what's broken) |
+| Max R of control with a PI mutex | ____ µs | ≤ C + B_i + interference: ____ µs |
+| Real B_i (longest critical section of the third task) | ____ µs | |
 
-## Tareas
+## Tasks
 
-### Tarea A — La RTA como herramienta
-- Escribe el script (Python) de la recurrencia `R_i = C_i + Σ⌈R_i/T_h⌉·C_h`
-  (Fig. 4.17 del libro) y aliméntalo con los `C_i` medidos del nodo.
-- Verifica: ¿el R que predice para el control coincide con el máximo observado en
-  30 s de captura? (¿por qué "casi"? — el peor caso es raro; anótalo.)
-- **Evidencia:** el script en el repo + salida vs. medición.
+### Task A — RTA as a tool
+- Write the (Python) script for the recurrence `R_i = C_i + Σ⌈R_i/T_h⌉·C_h`
+  (book Fig. 4.17) and feed it the node's measured `C_i`.
+- Verify: does the R it predicts for control match the maximum observed over a
+  30 s capture? (Why only "almost"? — the worst case is rare; write that down.)
+- **Evidence:** the script in the repo + output vs. measurement.
 
-### Tarea B — La inversión, en vivo
-- Tres hilos: control (alta) y consola-lenta (baja) comparten un mutex **sin PI**
-  (`k_sem` de 1 usado como lock — así se rompe); telemetría (media) no usa el lock.
-- Dispara la secuencia clásica: baja toma el lock → alta lo pide → media apropia a
-  la baja. Captura el retraso de la alta.
-- **Evidencia:** captura del analizador con la inversión anotada (quién corre en cada tramo).
+### Task B — The inversion, live
+- Three threads: control (high) and slow-console (low) share a mutex **without PI**
+  (a `k_sem` of 1 used as a lock — that's how it breaks); telemetry (medium)
+  doesn't use the lock.
+- Trigger the classic sequence: low takes the lock → high requests it → medium
+  preempts low. Capture the high task's delay.
+- **Evidence:** analyzer capture with the inversion annotated (who runs in each segment).
 
-### Tarea C — El arreglo
-- Sustituye por `k_mutex` (Zephyr hereda prioridad). Repite la secuencia; llena las
-  filas 3–4. Extiende tu script: `R_i = C_i + B_i + interferencia`.
-- **Evidencia:** captura del "después" + RTA extendida coincidiendo con lo medido.
+### Task C — The fix
+- Replace it with `k_mutex` (Zephyr does priority inheritance). Repeat the
+  sequence; fill in rows 3–4. Extend your script: `R_i = C_i + B_i + interference`.
+- **Evidence:** the "after" capture + extended RTA matching the measurement.
 
-## ¿Y en FreeRTOS?
+## What about FreeRTOS?
 
-Los mutex de FreeRTOS (`xSemaphoreCreateMutex`) también heredan prioridad — y sus
-semáforos binarios también permiten el mismo error de la Tarea B. La lección es
-idéntica en ambos kernels: para exclusión mutua entre prioridades, mutex con PI,
-nunca un semáforo desnudo.
+FreeRTOS mutexes (`xSemaphoreCreateMutex`) also inherit priority — and its binary
+semaphores also allow Task B's exact mistake. The lesson is identical in both
+kernels: for mutual exclusion across priorities, a PI mutex, never a bare semaphore.
 
-## Entregables (RET)
+## Deliverables (RET)
 
-- **§4:** RTA completa del task set real (script + salida), con B_i.
-- **§3 Evidencia semana 7:** las tres capturas (sin lock / inversión / PI).
-- **§2 ADR-002 — Política de exclusión mutua del nodo** (mutex PI, dónde y por qué).
+- **§4:** full RTA of the real task set (script + output), with B_i.
+- **§3 Week-7 evidence:** the three captures (no lock / inversion / PI).
+- **§2 ADR-002 — Node mutual-exclusion policy** (PI mutex, where and why).
 
-## Rúbrica (100 pts)
+## Rubric (100 pts)
 
 | | pts |
 |---|---|
-| **Ejecución** — script RTA correcto (15) · inversión reproducida (15) · cerrada con PI (10) | 40 |
-| **Evidencia** — capturas anotadas de los tres regímenes (20) · B_i medido (10) | 30 |
-| **Análisis** — RTA vs. medición bien leída (15) · ADR-002 con números (15) | 30 |
+| **Execution** — correct RTA script (15) · inversion reproduced (15) · closed with PI (10) | 40 |
+| **Evidence** — annotated captures of the three regimes (20) · measured B_i (10) | 30 |
+| **Analysis** — RTA vs. measurement well read (15) · ADR-002 with numbers (15) | 30 |

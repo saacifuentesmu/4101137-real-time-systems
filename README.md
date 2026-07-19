@@ -66,14 +66,14 @@ most likely meet in industry — with a dedicated strengths-and-weaknesses sessi
 week 9. Hands-on stays on one toolchain; no second SDK to install.
 
 The node's tasks embody the deadline taxonomy the course teaches — labeled in the
-spec and verified in the traces. Course material is in Spanish; repo names and this
-overview are in English.
+spec and verified in the traces. All course material is in English (classroom
+delivery is bilingual); a few file names keep Spanish slugs for link stability.
 
 ## Repository layout
 
 | Path | What it is |
 |---|---|
-| [labs/](labs/) | One lab guide per session (Spanish), plus `lectures/` (instructor scripts) and `sops/` (bring-up mechanics) — format in [FORMATO_SESIONES.md](FORMATO_SESIONES.md) |
+| [labs/](labs/) | One lab guide per session, plus `lectures/` (instructor scripts) and `sops/` (bring-up mechanics) — format in [FORMATO_SESIONES.md](FORMATO_SESIONES.md) |
 | [firmware/](firmware/) | **Course-authored reference apps.** `superloop/` is the get-started: students run it in week 2, it gets explained in the talk, and module 2 is its guided migration to kernel threads. More stages land as the semester climbs |
 | [plantillas/](plantillas/) | lab / lecture / SOP / RET templates |
 | [PROJECT_SCENARIO.md](PROJECT_SCENARIO.md) · [LECTURAS.md](LECTURAS.md) · [BOM.md](BOM.md) | The GreenField briefing, the per-week reading guide, and the parts list |
@@ -100,7 +100,7 @@ computation structures, control — into *why real-time*; week 2 opens with a qu
 recap of that conclusion. The tracing session runs at week 5, *before* the theory
 module, so the schedulability labs verify by trace. Content closes at week 12;
 weeks 13–16 belong to the final project. Per-week readings from the course text are
-in **[LECTURAS.md](LECTURAS.md)** (Spanish), including which sections — and which
+in **[LECTURAS.md](LECTURAS.md)**, including which sections — and which
 proofs — to skip.
 
 | Week | Module | Talk (40 min) | Lab (2 h) |

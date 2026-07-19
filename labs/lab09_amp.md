@@ -1,66 +1,67 @@
-# Semana 9 — Driver con devicetree y los dos núcleos (AMP)
-> **Guía técnica:** SOP-09 *(pendiente: sysbuild/AMP)* · **Lectura:** [LECTURAS.md](../LECTURAS.md), semana 9 · **Módulo:** 4
-> **Se entrega hoy:** Taller 2.
+# Week 9 — A devicetree driver and the two cores (AMP)
+> **Tech guide:** SOP-09 *(pending: sysbuild/AMP)* · **Reading:** [LECTURAS.md](../LECTURAS.md), week 9 · **Module:** 4
+> **Due today:** Problem Set 2.
 
-**De:** Ing. Samuel Cifuentes — *"Dos encargos. Uno: el sensor de flujo merece un
-driver de verdad, con su binding — no un `gpio_get` suelto en la app. Dos: la S3
-tiene dos núcleos y estamos usando uno; quiero saber si el segundo núcleo puede
-darle al lazo de control un **peor caso** mejor. La charla de hoy también les debe
-una respuesta honesta: cuándo conviene FreeRTOS — porque algún cliente lo va a exigir."*
+**From:** Eng. Samuel Cifuentes — *"Two assignments. One: the flow sensor deserves
+a real driver, with its binding — not a loose `gpio_get` in the app. Two: the S3
+has two cores and we're using one; I want to know whether the second core can buy
+the control loop a better **worst case**. Today's talk also owes you an honest
+answer: when FreeRTOS is the right call — because some customer will demand it."*
 
-| Stakeholder | Su pregunta | Cómo la responde esta sesión |
+| Stakeholder | Their question | How this session answers it |
 |---|---|---|
-| **Samuel** | ¿El segundo núcleo mejora la cola de la distribución? | Jitter p-máx con y sin núcleo dedicado |
-| **Edwin** | ¿El sensor sobrevive un cambio de placa? | El driver queda detrás del binding, no en la app |
+| **Samuel** | Does the second core improve the tail of the distribution? | Max jitter with and without a dedicated core |
+| **Edwin** | Does the sensor survive a board change? | The driver lives behind the binding, not in the app |
 
-## Lo que vas a medir
+## What you'll measure
 
-| Medición | Tu valor | Nota |
+| Measurement | Your value | Note |
 |---|---|---|
-| Jitter máx del lazo, 1 núcleo, sin carga | ____ µs | referencia (sem. 4) |
-| Jitter máx del lazo, 1 núcleo, **con carga sintética** | ____ µs | la carga: hilo que revienta caché |
-| Jitter máx del lazo en APPCPU, carga en PROCPU | ____ µs | el aislamiento particionado |
-| Promedios de los tres casos | ____ | pista: casi no cambian — la cola sí |
+| Max loop jitter, 1 core, no load | ____ µs | reference (wk 4) |
+| Max loop jitter, 1 core, **with synthetic load** | ____ µs | the load: a cache-thrashing thread |
+| Max loop jitter on APPCPU, load on PROCPU | ____ µs | partitioned isolation |
+| Averages of all three cases | ____ | hint: they barely move — the tail does |
 
-## Tareas
+## Tasks
 
-### Tarea A — El driver con binding
-- Convierte la lectura del YF-S401 en un driver Zephyr mínimo: binding devicetree
-  propio (`vendor,yf-s401`), API de sensor, la app lo consume por `DEVICE_DT_GET`.
-- **Evidencia:** el nodo funcionando igual que antes, pero con el sensor declarado
-  en el overlay y ni un pin quemado en la app.
+### Task A — The driver with a binding
+- Turn the YF-S401 reading into a minimal Zephyr driver: its own devicetree
+  binding (`vendor,yf-s401`), sensor API, the app consumes it via `DEVICE_DT_GET`.
+- **Evidence:** the node working as before, but with the sensor declared in the
+  overlay and not a single hard-coded pin in the app.
 
-### Tarea B — AMP con sysbuild
-- Dos imágenes (SOP-09): el **lazo duro** (con su GPIO de instrumentación) para
-  `esp32s3_devkitc/esp32s3/appcpu`; el resto del nodo + una **carga sintética**
-  para `.../procpu`. Sin consola en la APPCPU (limitación real — `ets_printf` si
-  necesitas depurar): se mide por GPIO, como siempre.
-- **Evidencia:** ambas imágenes corriendo a la vez, toggle del lazo visible.
+### Task B — AMP with sysbuild
+- Two images (SOP-09): the **hard loop** (with its instrumentation GPIO) for
+  `esp32s3_devkitc/esp32s3/appcpu`; the rest of the node + a **synthetic load**
+  for `.../procpu`. No console on the APPCPU (a real limitation — `ets_printf` if
+  you must debug): measurement is by GPIO, as always.
+- **Evidence:** both images running at once, loop toggle visible.
 
-### Tarea C — La cola de la distribución
-- Protocolo de siempre, ≥ 60 s por caso, llena la tabla. Compara **máximos**, no
-  promedios: la tesis de la charla es que particionar no mejora el caso típico sino
-  que corta los picos raros.
-- **Evidencia:** tabla + las tres capturas.
+### Task C — The tail of the distribution
+- Usual protocol, ≥ 60 s per case, fill in the table. Compare **maxima**, not
+  averages: the talk's thesis is that partitioning doesn't improve the typical
+  case — it cuts off the rare spikes.
+- **Evidence:** table + the three captures.
 
-## ¿Y en FreeRTOS?
+## What about FreeRTOS?
 
-Aquí FreeRTOS gana en esta placa: ESP-IDF trae SMP real en la S3 (scheduler global
-sobre ambos núcleos, con pinning opcional por tarea), mientras el port Xtensa de
-Zephyr aún no tiene SMP — hoy lo esquivamos con AMP. Criterio honesto: si tu
-producto es "esta S3 con radio y dos núcleos exprimidos", ESP-IDF/FreeRTOS es la
-opción madura; si es "una familia de productos sobre silicios variados", Zephyr.
+Here FreeRTOS wins on this board: ESP-IDF ships real SMP on the S3 (a global
+scheduler across both cores, with optional per-task pinning), while Zephyr's
+Xtensa port still has no SMP — today we work around it with AMP. The honest
+criterion: if your product is "this S3, radio on, both cores squeezed",
+ESP-IDF/FreeRTOS is the mature option; if it's "a product family across varied
+silicon", Zephyr.
 
-## Entregables (RET)
+## Deliverables (RET)
 
-- **§3 Evidencia semana 9:** la tabla de tres casos + lectura en una frase.
-- **§2 ADR-003 — ¿El lazo duro vive en su propio núcleo?** Decisión con los números
-  de la cola; incluye el costo (dos imágenes, sin consola en APPCPU).
+- **§3 Week-9 evidence:** the three-case table + a one-sentence reading.
+- **§2 ADR-003 — Does the hard loop live on its own core?** Decision backed by the
+  tail numbers; include the cost (two images, no console on APPCPU).
 
-## Rúbrica (100 pts)
+## Rubric (100 pts)
 
 | | pts |
 |---|---|
-| **Ejecución** — driver con binding limpio (20) · AMP corriendo (20) | 40 |
-| **Evidencia** — tabla de tres casos con protocolo constante (20) · capturas (10) | 30 |
-| **Análisis** — máximos vs. promedios bien leídos (15) · ADR-003 con costo reconocido (15) | 30 |
+| **Execution** — clean driver with binding (20) · AMP running (20) | 40 |
+| **Evidence** — three-case table with a constant protocol (20) · captures (10) | 30 |
+| **Analysis** — maxima vs. averages well read (15) · ADR-003 with the cost acknowledged (15) | 30 |

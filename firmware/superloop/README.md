@@ -1,23 +1,23 @@
-# firmware/superloop — el superloop provisto
+# firmware/superloop — the provided superloop
 
-**Estado: pendiente de autoría (Sam).** App Zephyr de referencia que los estudiantes
-**corren, leen y miden** en la semana 2 — su *get started* con Zephyr — y que el
-módulo 2 migra guiadamente a hilos del kernel.
+**Status: pending authoring (Sam).** Reference Zephyr app that students **run,
+read, and measure** in week 2 — their Zephyr *get started* — and that module 2
+migrates, guided, to kernel threads.
 
-Especificación (del [escenario](../../PROJECT_SCENARIO.md)):
+Spec (from the [scenario](../../PROJECT_SCENARIO.md)):
 
-- Un solo hilo `main` + ISRs — sin scheduler. La arquitectura de 4100901, en Zephyr.
-- Tareas del nodo: muestreo periódico (duro), lazo de control → PWM, consola UART
-  (firme), telemetría por consola (suave).
-- **Instrumentación por GPIO** en cada tarea (toggle al entrar/salir) para medir
-  latencia y jitter con el analizador lógico — el lab de la semana 2 vive de esto.
-- Un "comando bloqueante" en la consola que degrada el jitter a propósito — el
-  argumento vivo para el módulo 2.
+- A single `main` thread + ISRs — no scheduler. The 4100901 architecture, in Zephyr.
+- Node tasks: periodic sampling (hard), control loop → PWM, UART console (firm),
+  console telemetry (soft).
+- **GPIO instrumentation** on every task (toggle on entry/exit) to measure latency
+  and jitter with the logic analyzer — the week-2 lab lives off this.
+- A "blocking command" in the console that degrades jitter on purpose — the living
+  argument for module 2.
 
-Targets: `stm32c0116_dk` (primario, semanas 1–2) y `esp32s3_devkitc` vía overlay
-(semana 3 — el porte es parte de la lección). `native_sim` compila para desarrollo;
-no sirve para medir tiempos.
+Targets: `stm32c0116_dk` (primary, weeks 1–2) and `esp32s3_devkitc` via overlay
+(week 3 — the port is part of the lesson). `native_sim` builds for development;
+it is not valid for timing measurements.
 
-Cada pieza (banderas de ISR, trabajo poleado, bottom halves) debe tener su
-contraparte nombrada en la migración del módulo 2 — el mapeo superloop → kernel es
-el contenido de la charla de la semana 3.
+Every piece (ISR flags, polled work, bottom halves) must have a named counterpart
+in module 2's migration — the superloop → kernel mapping is the content of the
+week-3 talk.

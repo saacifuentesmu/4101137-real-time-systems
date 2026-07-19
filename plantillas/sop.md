@@ -1,21 +1,21 @@
-# SOP-NN — <procedimiento>
+# SOP-NN — <procedure>
 
-**Sirve a:** `labs/labNN_*.md` · **Hardware:** <placas/cables exactos>.
-Solo pasos, verificaciones y troubleshooting — el *porqué* vive en el lab.
+**Serves:** `labs/labNN_*.md` · **Hardware:** <exact boards/cables>.
+Steps, checks, and troubleshooting only — the *why* lives in the lab.
 
-## 1. <paso>
+## 1. <step>
 
 ```bash
-# comandos exactos, copiables
+# exact, copy-pasteable commands
 ```
 
-**Verificar:** <salida esperada, literal>.
+**Verify:** <expected output, literal>.
 
-## 2. <paso>
+## 2. <step>
 …
 
-## Solución de problemas
+## Troubleshooting
 
-| Síntoma | Causa probable | Arreglo |
+| Symptom | Likely cause | Fix |
 |---|---|---|
-| <lo que se ve> | <por qué pasa> | <comando o acción> |
+| <what you see> | <why it happens> | <command or action> |

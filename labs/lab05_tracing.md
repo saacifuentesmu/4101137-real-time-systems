@@ -1,62 +1,62 @@
-# Semana 5 — Tracing: ver lo que el analizador no ve
-> **Guía técnica:** SOP-05 *(pendiente)* · **Lectura:** [LECTURAS.md](../LECTURAS.md), semana 5 · **Módulo:** 4
+# Week 5 — Tracing: seeing what the analyzer can't
+> **Tech guide:** SOP-05 *(pending)* · **Reading:** [LECTURAS.md](../LECTURAS.md), week 5 · **Module:** 4
 
-**De:** Ing. Samuel Cifuentes — *"El analizador lógico ve los pines; yo necesito ver
-el **scheduler**: quién corrió, cuándo, por qué, y quién esperó. La próxima semana
-empezamos análisis de planificabilidad y no pienso discutir sobre suposiciones.
-Instrumenten el nodo con tracing y tráiganme la primera traza donde se vea una
-apropiación completa."*
+**From:** Eng. Samuel Cifuentes — *"The logic analyzer sees pins; I need to see the
+**scheduler**: who ran, when, why, and who waited. Next week we start
+schedulability analysis and I refuse to argue over assumptions. Instrument the node
+with tracing and bring me the first trace showing a complete preemption."*
 
-El GPIO + analizador seguirá siendo el juez de los *números* (no perturba); el
-tracing es el juez de la *historia* (quién y por qué). Se usan juntos.
+GPIO + analyzer stays the judge of the *numbers* (it doesn't perturb); tracing is
+the judge of the *story* (who and why). They're used together.
 
-| Stakeholder | Su pregunta | Cómo la responde esta sesión |
+| Stakeholder | Their question | How this session answers it |
 |---|---|---|
-| **Samuel** | ¿Puedo ver una apropiación, no inferirla? | Traza con el instante exacto del switch |
-| **Edwin** | En campo, ¿cómo diagnostico sin analizador? | El tracing viaja en el firmware |
+| **Samuel** | Can I see a preemption, not infer it? | Trace with the exact instant of the switch |
+| **Edwin** | In the field, how do I diagnose without an analyzer? | Tracing travels inside the firmware |
 
-## Lo que vas a medir
+## What you'll measure
 
-| Medición | Tu valor | Contraste |
+| Measurement | Your value | Contrast |
 |---|---|---|
-| Cambio de contexto según la traza | ____ µs | vs. GPIO (sem. 4): ____ µs |
-| Latencia ISR → hilo según la traza | ____ µs | vs. GPIO: ____ µs |
-| CPU load por hilo (%) en operación normal | ____ | suma ≈ 100 % con idle |
-| Overhead del tracing sobre el jitter del muestreo | ____ µs | medido con GPIO, tracing on/off |
+| Context switch per the trace | ____ µs | vs. GPIO (wk 4): ____ µs |
+| ISR → thread latency per the trace | ____ µs | vs. GPIO: ____ µs |
+| Per-thread CPU load (%) in normal operation | ____ | sums ≈ 100 % with idle |
+| Tracing overhead on sampling jitter | ____ µs | measured with GPIO, tracing on/off |
 
-## Tareas
+## Tasks
 
-### Tarea A — Habilitar el tracing
-- Activa el subsistema de tracing de Zephyr en el nodo (SystemView si hay sonda;
-  CTF por UART si no — el SOP da ambas rutas).
-- **Evidencia:** primera traza abierta en el visor, con los hilos del nodo nombrados.
+### Task A — Enable tracing
+- Turn on Zephyr's tracing subsystem in the node (SystemView if you have a probe;
+  CTF over UART if not — the SOP covers both routes).
+- **Evidence:** first trace open in the viewer, with the node's threads named.
 
-### Tarea B — La historia de una apropiación
-- Genera un evento de flujo mientras corre la consola: captura en la traza la
-  cadena ISR → `k_msgq` → despertar del hilo → apropiación de la consola.
-- Anota los timestamps y compara contra la medición por GPIO.
-- **Evidencia:** captura de la traza anotada (flechas sobre los eventos).
+### Task B — The story of one preemption
+- Generate a flow event while the console runs: capture in the trace the chain
+  ISR → `k_msgq` → thread wake-up → preemption of the console.
+- Note the timestamps and compare against the GPIO measurement.
+- **Evidence:** annotated trace screenshot (arrows over the events).
 
-### Tarea C — El precio de mirar
-- El tracing también es carga. Mide el jitter del muestreo (protocolo de siempre,
-  por GPIO) con tracing encendido y apagado; llena la fila 4.
-- **Evidencia:** las dos capturas + el delta.
+### Task C — The price of looking
+- Tracing is load too. Measure sampling jitter (usual protocol, via GPIO) with
+  tracing on and off; fill in row 4.
+- **Evidence:** both captures + the delta.
 
-## ¿Y en FreeRTOS?
+## What about FreeRTOS?
 
-Mismo concepto, herramientas distintas: `configUSE_TRACE_FACILITY` + Tracealyzer
-(comercial) o SystemView. La lección transferible es la del instrumento: todo
-observador perturba — por eso el curso mide *con* GPIO y *explica* con trazas.
+Same concept, different tools: `configUSE_TRACE_FACILITY` + Tracealyzer
+(commercial) or SystemView. The transferable lesson is about instruments: every
+observer perturbs — which is why this course measures *with* GPIO and explains
+*with* traces.
 
-## Entregables (RET)
+## Deliverables (RET)
 
-- **§3 Evidencia semana 5:** tabla + la traza anotada de la apropiación.
-- **§1:** anota junto a cada `C_i` con qué instrumento se midió de aquí en adelante.
+- **§3 Week-5 evidence:** table + the annotated preemption trace.
+- **§1:** from now on, note next to each `C_i` which instrument measured it.
 
-## Rúbrica (100 pts)
+## Rubric (100 pts)
 
 | | pts |
 |---|---|
-| **Ejecución** — tracing operativo con hilos nombrados (20) · apropiación capturada (20) | 40 |
-| **Evidencia** — tabla completa con ambos instrumentos (20) · traza anotada legible (10) | 30 |
-| **Análisis** — traza vs. GPIO explicado (¿por qué difieren?) (15) · overhead del tracing leído correctamente (15) | 30 |
+| **Execution** — tracing working with named threads (20) · preemption captured (20) | 40 |
+| **Evidence** — complete table with both instruments (20) · readable annotated trace (10) | 30 |
+| **Analysis** — trace vs. GPIO explained (why do they differ?) (15) · tracing overhead read correctly (15) | 30 |

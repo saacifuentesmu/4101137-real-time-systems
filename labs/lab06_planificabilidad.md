@@ -1,63 +1,64 @@
-# Semana 6 — Planificabilidad: la teoría, puesta a prueba
-> **Lectura:** [LECTURAS.md](../LECTURAS.md), semana 6 (incluye el opcional de Lee & Seshia) · **Módulo:** 3
-> **Taller 1 sale hoy** (ejercicios de caps. 2 y 4; se entrega en el workshop (semana 8)).
+# Week 6 — Schedulability: the theory, put to the test
+> **Reading:** [LECTURAS.md](../LECTURAS.md), week 6 (includes the optional Lee & Seshia) · **Module:** 3
+> **Problem Set 1 goes out today** (exercises from chs. 2 and 4; due at the workshop, week 8).
 
-**De:** Ing. Samuel Cifuentes — *"Daniela pregunta si puede agregar dos sensores más
-al nodo. Hoy ustedes responden como ingenieros: no 'probemos a ver', sino 'la
-utilización queda en X, la prueba dice Y'. Y como no les creo a los teoremas más
-que a ustedes, repro­dúzcanme el caso famoso: un task set que RM pierde y EDF
-cumple — en nuestra placa, no en el libro."*
+**From:** Eng. Samuel Cifuentes — *"Daniela is asking whether she can add two more
+sensors to the node. Today you answer like engineers: not 'let's try and see', but
+'utilization lands at X, the test says Y'. And since I don't trust theorems any
+more than I trust you, reproduce the famous case for me: a task set that RM misses
+and EDF meets — on our board, not in the book."*
 
-| Stakeholder | Su pregunta | Cómo la responde esta sesión |
+| Stakeholder | Their question | How this session answers it |
 |---|---|---|
-| **Samuel** | ¿Cabe más carga en el nodo? | U calculada con `C_i` medidos + la prueba aplicable |
-| **Daniela** | ¿Y si el riego llega tarde *un poquito*? | El lazo con jitter inducido: la degradación, medida |
+| **Samuel** | Does more load fit on the node? | U computed from measured `C_i` + the applicable test |
+| **Daniela** | What if irrigation is *a little* late? | The loop with induced jitter: the degradation, measured |
 
-## Lo que vas a medir
+## What you'll measure
 
-| Medición | Tu valor | Predicción |
+| Measurement | Your value | Prediction |
 |---|---|---|
-| U del task set sintético (3 tareas) | ____ | diseñado a U ≈ 0.97 |
-| Deadline miss bajo RM (¿cuál tarea, cuándo?) | ____ | la teoría dice: sí pierde (Fig. 4.13) |
-| Deadline miss bajo EDF | ____ | la teoría dice: U ≤ 1 ⇒ cumple |
-| Error del lazo de flujo con jitter inducido de 0 / 2 / 5 ms | ____ / ____ / ____ | crece con el jitter |
+| U of the synthetic task set (3 tasks) | ____ | designed at U ≈ 0.97 |
+| Deadline miss under RM (which task, when?) | ____ | theory says: yes, it misses (Fig. 4.13) |
+| Deadline miss under EDF | ____ | theory says: U ≤ 1 ⇒ it meets |
+| Flow-loop error with induced jitter of 0 / 2 / 5 ms | ____ / ____ / ____ | grows with jitter |
 
-## Tareas
+## Tasks
 
-### Tarea A — Fig. 4.13 en vivo
-- Implementa el task set de la Fig. 4.13 del libro (períodos y cómputos dados; el
-  "cómputo" es busy-wait calibrado). Corre con prioridades RM; captura el miss.
-- Cambia a EDF (`CONFIG_SCHED_DEADLINE=y`, misma prioridad estática,
-  `k_thread_deadline_set` por período). Verifica que cumple.
-- **Evidencia:** dos capturas del analizador — el miss bajo RM, el cumplimiento bajo EDF.
+### Task A — Fig. 4.13, live
+- Implement the task set from the book's Fig. 4.13 (periods and computation times
+  given; "computation" is a calibrated busy-wait). Run with RM priorities; capture
+  the miss.
+- Switch to EDF (`CONFIG_SCHED_DEADLINE=y`, same static priority,
+  `k_thread_deadline_set` each period). Verify it meets.
+- **Evidence:** two analyzer captures — the miss under RM, the success under EDF.
 
-### Tarea B — ¿Cabe la carga nueva?
-- Con los `C_i` medidos del nodo real: calcula U, aplica Liu & Layland y la prueba
-  hiperbólica. Agrega las "dos tareas de Daniela" (parámetros en clase) y repite.
-- **Evidencia:** el cálculo en el RET §4, con veredicto y qué prueba lo sostiene.
+### Task B — Does the new load fit?
+- With the real node's measured `C_i`: compute U, apply Liu & Layland and the
+  hyperbolic test. Add "Daniela's two tasks" (parameters given in class) and repeat.
+- **Evidence:** the calculation in RET §4, with a verdict and which test backs it.
 
-### Tarea C — Jitter vs. control (el puente con control)
-- Inyecta jitter artificial en el lazo de flujo (retardo aleatorio 0–N ms antes de
-  actuar). Para N = 0, 2, 5 ms: mide el error del lazo (desviación del caudal
-  objetivo, o del setpoint del montaje del curso).
-- **Evidencia:** tabla error-vs-jitter + una frase: ¿en qué N el lazo deja de ser útil?
+### Task C — Jitter vs. control (the bridge to control theory)
+- Inject artificial jitter into the flow loop (random 0–N ms delay before
+  actuating). For N = 0, 2, 5 ms: measure the loop error (deviation from target
+  flow, or from the course rig's setpoint).
+- **Evidence:** error-vs-jitter table + one sentence: at which N does the loop stop being useful?
 
-## ¿Y en FreeRTOS?
+## What about FreeRTOS?
 
-FreeRTOS solo trae prioridades fijas — no hay EDF en el kernel. La Tarea A no se
-puede reproducir tal cual: con U = 0.97 y FreeRTOS, la respuesta profesional es
-re-diseñar el task set para que pase la prueba RM (o bajar U). Esa restricción es
-real en la industria — y es la razón por la que el libro dedica medio capítulo a RM.
+FreeRTOS only ships fixed priorities — there is no EDF in the kernel. Task A can't
+be reproduced as-is: with U = 0.97 and FreeRTOS, the professional answer is to
+redesign the task set until it passes the RM test (or lower U). That constraint is
+real in industry — and it's why the book spends half a chapter on RM.
 
-## Entregables (RET)
+## Deliverables (RET)
 
-- **§4 Planificabilidad:** U, ambas pruebas, veredicto de la carga de Daniela.
-- **§3 Evidencia semana 6:** capturas de Fig. 4.13 + tabla jitter-vs-control.
+- **§4 Schedulability:** U, both tests, verdict on Daniela's load.
+- **§3 Week-6 evidence:** Fig. 4.13 captures + jitter-vs-control table.
 
-## Rúbrica (100 pts)
+## Rubric (100 pts)
 
 | | pts |
 |---|---|
-| **Ejecución** — task set 4.13 con miss bajo RM (15) · EDF cumpliendo (15) · jitter inyectado (10) | 40 |
-| **Evidencia** — capturas de ambos regímenes (15) · tabla error-vs-jitter (15) | 30 |
-| **Análisis** — U y pruebas bien aplicadas al caso Daniela (20) · lectura control-jitter (10) | 30 |
+| **Execution** — 4.13 task set missing under RM (15) · EDF meeting (15) · jitter injected (10) | 40 |
+| **Evidence** — captures of both regimes (15) · error-vs-jitter table (15) | 30 |
+| **Analysis** — U and tests correctly applied to Daniela's case (20) · control-jitter reading (10) | 30 |

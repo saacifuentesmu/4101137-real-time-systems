@@ -1,66 +1,67 @@
-# Semana 11 — Tareas periódicas en Linux: de CBS a SCHED_DEADLINE
-> **Lectura:** [LECTURAS.md](../LECTURAS.md), semana 11 · **Módulo:** 5
+# Week 11 — Periodic tasks in Linux: from CBS to SCHED_DEADLINE
+> **Reading:** [LECTURAS.md](../LECTURAS.md), week 11 · **Module:** 5
 
-**De:** Ing. Samuel Cifuentes — *"En el MCU las prioridades nos alcanzaban porque
-controlábamos cada línea de código. En el Hub no: la GUI y el enrutamiento son
-software que no escribimos. Necesito que el lazo de bombas tenga su CPU
-**garantizada por contrato**, corra lo que corra al lado. Eso existe y viene de la
-teoría que ya vieron: se llama SCHED_DEADLINE. Impleménten el lazo como tarea
-periódica y demuéstrenme el aislamiento."*
+**From:** Eng. Samuel Cifuentes — *"On the MCU, priorities were enough because we
+controlled every line of code. On the Hub we don't: the GUI and the routing are
+software we didn't write. I need the pump loop to have its CPU **guaranteed by
+contract**, no matter what runs next to it. That exists, and it comes from theory
+you've already seen: it's called SCHED_DEADLINE. Implement the loop as a periodic
+task and prove the isolation to me."*
 
-Hoy se sigue el cap. 12 del libro casi al pie de la letra (pthread + patrón ptask).
+Today follows the book's ch. 12 almost to the letter (pthread + the ptask pattern).
 
-| Stakeholder | Su pregunta | Cómo la responde esta sesión |
+| Stakeholder | Their question | How this session answers it |
 |---|---|---|
-| **Samuel** | ¿El lazo cumple su período aunque un vecino se enloquezca? | Misses con FIFO vs. DEADLINE bajo un "hog" |
-| **Edward** | ¿Un proceso comprometido puede matar de hambre al lazo? | Con DEADLINE, el contrato lo impide — demostrado |
+| **Samuel** | Does the loop keep its period even if a neighbor goes rogue? | Misses under FIFO vs. DEADLINE with a "hog" running |
+| **Edward** | Can a compromised process starve the loop? | With DEADLINE, the contract forbids it — demonstrated |
 
-## Lo que vas a medir
+## What you'll measure
 
-| Medición (lazo de 10 ms, ≥ 5 min) | Misses | Jitter máx (µs) |
+| Measurement (10 ms loop, ≥ 5 min) | Misses | Max jitter (µs) |
 |---|---|---|
-| `SCHED_FIFO` prio 90, sistema tranquilo | ____ | ____ |
-| `SCHED_FIFO` prio 90 + **hog FIFO prio 95** | ____ | ____ |
-| `SCHED_DEADLINE` (runtime 2 ms / period 10 ms) + el mismo hog | ____ | ____ |
+| `SCHED_FIFO` prio 90, quiet system | ____ | ____ |
+| `SCHED_FIFO` prio 90 + **FIFO hog at prio 95** | ____ | ____ |
+| `SCHED_DEADLINE` (runtime 2 ms / period 10 ms) + the same hog | ____ | ____ |
 
-## Tareas
+## Tasks
 
-### Tarea A — La tarea periódica (cap. 12)
-- Implementa el lazo de bombas como pthread periódico con `clock_nanosleep(TIMER_ABSTIME)`
-  y contador de misses — el patrón ptask del libro (§12, código dado).
-- Instrumenta con un GPIO del SBC (el analizador sigue siendo el juez).
-- **Evidencia:** el lazo corriendo con misses = 0 en sistema tranquilo.
+### Task A — The periodic task (ch. 12)
+- Implement the pump loop as a periodic pthread with
+  `clock_nanosleep(TIMER_ABSTIME)` and a miss counter — the book's ptask pattern
+  (§12, code given).
+- Instrument with an SBC GPIO (the analyzer is still the judge).
+- **Evidence:** the loop running with misses = 0 on a quiet system.
 
-### Tarea B — Prioridades no bastan
-- Corre el lazo con `chrt -f 90`. Lanza el "hog": un busy-loop con `chrt -f 95`
-  (una prioridad mal asignada — error realista de integración).
-- Llena la fila 2. El lazo se muere de hambre: captúralo.
-- **Evidencia:** conteo de misses + captura del GPIO congelado.
+### Task B — Priorities aren't enough
+- Run the loop with `chrt -f 90`. Launch the "hog": a busy-loop with `chrt -f 95`
+  (a misassigned priority — a realistic integration mistake).
+- Fill in row 2. The loop starves: capture it.
+- **Evidence:** miss count + capture of the frozen GPIO.
 
-### Tarea C — El contrato CBS
-- Misma tarea, ahora `sched_setattr` con `SCHED_DEADLINE` (runtime 2 ms,
-  deadline = period = 10 ms). El mismo hog al lado.
-- Llena la fila 3. Conecta con la teoría en dos frases: el runtime/period es el
-  `U_s = Q_s/T_s` del CBS — el aislamiento que el libro promete, observado.
-- **Evidencia:** misses = 0 bajo el hog + las dos frases en el RET.
+### Task C — The CBS contract
+- Same task, now `sched_setattr` with `SCHED_DEADLINE` (runtime 2 ms,
+  deadline = period = 10 ms). The same hog next to it.
+- Fill in row 3. Connect it to theory in two sentences: runtime/period is the
+  CBS's `U_s = Q_s/T_s` — the isolation the book promises, observed.
+- **Evidence:** misses = 0 under the hog + the two sentences in the RET.
 
-## ¿Y en FreeRTOS?
+## What about FreeRTOS?
 
-No hay equivalente: FreeRTOS (y Zephyr) dan prioridades, no *contratos de CPU*.
-En un MCU el hog de la Tarea B se previene revisando el código propio; en un
-sistema con software de terceros esa revisión es imposible — por eso el
-reservation-based scheduling vive en Linux y por eso el Hub lo necesita.
+No equivalent: FreeRTOS (and Zephyr) give you priorities, not *CPU contracts*. On
+an MCU you prevent Task B's hog by reviewing your own code; in a system running
+third-party software that review is impossible — that's why reservation-based
+scheduling lives in Linux, and why the Hub needs it.
 
-## Entregables (RET)
+## Deliverables (RET)
 
-- **§3 Evidencia semana 11:** la tabla de tres regímenes + capturas.
-- **§4:** el presupuesto del lazo del Hub como CBS: `U_s` elegido y su margen
-  (runtime medido de la Tarea A + colchón justificado).
+- **§3 Week-11 evidence:** the three-regime table + captures.
+- **§4:** the Hub loop's budget as a CBS: chosen `U_s` and its margin (Task A's
+  measured runtime + a justified cushion).
 
-## Rúbrica (100 pts)
+## Rubric (100 pts)
 
 | | pts |
 |---|---|
-| **Ejecución** — tarea periódica ptask correcta (15) · hambruna reproducida (10) · DEADLINE aislando (15) | 40 |
-| **Evidencia** — tabla completa + capturas de los tres regímenes (30) | 30 |
-| **Análisis** — conexión CBS↔SCHED_DEADLINE en sus palabras (15) · presupuesto U_s justificado (15) | 30 |
+| **Execution** — correct ptask periodic task (15) · starvation reproduced (10) · DEADLINE isolating (15) | 40 |
+| **Evidence** — complete table + captures of the three regimes (30) | 30 |
+| **Analysis** — CBS↔SCHED_DEADLINE connection in their own words (15) · justified `U_s` budget (15) | 30 |

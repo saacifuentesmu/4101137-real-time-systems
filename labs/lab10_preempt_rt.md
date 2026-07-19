@@ -1,63 +1,65 @@
-# Semana 10 — PREEMPT_RT: Linux entra al lazo
-> **Guía técnica:** SOP-10 *(pendiente: imagen del SBC + kernel RT)* · **Lectura:** [LECTURAS.md](../LECTURAS.md), semana 10 · **Módulo:** 5
-> **Desde hoy:** grupos grandes (dos parejas), un SBC por grupo. El Kit Hub se necesita esta semana ([BOM](../BOM.md)).
+# Week 10 — PREEMPT_RT: Linux enters the loop
+> **Tech guide:** SOP-10 *(pending: SBC image + RT kernel)* · **Reading:** [LECTURAS.md](../LECTURAS.md), week 10 · **Module:** 5
+> **Starting today:** larger groups (two pairs), one SBC per group. The Hub Kit is needed this week ([BOM](../BOM.md)).
 
-**De:** Ing. Samuel Cifuentes — *"El Hub corre Linux: GUI, enrutamiento, nube — eso
-no se hace en un MCU. Pero el Hub también controla la estación de bombas, y ahí
-Linux tiene fama merecida de impuntual. La fama se acabó de discutir con opiniones:
-instalen el kernel PREEMPT_RT y tráiganme la distribución de latencias — stock vs.
-RT, sin carga y bajo carga. Con esa curva decidimos si el Hub puede tener deberes duros."*
+**From:** Eng. Samuel Cifuentes — *"The Hub runs Linux: GUI, routing, cloud — you
+don't do that on an MCU. But the Hub also controls the pump station, and there
+Linux has a well-earned reputation for tardiness. That reputation is done being
+argued with opinions: install the PREEMPT_RT kernel and bring me the latency
+distribution — stock vs. RT, unloaded and under load. That curve decides whether
+the Hub can hold hard duties."*
 
-| Stakeholder | Su pregunta | Cómo la responde esta sesión |
+| Stakeholder | Their question | How this session answers it |
 |---|---|---|
-| **Samuel** | ¿Cuál es el peor caso de despertar en este SBC? | Histograma de `cyclictest`, máx bajo carga |
-| **Gustavo** | ¿Necesitamos un MCU extra en el Hub, o basta Linux RT? | La cola del histograma responde |
+| **Samuel** | What's the worst-case wake-up on this SBC? | `cyclictest` histogram, max under load |
+| **Gustavo** | Do we need an extra MCU in the Hub, or is RT Linux enough? | The histogram's tail answers |
 
-## Lo que vas a medir
+## What you'll measure
 
-| Medición (`cyclictest`, ≥ 5 min c/u) | Máx (µs) | p99 (µs) |
+| Measurement (`cyclictest`, ≥ 5 min each) | Max (µs) | p99 (µs) |
 |---|---|---|
-| Kernel stock, sin carga | ____ | ____ |
-| Kernel stock, **bajo carga** (`stress-ng` + tráfico) | ____ | ____ |
-| Kernel PREEMPT_RT, sin carga | ____ | ____ |
-| Kernel PREEMPT_RT, bajo carga | ____ | ____ |
+| Stock kernel, no load | ____ | ____ |
+| Stock kernel, **under load** (`stress-ng` + traffic) | ____ | ____ |
+| PREEMPT_RT kernel, no load | ____ | ____ |
+| PREEMPT_RT kernel, under load | ____ | ____ |
 
-## Tareas
+## Tasks
 
-### Tarea A — Bring-up del SBC
-- Imagen con kernel PREEMPT_RT en el SBC del grupo (SOP-10: imagen preparada del
-  curso o kernel RT del distro). Verifica: `uname -v` debe decir `PREEMPT_RT`.
-- **Evidencia:** salida de `uname -a` + acceso SSH del grupo.
+### Task A — SBC bring-up
+- Image with a PREEMPT_RT kernel on the group's SBC (SOP-10: course-prepared image
+  or the distro's RT kernel). Verify: `uname -v` must say `PREEMPT_RT`.
+- **Evidence:** `uname -a` output + the group's SSH access.
 
-### Tarea B — La curva que decide
-- `cyclictest -m -Sp90 -i 1000 -h 400 -D 5m` en las cuatro condiciones de la tabla.
-  Carga: `stress-ng --cpu 0 --io 2` + un `ping -f` desde un portátil (tráfico real).
-- Grafica los cuatro histogramas (el SOP trae el script de ploteo).
-- **Evidencia:** los cuatro histogramas + la tabla llena.
+### Task B — The curve that decides
+- `cyclictest -m -Sp90 -i 1000 -h 400 -D 5m` under the table's four conditions.
+  Load: `stress-ng --cpu 0 --io 2` + a `ping -f` from a laptop (real traffic).
+- Plot the four histograms (the SOP ships the plotting script).
+- **Evidence:** the four histograms + the filled table.
 
-### Tarea C — Leer la cola
-- En el RET: ¿dónde está el máximo de PREEMPT_RT bajo carga vs. el deadline de
-  10 ms del lazo de bombas? ¿Y vs. los ~µs del MCU (semana 9)? Tres frases: qué
-  puede y qué no puede prometer este SBC.
-- **Evidencia:** el párrafo, citando los números de la tabla.
+### Task C — Reading the tail
+- In the RET: where does PREEMPT_RT's max under load sit vs. the pump loop's 10 ms
+  deadline? And vs. the MCU's ~µs (week 9)? Three sentences: what this SBC can and
+  cannot promise.
+- **Evidence:** the paragraph, citing the table's numbers.
 
-## ¿Y en FreeRTOS?
+## What about FreeRTOS?
 
-Cambio de escala, misma pregunta. En el MCU, el peor caso lo daba el kernel chico
-(FreeRTOS o Zephyr: ~µs); en Linux lo da el kernel gigante (~decenas–cientos de µs
-incluso con RT). La arquitectura del Hub —qué vive en Linux y qué exigiría volver a
-un MCU— es exactamente esa comparación, y es el ADR central del proyecto final.
+Change of scale, same question. On the MCU the worst case came from the small
+kernel (FreeRTOS or Zephyr: ~µs); on Linux it comes from the giant kernel
+(~tens–hundreds of µs even with RT). The Hub's architecture — what lives in Linux
+and what would force a return to an MCU — is exactly that comparison, and it's the
+final project's central ADR.
 
-## Entregables (RET)
+## Deliverables (RET)
 
-- **§3 Evidencia semana 10:** tabla + histogramas de las cuatro condiciones.
-- **§1:** nueva sección del task set: las tareas del Hub (bombas, interlock, GUI,
-  enrutamiento) con sus tipos y deadlines — `C_i` pendientes.
+- **§3 Week-10 evidence:** table + histograms for the four conditions.
+- **§1:** new task-set section: the Hub's tasks (pumps, interlock, GUI, routing)
+  with their types and deadlines — `C_i` pending.
 
-## Rúbrica (100 pts)
+## Rubric (100 pts)
 
 | | pts |
 |---|---|
-| **Ejecución** — kernel RT verificado (15) · cuatro corridas con protocolo constante (25) | 40 |
-| **Evidencia** — histogramas legibles + tabla (30) | 30 |
-| **Análisis** — lectura de la cola vs. deadlines del Hub y vs. el MCU (30) | 30 |
+| **Execution** — RT kernel verified (15) · four runs with a constant protocol (25) | 40 |
+| **Evidence** — readable histograms + table (30) | 30 |
+| **Analysis** — tail read against the Hub's deadlines and against the MCU (30) | 30 |

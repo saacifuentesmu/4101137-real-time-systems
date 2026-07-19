@@ -1,63 +1,64 @@
-# Semana 3 — El porte a la S3 y el primer hilo
-> **Lectura:** [LECTURAS.md](../LECTURAS.md), semana 3 · **Módulo:** 2
+# Week 3 — The S3 port and the first thread
+> **Reading:** [LECTURAS.md](../LECTURAS.md), week 3 · **Module:** 2
 
-**De:** Ing. Samuel Cifuentes — *"Dos noticias. Uno: producción eligió la ESP32-S3
-para el nodo — más memoria, radio, y dos núcleos que usaremos después. Dos: vi la
-línea base con el comando bloqueante; autorizo evaluar el kernel. Primero muévanme
-el superloop a la S3 **sin reescribirlo** — si eligieron bien la plataforma de
-software, eso cuesta un overlay, no un porting. Luego, el primer hilo."*
+**From:** Eng. Samuel Cifuentes — *"Two pieces of news. One: production picked the
+ESP32-S3 for the node — more memory, a radio, and two cores we'll use later. Two: I
+saw the baseline with the blocking command; I'm authorizing a kernel evaluation.
+First, move the superloop to the S3 **without rewriting it** — if we chose the
+software platform well, that costs an overlay, not a porting effort. Then, the
+first thread."*
 
-| Stakeholder | Su pregunta | Cómo la responde esta sesión |
+| Stakeholder | Their question | How this session answers it |
 |---|---|---|
-| **Samuel** | ¿Cuánto costó cambiar de silicio? | Líneas cambiadas: contarlas en el diff |
-| **Gustavo** | ¿La S3 es "peor" para tiempo real que la M0+? | Comparación de jitter mismo-código, dos chips |
+| **Samuel** | What did changing silicon cost? | Changed lines: count them in the diff |
+| **Gustavo** | Is the S3 "worse" for real time than the M0+? | Same-code jitter comparison, two chips |
 
-## Lo que vas a medir
+## What you'll measure
 
-| Medición | C0116-DK (sem. 2) | S3 (hoy) |
+| Measurement | C0116-DK (wk 2) | S3 (today) |
 |---|---|---|
-| Jitter máx del muestreo (superloop) | (copiar) | ____ µs |
-| Latencia ISR → atención | (copiar) | ____ µs |
-| Jitter máx del muestreo **con el hilo de muestreo** (kernel) | — | ____ µs |
+| Max sampling jitter (superloop) | (copy) | ____ µs |
+| ISR → service latency | (copy) | ____ µs |
+| Max sampling jitter **with the sampling thread** (kernel) | — | ____ µs |
 
-## Tareas
+## Tasks
 
-### Tarea A — El porte (devicetree en acción)
-- `west build -p -b esp32s3_devkitc/esp32s3/procpu firmware/superloop` con el
-  overlay de pines para la S3 (los GPIO de instrumentación cambian de puerto).
-- Cuenta el costo real del porte: `git diff --stat` — ¿cuántas líneas, y de qué tipo
-  (¿código C o descripción de hardware?)?
-- **Evidencia:** el diff-stat + el superloop corriendo en la S3.
+### Task A — The port (devicetree in action)
+- `west build -p -b esp32s3_devkitc/esp32s3/procpu firmware/superloop` with the S3
+  pin overlay (the instrumentation GPIOs move to a different port).
+- Count the real cost of the port: `git diff --stat` — how many lines, and of what
+  kind (C code, or hardware description)?
+- **Evidence:** the diff-stat + the superloop running on the S3.
 
-### Tarea B — Dos silicios, mismo código
-- Repite la medición de línea base de la semana 2 sobre la S3; llena la columna S3.
-- ¿Dónde aparece jitter que la M0+ no tenía? (Pista de la charla: la flash externa
-  y su caché.) Dos frases en el RET.
-- **Evidencia:** tabla comparativa + capturas.
+### Task B — Two silicons, same code
+- Repeat the week-2 baseline measurement on the S3; fill in the S3 column.
+- Where does jitter appear that the M0+ didn't have? (Hint from the talk: the
+  external flash and its cache.) Two sentences in the RET.
+- **Evidence:** comparison table + captures.
 
-### Tarea C — El primer hilo
-- Migra **solo la tarea de muestreo** a un hilo del kernel (`K_THREAD_DEFINE`,
-  prioridad apropiativa, `k_msgq` hacia el loop principal) siguiendo el mapeo de la
-  charla. El resto sigue en el superloop.
-- Mide: ¿el comando bloqueante sigue arruinando el muestreo?
-- **Evidencia:** captura con el comando bloqueante activo + jitter del hilo.
+### Task C — The first thread
+- Migrate **only the sampling task** to a kernel thread (`K_THREAD_DEFINE`,
+  preemptive priority, `k_msgq` toward the main loop) following the talk's mapping.
+  Everything else stays in the superloop.
+- Measure: does the blocking command still ruin the sampling?
+- **Evidence:** capture with the blocking command active + the thread's jitter.
 
-## ¿Y en FreeRTOS?
+## What about FreeRTOS?
 
-La Tarea C sería `xTaskCreate(sample_task, "sample", stack, NULL, prio, NULL)` +
-`xQueueSend`/`xQueueReceive` — API distinta, mismo concepto. Lo que FreeRTOS **no**
-tiene es la Tarea A: sin devicetree, cambiar de STM32 a ESP32 es cambiar de SDK, no
-de overlay.
+Task C would be `xTaskCreate(sample_task, "sample", stack, NULL, prio, NULL)` +
+`xQueueSend`/`xQueueReceive` — different API, same concept. What FreeRTOS does
+**not** have is Task A: without devicetree, moving from STM32 to ESP32 means
+changing SDKs, not overlays.
 
-## Entregables (RET)
+## Deliverables (RET)
 
-- **§3 Evidencia semana 3:** tabla de dos silicios + explicación del jitter nuevo.
-- **§1:** `C_i` re-medidos en la S3 (la plataforma definitiva del task set).
+- **§3 Week-3 evidence:** two-silicon table + explanation of the new jitter.
+- **§1:** `C_i` re-measured on the S3 (the task set's final platform).
 
-## Rúbrica (100 pts)
+## Rubric (100 pts)
 
 | | pts |
 |---|---|
-| **Ejecución** — porte con overlay, sin tocar C (15) · hilo de muestreo funcionando (25) | 40 |
-| **Evidencia** — tabla comparativa completa (20) · diff-stat del porte (10) | 30 |
-| **Análisis** — lectura correcta del jitter M0+ vs S3 (15) · por qué el hilo sobrevive al comando bloqueante (15) | 30 |
+| **Execution** — port via overlay, no C touched (15) · sampling thread working (25) | 40 |
+| **Evidence** — complete comparison table (20) · port diff-stat (10) | 30 |
+| **Analysis** — correct reading of M0+ vs. S3 jitter (15) · why the thread survives the blocking command (15) | 30 |

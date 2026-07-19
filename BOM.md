@@ -1,57 +1,57 @@
-# Lista de Componentes (BOM) — por grupo de 2–3 estudiantes
+# Bill of Materials (BOM) — per group of 2–3 students
 
-Los laboratorios se hacen en grupos de 2–3. Cada grupo compra un **Kit Control**
-(módulos 0–4 y proyecto final). El **Kit Hub** (módulos 5–6) es uno por grupo grande
-(4–6, dos grupos fusionados) o lo presta el laboratorio.
+Labs are done in groups of 2–3. Each group buys one **Control Kit** (modules 0–4
+and the final project). The **Hub Kit** (modules 5–6) is one per large group
+(4–6, two groups merged) or lent by the lab.
 
-> Precios de referencia julio 2026 en COP; **verificar en el enlace antes de
-> comprar** (fluctúan por vendedor). En AliExpress el total baja ~40–60 % pero tarda
-> 2–5 semanas y puede pasar por aduana: pedir a más tardar en la semana 1–2 del
-> semestre (solo para lo que se usa de la semana 5 en adelante — la placa cómprenla
-> local).
+> Reference prices July 2026 in COP; **check the link before buying** (they
+> fluctuate by seller). On AliExpress the total drops ~40–60 % but takes 2–5
+> weeks and may clear customs: order no later than weeks 1–2 of the semester
+> (only for what's used from week 5 on — buy the board locally).
 
-> **Placa de arranque (semanas 1–2)**: la **STM32C0116-DK** (Cortex-M0+) **la presta
-> el curso** — no hace parte del kit. Desde la semana 3 todo corre en la ESP32-S3.
+> **Starter board (weeks 1–2)**: the **STM32C0116-DK** (Cortex-M0+) **is lent by
+> the course** — it's not part of the kit. From week 3 on, everything runs on the
+> ESP32-S3.
 
-## Kit Control (uno por grupo de 2–3)
+## Control Kit (one per group of 2–3)
 
-| # | Componente | Cant. | Para qué | MercadoLibre CO (aprox.) | AliExpress (aprox.) |
-|---|-----------|-------|----------|--------------------------|---------------------|
-| 1 | **ESP32-S3 DevKitC-1 N16R8** (o YD-ESP32-S3 N8R2) | 1 | La placa del curso | [$41.000–85.000](https://listado.mercadolibre.com.co/esp32-s3-devkitc) ([opción 1](https://articulo.mercadolibre.com.co/MCO-1494660367-tarjeta-desarrollo-esp32-s3-n16r8-doble-puerto-usb-tipo-c-_JM), [opción 2](https://articulo.mercadolibre.com.co/MCO-1998898288-yd-esp32-s3-devkitc-n8r2-wroom-wifi-bluetooth-usb-dual-_JM)) | US$6–10 |
-| 2 | **Analizador lógico USB 8 ch 24 MHz** | 1 | Medir latencia/jitter — el instrumento central del curso | [$30.000–50.000](https://listado.mercadolibre.com.co/analizador-logico-usb) ([con ganchos](https://articulo.mercadolibre.com.co/MCO-1420558229-analizador-logico-usb-24mhz-8ch-12-ganchos-de-prueba-cab-_JM)); también [Electronilab](https://electronilab.co/tienda/analizador-logico-usb-8-canales-24mhz/) | US$4–6 |
-| 3 | **Pantalla TFT táctil 2.8" ILI9341 (SPI)** | 1 | GUI local del nodo Control (LVGL sobre Zephyr) | [$35.000–60.000](https://listado.mercadolibre.com.co/ili9341) ([ejemplo](https://articulo.mercadolibre.com.co/MCO-2885980352-lcd-tft-tactil-28-pulgadas-240x320-ili9341-esp32-arduino-_JM)) | US$6–9 |
-| 4 | **Sensor de flujo YF-S401** (o YF-S201) | 1 | "Caudal de riego": pulsos Hall → interrupciones, tarea dura de muestreo | [$15.000–30.000](https://listado.mercadolibre.com.co/sensor-de-flujo-yf-s201) ([YF-S401](https://articulo.mercadolibre.com.co/MCO-865008893-sensor-de-flujo-de-agua-yf-s401-_JM)) | US$3–5 |
-| 5 | **Mini bomba sumergible 5 V** + manguera | 1 | El actuador del lazo de control | [$8.000–15.000](https://listado.mercadolibre.com.co/mini-bombas-de-agua-arduino) ([ejemplo](https://articulo.mercadolibre.com.co/MCO-524609873-mini-bomba-de-agua-sumergible-5v-proyectos-arduino-_JM)) | US$2–3 |
-| 6 | **Driver puente H MX1508/L298N** (o módulo MOSFET) | 1 | PWM hacia la bomba (nunca directo al GPIO) | $8.000–15.000 ([buscar](https://listado.mercadolibre.com.co/modulo-driver-motor-mx1508)) | US$1–2 |
-| 7 | **Servo SG90** | 1 | "Válvula": segunda salida con deadline | $10.000–15.000 ([buscar](https://listado.mercadolibre.com.co/servo-sg90)) | US$2 |
-| 8 | **DS18B20** (sonda) o termistor | 1 | Temperatura: sensor lento para la telemetría suave | $8.000–15.000 ([buscar](https://listado.mercadolibre.com.co/sensor-ds18b20)) | US$1–2 |
-| 9 | **Kit protoboard**: protoboard 830, jumpers M-M/M-H, LEDs, resistencias, botones, potenciómetro ("presión"), fuente de protoboard | 1 | Base de todos los laboratorios | $30.000–50.000 ([buscar kit](https://listado.mercadolibre.com.co/kit-protoboard-arduino)) | US$6–10 |
-| 10 | Cable USB-C **de datos** | 1–2 | Programación/monitor (verificar que no sea solo carga) | $8.000–15.000 | US$1–2 |
+| # | Component | Qty | What for | MercadoLibre CO (approx.) | AliExpress (approx.) |
+|---|-----------|-----|----------|---------------------------|----------------------|
+| 1 | **ESP32-S3 DevKitC-1 N16R8** (or YD-ESP32-S3 N8R2) | 1 | The course board | [$41,000–85,000](https://listado.mercadolibre.com.co/esp32-s3-devkitc) ([option 1](https://articulo.mercadolibre.com.co/MCO-1494660367-tarjeta-desarrollo-esp32-s3-n16r8-doble-puerto-usb-tipo-c-_JM), [option 2](https://articulo.mercadolibre.com.co/MCO-1998898288-yd-esp32-s3-devkitc-n8r2-wroom-wifi-bluetooth-usb-dual-_JM)) | US$6–10 |
+| 2 | **USB logic analyzer, 8 ch 24 MHz** | 1 | Measuring latency/jitter — the course's central instrument | [$30,000–50,000](https://listado.mercadolibre.com.co/analizador-logico-usb) ([with clips](https://articulo.mercadolibre.com.co/MCO-1420558229-analizador-logico-usb-24mhz-8ch-12-ganchos-de-prueba-cab-_JM)); also [Electronilab](https://electronilab.co/tienda/analizador-logico-usb-8-canales-24mhz/) | US$4–6 |
+| 3 | **2.8" ILI9341 touch TFT (SPI)** | 1 | Control node's local GUI (LVGL on Zephyr) | [$35,000–60,000](https://listado.mercadolibre.com.co/ili9341) ([example](https://articulo.mercadolibre.com.co/MCO-2885980352-lcd-tft-tactil-28-pulgadas-240x320-ili9341-esp32-arduino-_JM)) | US$6–9 |
+| 4 | **YF-S401 flow sensor** (or YF-S201) | 1 | "Irrigation flow": Hall pulses → interrupts, the hard sampling task | [$15,000–30,000](https://listado.mercadolibre.com.co/sensor-de-flujo-yf-s201) ([YF-S401](https://articulo.mercadolibre.com.co/MCO-865008893-sensor-de-flujo-de-agua-yf-s401-_JM)) | US$3–5 |
+| 5 | **5 V mini submersible pump** + hose | 1 | The control loop's actuator | [$8,000–15,000](https://listado.mercadolibre.com.co/mini-bombas-de-agua-arduino) ([example](https://articulo.mercadolibre.com.co/MCO-524609873-mini-bomba-de-agua-sumergible-5v-proyectos-arduino-_JM)) | US$2–3 |
+| 6 | **MX1508/L298N H-bridge driver** (or MOSFET module) | 1 | PWM to the pump (never straight off the GPIO) | $8,000–15,000 ([search](https://listado.mercadolibre.com.co/modulo-driver-motor-mx1508)) | US$1–2 |
+| 7 | **SG90 servo** | 1 | The "valve": a second output with a deadline | $10,000–15,000 ([search](https://listado.mercadolibre.com.co/servo-sg90)) | US$2 |
+| 8 | **DS18B20** (probe) or thermistor | 1 | Temperature: slow sensor for the soft telemetry | $8,000–15,000 ([search](https://listado.mercadolibre.com.co/sensor-ds18b20)) | US$1–2 |
+| 9 | **Breadboard kit**: 830-point breadboard, M-M/M-F jumpers, LEDs, resistors, buttons, potentiometer ("pressure"), breadboard supply | 1 | The base of every lab | $30,000–50,000 ([search kits](https://listado.mercadolibre.com.co/kit-protoboard-arduino)) | US$6–10 |
+| 10 | USB-C **data** cable | 1–2 | Programming/monitor (check it's not charge-only) | $8,000–15,000 | US$1–2 |
 
-**Total Kit Control**: ~**$190.000–320.000 COP** por grupo (≈ $65.000–110.000 por
-estudiante en grupos de 3). Vía AliExpress: ≈ **US$32–50** + envío.
+**Control Kit total**: ~**$190,000–320,000 COP** per group (≈ $65,000–110,000 per
+student in groups of 3). Via AliExpress: ≈ **US$32–50** + shipping.
 
-## Kit Hub (uno por grupo grande de 4–6, módulos 5–6)
+## Hub Kit (one per large group of 4–6, modules 5–6)
 
-| # | Componente | Cant. | Para qué | Precio aprox. |
-|---|-----------|-------|----------|---------------|
-| 11 | **Raspberry Pi 4 (4 GB)** o Pi 5 + microSD 32 GB + fuente oficial | 1 | El Hub (módulos 5–6): PREEMPT_RT, `SCHED_DEADLINE`, GUI, enrutamiento | [$350.000–550.000](https://listado.mercadolibre.com.co/raspberry-pi-4) (verificar; también [Sigma](https://www.sigmaelectronica.net/fabricante/raspberry-pi/)) |
-| 12 | Pantalla del Hub | 1 | GUI local | Opción A: **HMI web** (navegador del portátil) — $0. Opción B: monitor HDMI del laboratorio — $0. Opción C: táctil 7" ($200.000–300.000), solo si el grupo la quiere |
+| # | Component | Qty | What for | Approx. price |
+|---|-----------|-----|----------|---------------|
+| 11 | **Raspberry Pi 4 (4 GB)** or Pi 5 + 32 GB microSD + official supply | 1 | The Hub (modules 5–6): PREEMPT_RT, `SCHED_DEADLINE`, GUI, routing | [$350,000–550,000](https://listado.mercadolibre.com.co/raspberry-pi-4) (verify; also [Sigma](https://www.sigmaelectronica.net/fabricante/raspberry-pi/)) |
+| 12 | Hub display | 1 | Local GUI | Option A: **web HMI** (laptop browser) — $0. Option B: lab HDMI monitor — $0. Option C: 7" touchscreen ($200,000–300,000), only if the group wants it |
 
-> **Recomendación**: para contener el costo, la GUI del Hub se diseña como HMI web o
-> LVGL sobre HDMI del laboratorio; la pantalla táctil 7" es opcional. Si el
-> departamento puede prestar 4–6 Raspberry Pi, el Kit Hub baja a solo la microSD.
+> **Recommendation**: to contain cost, design the Hub GUI as a web HMI or LVGL on
+> the lab's HDMI; the 7" touchscreen is optional. If the department can lend 4–6
+> Raspberry Pis, the Hub Kit drops to just the microSD.
 
-## Tiendas locales alternativas (Colombia)
+## Alternative local shops (Colombia)
 
 [Electronilab](https://electronilab.co) · [Sigma Electrónica](https://www.sigmaelectronica.net) ·
-Vistronica · La Red Electrónica — a veces mejor precio/stock que MercadoLibre para
-sensores y módulos; envío nacional a Manizales.
+Vistronica · La Red Electrónica — sometimes better price/stock than MercadoLibre
+for sensors and modules; national shipping to Manizales.
 
-## Cuándo se necesita cada cosa
+## When each item is needed
 
-- **Semana 1**: cable (#10); la STM32C0116-DK la presta el curso.
-- **Semana 2**: analizador lógico (#2) y kit protoboard (#9) — la línea base de jitter se mide aquí.
-- **Semana 3**: placa ESP32-S3 (#1) — comprar local, sin esperar AliExpress.
-- **Semana 5–6**: bomba, driver, flujo, servo, DS18B20, potenciómetro, pantalla TFT (#3–8) — el lab de control con jitter (semana 6) usa la bomba y el sensor de flujo.
-- **Semana 10**: Kit Hub (#11–12).
+- **Week 1**: cable (#10); the STM32C0116-DK is lent by the course.
+- **Week 2**: logic analyzer (#2) and breadboard kit (#9) — the jitter baseline is measured here.
+- **Week 3**: ESP32-S3 board (#1) — buy locally, don't wait on AliExpress.
+- **Weeks 5–6**: pump, driver, flow sensor, servo, DS18B20, potentiometer, TFT display (#3–8) — the jitter-vs-control lab (week 6) uses the pump and the flow sensor.
+- **Week 10**: Hub Kit (#11–12).
