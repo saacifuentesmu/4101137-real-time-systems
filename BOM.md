@@ -27,6 +27,7 @@ and the final project). The **Hub Kit** (modules 5–6) is one per large group
 | 8 | **DS18B20** (probe) or thermistor | 1 | Temperature: slow sensor for the soft telemetry | $8,000–15,000 ([search](https://listado.mercadolibre.com.co/sensor-ds18b20)) | US$1–2 |
 | 9 | **Breadboard kit**: 830-point breadboard, M-M/M-F jumpers, LEDs, resistors, buttons, potentiometer ("pressure"), breadboard supply | 1 | The base of every lab | $30,000–50,000 ([search kits](https://listado.mercadolibre.com.co/kit-protoboard-arduino)) | US$6–10 |
 | 10 | USB-C **data** cable | 1–2 | Programming/monitor (check it's not charge-only) | $8,000–15,000 | US$1–2 |
+| 11 | **0.96" SSD1306 128×64 OLED (I²C)** *(optional)* | 1 | The superloop's HMI (weeks 2–4) — the node runs without it | [$10,000–20,000](https://listado.mercadolibre.com.co/pantalla-oled-096-i2c) | US$1–2 |
 
 **Control Kit total**: ~**$190,000–320,000 COP** per group (≈ $65,000–110,000 per
 student in groups of 3). Via AliExpress: ≈ **US$32–50** + shipping.

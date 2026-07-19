@@ -21,6 +21,10 @@
 #include <zephyr/sys/atomic.h>
 #include <zephyr/sys/util.h>
 #include <zephyr/sys/printk.h>
+#ifdef CONFIG_CHARACTER_FRAMEBUFFER
+#include <zephyr/drivers/display.h>
+#include <zephyr/display/cfb.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,6 +36,8 @@
 #define FLOW_BATCH       100   /* pulses accumulated before the batch math runs */
 #define ESTOP_MV         3000  /* overpressure threshold */
 #define CALIB_ROUNDS     1000  /* `calib` command: rounds of read + settle */
+#define DISPLAY_MS       500   /* HMI refresh period */
+#define ESTOP_HOLD       50    /* joystick-down samples (at 50 Hz) = 1 s hold */
 
 /* ---- Hardware (all optional: missing DT nodes degrade to a synthetic rig) -- */
 
@@ -41,6 +47,7 @@ static const struct gpio_dt_spec instr_ctrl = INSTR(instr_ctrl);
 static const struct gpio_dt_spec instr_cons = INSTR(instr_cons);
 static const struct gpio_dt_spec instr_tele = INSTR(instr_tele);
 static const struct gpio_dt_spec instr_flow = INSTR(instr_flow);
+static const struct gpio_dt_spec instr_disp = INSTR(instr_disp);
 static const struct gpio_dt_spec valve_led =
 	GPIO_DT_SPEC_GET_OR(DT_ALIAS(led0), gpios, {0});
 static const struct gpio_dt_spec flow_pulse =
@@ -58,6 +65,10 @@ static const struct adc_dt_spec adc_pressure =
 #if DT_HAS_CHOSEN(zephyr_console)
 static const struct device *const console_uart =
 	DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
+#endif
+
+#ifdef CONFIG_CHARACTER_FRAMEBUFFER
+static const struct device *const disp = DEVICE_DT_GET_ANY(solomon_ssd1306fb);
 #endif
 
 static inline void instr_set(const struct gpio_dt_spec *p, int v)
@@ -104,6 +115,10 @@ static int integral_mv;
 static bool estop;
 static float flow_lpm;        /* batch math result (float on purpose: no FPU) */
 static uint32_t flow_batches;
+
+enum page { PAGE_DASH, PAGE_FLOW, PAGE_HEALTH, PAGE_COUNT };
+static int page;
+static bool page_dirty = true;
 
 /* ---- Inputs: ADC when the board wires it, a synthetic plant when not ------ */
 
@@ -172,6 +187,61 @@ static enum joy joy_decode(int mv)
 	return JOY_NONE;
 }
 
+/* Joystick UX, sampled at 50 Hz: left/right turn HMI pages, up/down move the
+ * setpoint on the dashboard, down *held* ~1 s is the e-stop, center clears it. */
+static void joystick_update(void)
+{
+	static enum joy prev = JOY_NONE;
+	static int down_held;
+
+	joystick_mv = read_joystick_mv();
+	enum joy j = joy_decode(joystick_mv);
+
+	if (j == JOY_DOWN) {
+		if (++down_held == ESTOP_HOLD) {
+			estop = true;
+			page_dirty = true;
+		}
+	} else {
+		down_held = 0;
+	}
+
+	switch (j) {
+	case JOY_UP: /* held = ramp */
+		if (page == PAGE_DASH) {
+			setpoint_mv = CLAMP(setpoint_mv + 10, 0, 3300);
+			page_dirty = true;
+		}
+		break;
+	case JOY_DOWN: /* single step per press; keep holding for e-stop */
+		if (page == PAGE_DASH && j != prev) {
+			setpoint_mv = CLAMP(setpoint_mv - 10, 0, 3300);
+			page_dirty = true;
+		}
+		break;
+	case JOY_LEFT:
+		if (j != prev) {
+			page = (page + PAGE_COUNT - 1) % PAGE_COUNT;
+			page_dirty = true;
+		}
+		break;
+	case JOY_RIGHT:
+		if (j != prev) {
+			page = (page + 1) % PAGE_COUNT;
+			page_dirty = true;
+		}
+		break;
+	case JOY_SEL:
+		estop = false;
+		integral_mv = 0;
+		page_dirty = true;
+		break;
+	default:
+		break;
+	}
+	prev = j;
+}
+
 static void task_sampling(void)
 {
 	static int pwm_phase;
@@ -189,13 +259,7 @@ static void task_sampling(void)
 	/* joystick, decimated to 50 Hz */
 	if (++joy_div >= 20) {
 		joy_div = 0;
-		joystick_mv = read_joystick_mv();
-		switch (joy_decode(joystick_mv)) {
-		case JOY_UP:   setpoint_mv += 10; break;
-		case JOY_DOWN: estop = true;      break; /* down held = e-stop */
-		case JOY_SEL:  estop = false; integral_mv = 0; break;
-		default: break;
-		}
+		joystick_update();
 	}
 
 	/* software PWM on the valve */
@@ -257,14 +321,79 @@ static void task_telemetry(void)
 	instr_set(&instr_tele, 1);
 
 	snprintf(line, sizeof(line),
-		 "t=%lld p_mv=%d sp_mv=%d duty=%d flow_x100=%d estop=%d backlog=%ld",
-		 k_uptime_get(), pressure_mv, setpoint_mv, duty_pct,
+		 "t=%u p_mv=%d sp_mv=%d duty=%d flow_x100=%d estop=%d backlog=%ld",
+		 (unsigned int)k_uptime_get(), pressure_mv, setpoint_mv, duty_pct,
 		 (int)(flow_lpm * 100.0f), (int)estop,
 		 (long)atomic_get(&backlog_peak));
 	printk("%s\n", line); /* polled UART: ~7 ms of blocking at 115200 */
 
 	instr_set(&instr_tele, 0);
 }
+
+/* ---- Display (soft "HMI"): SSD1306 pages, redrawn whole ------------------- */
+
+#ifdef CONFIG_CHARACTER_FRAMEBUFFER
+static void task_display(void)
+{
+	static int64_t next_ms;
+	static bool ready;
+	char line[24];
+
+	if (disp == NULL) {
+		return;
+	}
+	if (!ready) {
+		if (!device_is_ready(disp) || cfb_framebuffer_init(disp) != 0) {
+			return;
+		}
+		display_blanking_off(disp);
+		ready = true;
+	}
+	if (!page_dirty && k_uptime_get() < next_ms) {
+		return;
+	}
+	next_ms = k_uptime_get() + DISPLAY_MS;
+	page_dirty = false;
+
+	instr_set(&instr_disp, 1);
+	cfb_framebuffer_clear(disp, false);
+	switch (page) {
+	case PAGE_DASH:
+		snprintf(line, sizeof(line), "P %4d>%4dmV", pressure_mv,
+			 setpoint_mv);
+		cfb_print(disp, line, 0, 0);
+		snprintf(line, sizeof(line), "duty %3d%% %s", duty_pct,
+			 estop ? "ESTOP" : "");
+		cfb_print(disp, line, 0, 16);
+		cfb_print(disp, "1/3 dash", 0, 48);
+		break;
+	case PAGE_FLOW:
+		snprintf(line, sizeof(line), "flow %d.%02d L/m",
+			 (int)flow_lpm, (int)(flow_lpm * 100.0f) % 100);
+		cfb_print(disp, line, 0, 0);
+		snprintf(line, sizeof(line), "batches %u", flow_batches);
+		cfb_print(disp, line, 0, 16);
+		cfb_print(disp, "2/3 flow", 0, 48);
+		break;
+	case PAGE_HEALTH:
+		snprintf(line, sizeof(line), "up %us",
+			 (unsigned int)(k_uptime_get() / 1000));
+		cfb_print(disp, line, 0, 0);
+		snprintf(line, sizeof(line), "backlog pk %ld",
+			 (long)atomic_get(&backlog_peak));
+		cfb_print(disp, line, 0, 16);
+		cfb_print(disp, "3/3 health", 0, 48);
+		break;
+	}
+	/* the whole 1 KB frame goes over I2C here, char by char: blocking */
+	cfb_framebuffer_finalize(disp);
+	instr_set(&instr_disp, 0);
+}
+#else
+static void task_display(void)
+{
+}
+#endif
 
 /* ---- Console (firm): poll chars, run a full command synchronously --------- */
 
@@ -333,7 +462,8 @@ static void init_hw(void)
 {
 	const struct gpio_dt_spec *outs[] = { &instr_samp, &instr_ctrl,
 					      &instr_cons, &instr_tele,
-					      &instr_flow, &valve_led };
+					      &instr_flow, &instr_disp,
+					      &valve_led };
 
 	for (size_t i = 0; i < ARRAY_SIZE(outs); i++) {
 		if (outs[i]->port) {
@@ -366,6 +496,7 @@ int main(void)
 
 	while (1) {
 		task_console();
+		task_display();
 		task_telemetry();
 
 		if (atomic_get(&ticks_pending) > 0) {

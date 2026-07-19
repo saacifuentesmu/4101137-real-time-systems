@@ -15,6 +15,7 @@ One `main` loop + ISRs, no scheduler. The node's tasks and their instrumentation
 | Console (UART commands) | Firm | `instr_cons` PA5 |
 | Telemetry (CSV line, 1 Hz) | Soft | `instr_tele` PA6 |
 | Flow batch math (every 100 pulses) | — | `instr_flow` PA7 |
+| Display HMI (optional, 2 Hz + on input) | Soft | `instr_disp` PC14 |
 
 Each pin goes high on task entry, low on exit — hook the analyzer there.
 
@@ -30,14 +31,30 @@ west build -p -b native_sim firmware/superloop && ./build/zephyr/zephyr.exe
 
 ## Wiring (C0116-DK)
 
-- **Joystick** (on-board, PA8/ADC): up = setpoint +10 mV · down (held) =
-  **e-stop** · center = clear e-stop. Calibrate the bands with the `joy` command.
+- **Joystick** (on-board, PA8/ADC): left/right = HMI page · up/down = setpoint
+  ±10 mV (dashboard page) · down **held ~1 s** = **e-stop** · center = clear.
+  Calibrate the bands with the `joy` command.
 - **"Pressure" pot** (breadboard kit) → PA0 (wiper), 3V3, GND. Without it the
   synthetic plant takes over.
 - **Flow pulse input** → PB7 (wire the YF-S401 signal, a button module, or a
   square wave; internal pull-down).
 - **Valve** = user LED (`led0`), software-PWM'd at 50 Hz.
 - Console on the ST-LINK VCP, 115200 8N1.
+
+## Display (optional HMI)
+
+SSD1306 128×64 OLED on I²C1 (draft pin map: SCL PA9, SDA PA10, 3V3, GND).
+Three pages — dashboard / flow / health — navigated with the joystick. Build
+with the fragment:
+
+```bash
+west build -p -b stm32c0116_dk firmware/superloop -- -DEXTRA_CONF_FILE=display.conf
+```
+
+Without the fragment (or the module unplugged) the node runs identically minus
+the HMI. Every refresh pushes the whole 1 KB frame over I²C from inside the
+loop — watch `instr_disp` next to `instr_samp` on the analyzer and draw your
+own conclusions.
 
 ## Console commands
 
