@@ -1,6 +1,6 @@
 # Week 1 — Bring-up: the team, the board, the toolchain
-> **Reading:** [LECTURAS.md](../LECTURAS.md), week 1 · **Module:** 0
-> **Prerequisite:** [setup_previo.md](setup_previo.md) done at home.
+> **Reading:** [READINGS.md](../READINGS.md), week 1 · **Module:** 0
+> **Prerequisite:** [setup.md](setup.md) done at home.
 
 **From:** Eng. Samuel Cifuentes (Senior Architect) — *"Welcome to the Control
 Systems team. SoilSense already measures; now it has to **act**, and a valve that
@@ -38,7 +38,7 @@ No timing yet — this week you measure the *setup*:
 - **Evidence:** monitor screenshot with the modified message.
 
 ### Task C — Create the team RET
-- Copy [plantillas/ret.md](../plantillas/ret.md) into your team repo; fill in the
+- Copy [templates/ret.md](../templates/ret.md) into your team repo; fill in the
   header and the control-loop row with the values from the
   [scenario](../PROJECT_SCENARIO.md) (period 10 ms; `C_i` stays `____` until measured).
 - **Evidence:** link to the team repo with the RET under version control.

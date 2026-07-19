@@ -1,5 +1,5 @@
 # Week 6 — Schedulability: the theory, put to the test
-> **Reading:** [LECTURAS.md](../LECTURAS.md), week 6 (includes the optional Lee & Seshia) · **Module:** 3
+> **Reading:** [READINGS.md](../READINGS.md), week 6 (includes the optional Lee & Seshia) · **Module:** 3
 > **Problem Set 1 goes out today** (exercises from chs. 2 and 4; due at the workshop, week 8).
 
 **From:** Eng. Samuel Cifuentes — *"Daniela is asking whether she can add two more

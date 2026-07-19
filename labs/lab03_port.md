@@ -1,5 +1,5 @@
 # Week 3 — The S3 port and the first thread
-> **Reading:** [LECTURAS.md](../LECTURAS.md), week 3 · **Module:** 2
+> **Reading:** [READINGS.md](../READINGS.md), week 3 · **Module:** 2
 
 **From:** Eng. Samuel Cifuentes — *"Two pieces of news. One: production picked the
 ESP32-S3 for the node — more memory, a radio, and two cores we'll use later. Two: I

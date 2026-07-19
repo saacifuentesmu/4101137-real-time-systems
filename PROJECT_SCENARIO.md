@@ -123,4 +123,4 @@ Additionally, in this project every timing requirement is declared with an ID
 (`REQ-…`, one EARS-style sentence: condition → response → deadline; hard/firm/soft
 type, period, deadline) and **verified with measured evidence** (latency/jitter
 table or trace) — all of it lives in the **RET** (Timing Evidence Report, template
-in [plantillas/ret.md](plantillas/ret.md)), the team's living document.
+in [templates/ret.md](templates/ret.md)), the team's living document.

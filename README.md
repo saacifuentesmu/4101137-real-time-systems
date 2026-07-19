@@ -66,17 +66,16 @@ most likely meet in industry — with a dedicated strengths-and-weaknesses sessi
 week 9. Hands-on stays on one toolchain; no second SDK to install.
 
 The node's tasks embody the deadline taxonomy the course teaches — labeled in the
-spec and verified in the traces. All course material is in English (classroom
-delivery is bilingual); a few file names keep Spanish slugs for link stability.
+spec and verified in the traces. All course material is in English; classroom delivery is bilingual.
 
 ## Repository layout
 
 | Path | What it is |
 |---|---|
-| [labs/](labs/) | One lab guide per session, plus `lectures/` (instructor scripts) and `sops/` (bring-up mechanics) — format in [FORMATO_SESIONES.md](FORMATO_SESIONES.md) |
+| [labs/](labs/) | One lab guide per session, plus `lectures/` (instructor scripts) and `sops/` (bring-up mechanics) — format in [SESSION_FORMAT.md](SESSION_FORMAT.md) |
 | [firmware/](firmware/) | **Course-authored reference apps.** `superloop/` is the get-started: students run it in week 2, it gets explained in the talk, and module 2 is its guided migration to kernel threads. More stages land as the semester climbs |
-| [plantillas/](plantillas/) | lab / lecture / SOP / RET templates |
-| [PROJECT_SCENARIO.md](PROJECT_SCENARIO.md) · [LECTURAS.md](LECTURAS.md) · [BOM.md](BOM.md) | The GreenField briefing, the per-week reading guide, and the parts list |
+| [templates/](templates/) | lab / lecture / SOP / RET templates |
+| [PROJECT_SCENARIO.md](PROJECT_SCENARIO.md) · [READINGS.md](READINGS.md) · [BOM.md](BOM.md) | The GreenField briefing, the per-week reading guide, and the parts list |
 
 ## Modules (logical units within this repo)
 
@@ -100,7 +99,7 @@ computation structures, control — into *why real-time*; week 2 opens with a qu
 recap of that conclusion. The tracing session runs at week 5, *before* the theory
 module, so the schedulability labs verify by trace. Content closes at week 12;
 weeks 13–16 belong to the final project. Per-week readings from the course text are
-in **[LECTURAS.md](LECTURAS.md)**, including which sections — and which
+in **[READINGS.md](READINGS.md)**, including which sections — and which
 proofs — to skip.
 
 | Week | Module | Talk (40 min) | Lab (2 h) |
@@ -145,7 +144,7 @@ students at no cost through UNAL's SpringerLink subscription (SINAB). For practi
 the primary reference is the official Zephyr documentation (FreeRTOS docs back the
 comparison talks — nothing to install). The
 week-by-week reading guide — theorem statements over proofs; the labs supply the
-evidence — is in [LECTURAS.md](LECTURAS.md).
+evidence — is in [READINGS.md](READINGS.md).
 
 For the control-loop session (week 6), the free **Lee & Seshia, *Introduction to
 Embedded Systems*** ([leeseshia.org](https://leeseshia.org)) is optional reading.

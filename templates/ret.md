@@ -35,7 +35,7 @@ Each entry cites the `REQ`(s) it verifies.
 ## 4. Schedulability analysis
 
 U = ΣC_i/T_i with **measured** C_i; test used (RM / hyperbolic / EDF); RTA as a
-script with its output; blocking B_i if there are mutexes. (Formulas: LECTURAS.md,
+script with its output; blocking B_i if there are mutexes. (Formulas: READINGS.md,
 "The math that does get used".)
 
 ## 5. Functional safety (final project)

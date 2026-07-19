@@ -1,5 +1,5 @@
 # Week 2 — The provided superloop: run, read, measure
-> **Reading:** [LECTURAS.md](../LECTURAS.md), week 2 · **Module:** 1
+> **Reading:** [READINGS.md](../READINGS.md), week 2 · **Module:** 1
 > **Firmware:** [firmware/superloop/](../firmware/superloop/) (provided — no code is written today)
 
 **From:** Eng. Samuel Cifuentes — *"Before you pitch me a kernel, measure what we

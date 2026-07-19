@@ -23,10 +23,10 @@ Fixed lab.md sections:
 6. **Rubric** (table, 100 pts).
 
 The course's living deliverable is the **RET — Timing Evidence Report**
-(template in [plantillas/ret.md](plantillas/ret.md)): the lightweight equivalent
+(template in [templates/ret.md](templates/ret.md)): the lightweight equivalent
 of 4201327's DDR. Updated every week, handed in at the workshop (week 8) and at
 the close.
 
-Templates: [plantillas/lab.md](plantillas/lab.md) ·
-[plantillas/lecture.md](plantillas/lecture.md) ·
-[plantillas/sop.md](plantillas/sop.md) · [plantillas/ret.md](plantillas/ret.md)
+Templates: [templates/lab.md](templates/lab.md) ·
+[templates/lecture.md](templates/lecture.md) ·
+[templates/sop.md](templates/sop.md) · [templates/ret.md](templates/ret.md)
