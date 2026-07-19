@@ -18,41 +18,86 @@ By the end, the student can: 1. explain what a devicetree overlay buys in a port
 | 37–40 | Bridge to the lab | the diff-stat and the new jitter |
 
 ## Segment 1 — The port: hardware as data
-- Key idea: the application names hardware by role (`aliases`, bindings), not by
-  pin; the board's devicetree resolves the role. Changing silicon = changing the
-  description, not the C. Today's port is the proof: an overlay moving the
-  instrumentation GPIOs, zero application lines.
-- **Board sketch:** same `main.c` box with two DT files feeding it — C0116-DK pins
-  vs. S3 pins.
-- **Question for the room:** what would this port cost in week 1's toolchain map
-  without devicetree? (SDK change — they'll verify in the FreeRTOS segment.)
+- The idea: the application names hardware by *role*; a separate description
+  binds the role to pins. Vocabulary on the board, one line each:
+  - **Node**: a device in the tree (`&adc1`, an LED).
+  - **Property**: its facts (`gpios = <&gpioa 1 ...>`).
+  - **Binding**: the schema saying what properties a `solomon,ssd1306fb` needs.
+  - **Alias / chosen**: role names (`led0`, `zephyr,console`) the app looks up.
+  - **Overlay**: a patch on the board's tree — *this* is the port.
+- In Zephyr the tree is compiled: `DEVICE_DT_GET(...)` resolves at build time,
+  costs zero RAM at runtime (unlike Linux, where the same idea — same syntax,
+  they'll see it again in week 10's SBC — is parsed at boot).
+- Today's proof: `firmware/superloop/boards/*.overlay` — instrumentation pins and
+  ADC channels move from C0 pins to S3 pins; `main.c` diff: **zero lines**.
+- **Board sketch:** one `main.c` box fed by two small DT files (C0116-DK pins /
+  S3 pins); arrow labels "port = data, not code".
+- **Question for the room:** week 1's toolchain map said vendor SDKs embed
+  FreeRTOS — what does *this* port cost there? (SDK change; the FreeRTOS segment
+  closes the loop.)
 
 ## Segment 2 — Anatomy of an RT kernel
-- Key idea: threads have states (ready/running/blocked); the scheduler always runs
-  the highest-priority *ready* thread; preemption means "immediately, not at the
-  next loop iteration". The context switch has a measurable cost — they'll measure
-  it in week 4, and it's the price of a bounded hand-off wait.
-- **Board sketch:** the state diagram, then the superloop's "wait for the loop to
-  come around" link (wk 2) replaced by "preempt: bounded by switch cost".
-- **Question for the room:** what should the blocking command do to a *higher-priority*
-  sampling thread? (Nothing — that's this afternoon's measurement.)
+- What a kernel fundamentally adds (Buttazzo §10.1–10.3): the CPU stops being
+  "whatever the loop reaches next" and becomes a *managed resource*.
+- **A thread is**: a stack + saved registers + a TCB (priority, state). Nothing
+  mystical — the superloop had one implicit thread; now there are several, each
+  owning its own "where was I".
+- **States**, drawn as the lifecycle diagram: *ready* (wants CPU), *running*
+  (has it), *blocked/pending* (waiting on time or data — costs zero CPU). The
+  superloop's crime in this language: it has no *blocked* state — everything is
+  always "running", burning passes polling flags.
+- **The scheduler's one rule**: the highest-priority *ready* thread runs.
+  Always. Enforced at every **preemption point**: an ISR ends, a mutex unlocks,
+  a sleep expires. "Immediately" replaces "when the loop comes around" — link 4
+  of last week's chain gets a new, bounded name.
+- **The context switch**: save registers to the old stack, restore from the new
+  (on Cortex-M this rides the PendSV exception — Yiu ch. 10 shows the exact
+  sequence). Cost: on the order of a µs — measured, not believed, in week 4's
+  Task C.
+- **Priorities in Zephyr**: lower number = more important; negative priorities
+  are *cooperative* (won't be preempted — the course leaves them alone until the
+  tracing week shows one).
+- **Board sketch:** the three-state diagram; next to it, last week's five-link
+  chain with link 4 crossed out and replaced by "preempt: bounded by switch cost".
+- **Question for the room:** what should the blocking `calib` command do to a
+  *higher-priority* sampling thread? (Nothing — that's this afternoon's
+  measurement. Let them commit to the prediction out loud.)
 
 > **Misconception to anticipate:** "the kernel adds overhead, so it's slower."
 > Slower on average by µs of switching — but the *worst case* stops depending on
-> the longest loop body. The A/B in week 4 shows both effects.
+> the longest loop body. The A/B in week 4 shows both effects in one table.
 
 ## Segment 3 — The first mapping
-- Key idea: migration is mechanical, one piece at a time. Today only sampling:
-  `K_THREAD_DEFINE` at preemptive priority, ISR posts to a `k_msgq`, the loop
-  consumes. The rest stays superloop — mixed systems are normal mid-migration.
-- **Board sketch:** first row of the mapping table (the full table is week 4's talk).
+- Migration is mechanical, one piece at a time — today only sampling:
+  - `K_THREAD_DEFINE(sample_tid, STACK, sample_fn, ..., PRIO, 0, 0)` — the
+    polled work becomes a thread that *sleeps* on a timer.
+  - The ISR stops setting a flag and posts to a **`k_msgq`**; the thread blocks
+    on `k_msgq_get` — the hand-off wait becomes a wake-up.
+- Everything else stays superloop. Mixed systems are normal mid-migration — that
+  is *how* real products migrate.
+- **Board sketch:** first row of the mapping table (flag+poll → ISR+`k_msgq`+
+  thread). The full table is week 4's talk.
 
 ## What about FreeRTOS?
-`xTaskCreate` ↔ `K_THREAD_DEFINE`, `xQueueSend` ↔ `k_msgq_put` — same preemptive
-fixed-priority model, near-1:1 API. What has no equivalent is Segment 1: moving
-STM32 → ESP32 under FreeRTOS means changing vendor SDKs, not a 20-line overlay.
+`xTaskCreate` ↔ `K_THREAD_DEFINE`, `xQueueSend/Receive` ↔ `k_msgq_put/get` —
+same preemptive fixed-priority model, near-1:1 API (one habit flip: FreeRTOS
+priorities go *up*, Zephyr's go down). What has no equivalent is Segment 1:
+moving STM32 → ESP32 under FreeRTOS means changing vendor SDKs, not a 20-line
+overlay.
 
 ## Bridge to the lab
-Two numbers to predict: the port's `git diff --stat` (expect ~0 lines of C) and the
-S3's baseline jitter (expect *worse* than the M0+ — external flash + cache; write
-down why before measuring).
+Two numbers to predict before touching anything: the port's `git diff --stat`
+(expect ~0 lines of C) and the S3's baseline jitter (expect *worse* than the
+M0+ — external flash behind a cache; write down why before measuring).
+
+## References
+- Buttazzo, §10.1–10.3 (the week's reading; §10.4–10.5 skipped — implementation
+  detail).
+- Zephyr docs: *Threads* and *Scheduling* —
+  docs.zephyrproject.org/latest/kernel/services/threads/ — the state diagram and
+  the cooperative/preemptive split; *Introduction to devicetree* —
+  docs.zephyrproject.org/latest/build/dts/intro.html
+- J. Yiu, *The Definitive Guide to ARM Cortex-M0/M0+*, ch. 10 — PendSV and the
+  context-switch sequence, register by register.
+- FreeRTOS kernel docs, *Task states* — freertos.org/RTOS-task-states.html (the
+  same lifecycle diagram, for the comparison slide).
