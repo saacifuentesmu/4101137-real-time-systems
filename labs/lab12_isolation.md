@@ -1,5 +1,5 @@
 # Week 12 — Isolation and interference: the Hub's dress rehearsal
-> **Reading:** [READINGS.md](../READINGS.md), week 12 · **Module:** 5
+> **Tech guide:** [SOP-10](sops/sop10_preempt_rt.md), §5 · **Reading:** [READINGS.md](../READINGS.md), week 12 · **Module:** 5
 > **Course content closes today** — what follows is the project.
 
 **From:** Eng. Samuel Cifuentes — *"Last rehearsal before the project. The real Hub
