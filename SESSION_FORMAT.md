@@ -1,7 +1,6 @@
 # Session format
 
-Format inherited from 4201327 (where it worked), adapted and compacted. Each
-session has up to three documents, each with a distinct job:
+Each session has up to three documents, each with a distinct job:
 
 | Doc | Audience | Content | Budget |
 |---|---|---|---|
@@ -23,9 +22,8 @@ Fixed lab.md sections:
 6. **Rubric** (table, 100 pts).
 
 The course's living deliverable is the **RET — Timing Evidence Report**
-(template in [templates/ret.md](templates/ret.md)): the lightweight equivalent
-of 4201327's DDR. Updated every week, handed in at the workshop (week 8) and at
-the close.
+(template in [templates/ret.md](templates/ret.md)), updated every week and handed
+in at the workshop (week 8) and at the close.
 
 Templates: [templates/lab.md](templates/lab.md) ·
 [templates/lecture.md](templates/lecture.md) ·

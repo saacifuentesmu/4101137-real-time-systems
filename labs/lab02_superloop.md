@@ -3,8 +3,8 @@
 > **Firmware:** [firmware/superloop/](../firmware/superloop/) (provided — no code is written today)
 
 **From:** Eng. Samuel Cifuentes — *"Before you pitch me a kernel, measure what we
-already have. I'm handing you the Control node as a superloop — the 4100901
-architecture, the one this company knows how to maintain. I want the baseline:
+already have. I'm handing you the Control node as a superloop — the architecture
+this company knows how to maintain. I want the baseline:
 latency and jitter for every task, with numbers, not adjectives. If the superloop
 is enough, we keep it."*
 

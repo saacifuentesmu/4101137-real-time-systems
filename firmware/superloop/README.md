@@ -6,7 +6,7 @@ migrates, guided, to kernel threads.
 
 Spec (from the [scenario](../../PROJECT_SCENARIO.md)):
 
-- A single `main` thread + ISRs — no scheduler. The 4100901 architecture, in Zephyr.
+- A single `main` thread + ISRs — no scheduler.
 - Node tasks: periodic sampling (hard), control loop → PWM, UART console (firm),
   console telemetry (soft).
 - **GPIO instrumentation** on every task (toggle on entry/exit) to measure latency
