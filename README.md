@@ -139,12 +139,6 @@ evidence — is in [READINGS.md](READINGS.md).
 For the control-loop session (week 6), the free **Lee & Seshia, *Introduction to
 Embedded Systems*** ([leeseshia.org](https://leeseshia.org)) is optional reading.
 
-**Edition note:** the 3rd edition (2011) is acceptable for the theory modules — its
-chapters 1–9 match the 4th almost one-to-one. It is **not** sufficient for weeks
-10–16: the 4th edition's ch. 12 (*Implementing Periodic Tasks in Linux*) is new, and
-its ch. 13 covers `PREEMPT_RT` and `SCHED_DEADLINE`, which post-date the 3rd
-edition's Linux coverage (the 3rd's final chapter is the RTLinux/RTAI/Xenomai era).
-
 ## What it demonstrates
 
 Real-time engineering taught through a single product measured at every stage — the

@@ -1,8 +1,7 @@
 # Reading Guide — Buttazzo, *Hard Real-Time Computing Systems* (4th ed.)
 
 Course reference: Giorgio Buttazzo, *Hard Real-Time Computing Systems*, 4th ed.,
-Springer, 2024 (see the edition note in the [README](README.md#reference);
-available via SpringerLink/SINAB).
+Springer, 2024 (available via SpringerLink/SINAB).
 
 **General rule: read statements, examples, and figures; skip the proofs.** The
 book fences every derivation inside explicit *Proof* blocks — most of the book's
@@ -24,7 +23,7 @@ listed at the end.
 | 6 | 3 | §4.1–4.4 (statements, tables, and examples), §4.7; EDF optimality statement (§3.3.1) | The U_lub derivations (§4.3.2–4.3.3, ~7 pages of calculus), proofs of Theo. 4.1 and 4.2; the rest of ch. 3 | The Fig. 4.13 example (RM fails, EDF doesn't, at U = 0.97) is reproduced in the lab on the S3; jitter is also induced in the flow loop and the control degradation measured. **Problem Set 1**: exercises from chs. 2 and 4 (solutions in ch. 14; due at the workshop). Optional (free PDF): Lee & Seshia, *Introduction to Embedded Systems*, ch. 2 — feedback control |
 | 7 | 3 | §4.5.1–4.5.2 (RTA); §7.1–7.3, PIP rules (§7.6.1) and PCP rules (§7.7.1), statement of Theo. 7.2 | §4.5.3–4.5.4; the lemma chain of §7.6.2, exact blocking computation (§7.6.3), §7.8 (SRP) | RTA is a 15-line algorithm (Fig. 4.17), not a theorem: the lab implements it in Python with the measured C_i. **Problem Set 2**: exercises from ch. 7 + RTA (due week 9) |
 | 8 | 3 | Review: chs. 2, 4, and 7 | — | **Workshop** — ch. 14 has solutions to the exercises of chs. 1–9 for practice |
-| 9 | 4 | §13.1–13.2 (RTOS landscape); §13.5 (WCET tools); §2.4 | — | FreeRTOS is **not in the book** — it's the comparison talk (reference: official FreeRTOS docs, nothing installed). Ch. 13 gives the landscape: many kernels, one theory. There's no multiprocessor chapter: §2.4 is the hook; the lab uses **Zephyr AMP** (one image per core) = *partitioned* scheduling, measured. WCET: measurement vs. static analysis vs. high-water-mark + margin |
+| 9 | 4 | §13.1–13.2 (RTOS landscape); §13.5 (WCET tools); §2.4 | — | FreeRTOS is **not in the book** — it's the comparison talk (reference: official FreeRTOS docs). Ch. 13 gives the landscape: many kernels, one theory. There's no multiprocessor chapter: §2.4 is the hook; the lab uses **Zephyr AMP** (one image per core) = *partitioned* scheduling, measured. WCET: measurement vs. static analysis vs. high-water-mark + margin |
 | 10 | 5 | §13.3.4–13.3.5 (PREEMPT_RT, SCHED_DEADLINE) | — | What PREEMPT_RT changes inside the kernel; SBC bring-up and `cyclictest` |
 | 11 | 5 | §6.9.1–6.9.4 (CBS); §9.3 (the resource-reservation idea) | Rest of chs. 5–6 (the other servers: one intuition slide is enough); §6.9.5–6.9.6 | The CBS is 3 pseudocode rules (Fig. 6.15) plus two one-line results: isolation (U_s = Q_s/T_s no matter what) and R_i ≈ C_i/U_s. That *is* SCHED_DEADLINE |
 | 12 | 5 | **All of ch. 12**; §13.1.1 (RT-POSIX) | — | Almost no math: it's C code (pthread + the ptask library). The lab follows it nearly verbatim |
