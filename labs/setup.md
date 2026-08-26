@@ -7,23 +7,44 @@ up without the environment, you lose the lab.
 
 Follow Zephyr's official guide ([Getting Started](https://docs.zephyrproject.org/latest/develop/getting_started/index.html))
 on native Linux or WSL2. For WSL2 there's a tested guide from the instructor:
-[wsl2-embedded-dev-setup](https://github.com/saacifuentesmu/wsl2-embedded-dev-setup).
+[wsl2-embedded-dev-setup](https://github.com/saacifuentesmu/wsl2-embedded-dev-setup)
+— its [Zephyr page](https://github.com/saacifuentesmu/wsl2-embedded-dev-setup/blob/main/platforms/zephyr.md)
+takes you all the way to a `hello_world` running on an ESP32.
 
 By the end you must have: `west`, the Zephyr SDK, and a working workspace
 (`west init` + `west update`).
 
-## 2. Build the course's two targets
+## 2. Build, without any hardware
+
+This one is mandatory and needs no board — `native_sim` builds a Linux executable:
 
 ```bash
-west build -p -b stm32c0116_dk  zephyr/samples/basic/blinky
-west build -p -b native_sim     zephyr/samples/hello_world
-./build/zephyr/zephyr.exe        # native_sim runs on your PC
+cd ~/zephyrproject/zephyr
+west build -p -b native_sim samples/hello_world
+./build/zephyr/zephyr.exe
 ```
 
-Both builds must finish without errors. (The ESP32-S3 joins in week 3 — you don't
-need it yet.)
+## 3. Build for a real board
 
-## 3. Serial-port access (Linux/WSL2)
+Use whatever you already own. The course's two targets are the **STM32C0116-DK**
+(weeks 1–2, lent by the course) and the **ESP32-S3** (week 3 on, [BOM](../BOM.md)),
+but *any* ESP32 devkit is enough to practice the build→flash→monitor cycle now.
+
+```bash
+west build -p -b stm32c0116_dk samples/basic/blinky        # course starter board
+west build -p -b esp32s3_devkitc/esp32s3/procpu samples/hello_world
+west flash
+```
+
+Other ESP32 targets: `esp32_devkitc/esp32/procpu`, `esp32c3_devkitm`,
+`esp32c6_devkitc/esp32c6/hpcore`. `west boards | grep esp32` lists them all.
+
+ESP32 on Zephyr needs two extra steps the generic Getting Started doesn't mention —
+`west blobs fetch hal_espressif` and the matching SDK toolchain. Both are in the
+[Zephyr page](https://github.com/saacifuentesmu/wsl2-embedded-dev-setup/blob/main/platforms/zephyr.md)
+of the WSL2 guide.
+
+## 4. Serial-port access (Linux/WSL2)
 
 ```bash
 sudo usermod -aG dialout $USER   # log out and back in
@@ -35,8 +56,9 @@ the guide).
 ## Week-1 checklist
 
 - [ ] `west --version` responds.
-- [ ] blinky builds for `stm32c0116_dk`.
 - [ ] `hello_world` runs on `native_sim`.
+- [ ] Something builds for a real board — blinky on `stm32c0116_dk`, or
+      `hello_world` on the ESP32 you have.
 - [ ] Your user is in the `dialout` group (or equivalent).
 - [ ] VS Code with the C/C++ extension (or your preferred editor) opens the workspace.
 
