@@ -6,7 +6,7 @@ up without the environment, you lose the lab.
 ## 1. Zephyr environment
 
 Follow Zephyr's official guide ([Getting Started](https://docs.zephyrproject.org/latest/develop/getting_started/index.html))
-on native Linux or WSL2. For WSL2 there's a tested guide from the instructor:
+on native Linux or WSL2. If you're on WSL2, I keep a tested guide:
 [wsl2-embedded-dev-setup](https://github.com/saacifuentesmu/wsl2-embedded-dev-setup)
 — its [Zephyr page](https://github.com/saacifuentesmu/wsl2-embedded-dev-setup/blob/main/platforms/zephyr.md)
 takes you all the way to a `hello_world` running on an ESP32.
