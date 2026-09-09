@@ -44,17 +44,19 @@ where jitter comes from; 3. write a measurable timing requirement in EARS form w
 ## Segment 2 — Latency anatomy
 - Walk the chain for one flow pulse, left to right, naming each delay:
   1. **Event → interrupt request**: sensor edge, input synchronizer (~cycles).
-  2. **Interrupt latency**: NVIC accepts it — on this Cortex-M0+, exception
-     entry is 15 cycles *if nothing blocks it*; sections with interrupts masked
+  2. **Interrupt latency**: NVIC accepts it — on this Cortex-M4, exception
+     entry is 12 cycles *if nothing blocks it*; sections with interrupts masked
      stretch this (that's why long `irq_lock`s are poison).
   3. **ISR body**: capture + set a flag (µs if disciplined).
   4. **Hand-off wait**: the flag sits there until the loop *comes around* — in a
      superloop this is bounded by the longest full pass, i.e. by the slowest
      task's worst day. This is the villain link.
   5. **Service + actuation**: the handler runs, the valve moves.
-- Fixed links add *latency*; variable links add *jitter*. On this cache-free M0+
-  links 1–3 are nearly constant — so whatever jitter the lab measures today is
-  almost purely link 4. (Week 3 adds a chip where even links 1–3 wobble: caches.)
+- Fixed links add *latency*; variable links add *jitter*. Links 1–3 wobble a
+  little here, because the L4's ART cache means an instruction fetch costs 0 or 4
+  wait states depending on history. So today's lab measures the baseline twice —
+  cache on, then cache off — and the difference *is* links 1–3, isolated on one
+  board. Whatever survives the subtraction is link 4, the villain.
 - **Board sketch:** the chain as five boxes with a brace under each naming its
   delay; circle box 4. Buttazzo §2.4 catalogs the sources of unpredictability
   (DMA, caches, interrupts, syscalls) — preview only, week 9 returns to it.
@@ -92,15 +94,17 @@ the transferable asset.
 
 ## Bridge to the lab
 They run the provided superloop and fill the baseline table: expect ~µs-level
-jitter on the cache-free M0+ — until the blocking command turns it into ms. That
-number is the course baseline; everything after week 2 is measured against it.
+jitter — until the blocking command turns it into ms. That number is the course
+baseline; everything after week 2 is measured against it. The cache-off column is
+the appetiser for week 3, where the whole chip changes at once.
 
 ## References
 - Buttazzo, §1.3 and §2.1–2.3 (the week's reading); §2.4 skimmed, returns in wk 9.
 - A. Mavin et al., "Easy Approach to Requirements Syntax (EARS)", *IEEE RE'09* —
   short and readable; the five patterns in §III.
-- J. Yiu, *The Definitive Guide to ARM Cortex-M0/M0+*, ch. 8 — exception entry
-  timing (the 15 cycles) and what can delay it.
+- J. Yiu, *The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors*, 3rd
+  ed., ch. 8 — exception entry timing (the 12 cycles) and what can delay it.
 - Zephyr docs, *Interrupts* — docs.zephyrproject.org/latest/kernel/services/interrupts/
-- STM32C0 reference manual (RM0490), EXTI + NVIC chapters — where the numbers
-  come from when the analyzer asks.
+- STM32L4 reference manual (RM0351), EXTI + NVIC chapters, and §3.3 for the ART
+  accelerator's cache and prefetch bits — where the numbers come from when the
+  analyzer asks.

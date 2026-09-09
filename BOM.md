@@ -9,9 +9,10 @@ and the final project). The **Hub Kit** (modules 5–6) is one per large group
 > weeks and may clear customs: order no later than weeks 1–2 of the semester
 > (only for what's used from week 5 on — buy the board locally).
 
-> **Starter board (weeks 1–2)**: the **STM32C0116-DK** (Cortex-M0+) **is lent by
-> the course** — it's not part of the kit. From week 3 on, everything runs on the
-> ESP32-S3.
+> **Starter board (weeks 1–2)**: the **NUCLEO-L476RG** — the board from the
+> prerequisite courses, so most students already have one and the lab lends the
+> rest. It's not part of the kit. Note it takes a USB **Mini-B** cable, not the
+> Micro-B or C you probably have. From week 3 on, everything runs on the ESP32-S3.
 
 ## Control Kit (one per group of 2–3)
 
@@ -51,7 +52,7 @@ for sensors and modules; national shipping to Manizales.
 
 ## When each item is needed
 
-- **Week 1**: cable (#10); the STM32C0116-DK is lent by the course.
+- **Week 1**: the NUCLEO-L476RG and its USB Mini-B cable; the lab lends boards to whoever needs one.
 - **Week 2**: logic analyzer (#2) and breadboard kit (#9) — the jitter baseline is measured here.
 - **Week 3**: ESP32-S3 board (#1) — buy locally, don't wait on AliExpress.
 - **Weeks 5–6**: pump, driver, flow sensor, servo, DS18B20, potentiometer, TFT display (#3–8) — the jitter-vs-control lab (week 6) uses the pump and the flow sensor.

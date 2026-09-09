@@ -24,17 +24,32 @@ west build -p -b native_sim samples/hello_world
 ./build/zephyr/zephyr.exe
 ```
 
+`native_sim` builds a **32-bit** binary. If this fails with
+`bits/libc-header-start.h: No such file or directory`, you are missing the 32-bit
+headers: `sudo apt install gcc-multilib g++-multilib`.
+
 ## 3. Build for a real board
 
-Use whatever you already own. The course's two targets are the **STM32C0116-DK**
-(weeks 1–2, lent by the course) and the **ESP32-S3** (week 3 on, [BOM](../BOM.md)),
+Use whatever you already own. The course's two targets are the **NUCLEO-L476RG**
+(weeks 1–2 — the board from the prerequisite courses) and the **ESP32-S3**
+(week 3 on, [BOM](../BOM.md)),
 but *any* ESP32 devkit is enough to practice the build→flash→monitor cycle now.
 
+Install the toolchain for the architecture you're targeting first — the Zephyr SDK
+does not install all of them by default:
+
 ```bash
-west build -p -b stm32c0116_dk samples/basic/blinky        # course starter board
+west sdk install -t arm-zephyr-eabi                   # NUCLEO-L476RG
+west sdk install -t xtensa-espressif_esp32s3_zephyr-elf   # ESP32-S3
+```
+
+```bash
+west build -p -b nucleo_l476rg samples/basic/blinky        # course starter board
 west build -p -b esp32s3_devkitc/esp32s3/procpu samples/hello_world
 west flash
 ```
+
+`Unable to find a valid toolchain` means you skipped the `west sdk install` above.
 
 Other ESP32 targets: `esp32_devkitc/esp32/procpu`, `esp32c3_devkitm`,
 `esp32c6_devkitc/esp32c6/hpcore`. `west boards | grep esp32` lists them all.
@@ -55,9 +70,9 @@ the guide).
 
 ## Week-1 checklist
 
-- [ ] `west --version` responds.
+- [ ] `west --version` responds (after `source ~/zephyrproject/.venv/bin/activate`).
 - [ ] `hello_world` runs on `native_sim`.
-- [ ] Something builds for a real board — blinky on `stm32c0116_dk`, or
+- [ ] Something builds for a real board — blinky on `nucleo_l476rg`, or
       `hello_world` on the ESP32 you have.
 - [ ] Your user is in the `dialout` group (or equivalent).
 - [ ] VS Code with the C/C++ extension (or your preferred editor) opens the workspace.

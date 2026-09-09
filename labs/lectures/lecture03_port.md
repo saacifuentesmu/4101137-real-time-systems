@@ -29,8 +29,8 @@ By the end, the student can: 1. explain what a devicetree overlay buys in a port
   costs zero RAM at runtime (unlike Linux, where the same idea — same syntax,
   they'll see it again in week 10's SBC — is parsed at boot).
 - Today's proof: `firmware/superloop/boards/*.overlay` — instrumentation pins and
-  ADC channels move from C0 pins to S3 pins; `main.c` diff: **zero lines**.
-- **Board sketch:** one `main.c` box fed by two small DT files (C0116-DK pins /
+  ADC channels move from L4 pins to S3 pins; `main.c` diff: **zero lines**.
+- **Board sketch:** one `main.c` box fed by two small DT files (Nucleo pins /
   S3 pins); arrow labels "port = data, not code".
 - **Question for the room:** week 1's toolchain map said vendor SDKs embed
   FreeRTOS — what does *this* port cost there? (SDK change; the FreeRTOS segment
@@ -88,7 +88,8 @@ overlay.
 ## Bridge to the lab
 Two numbers to predict before touching anything: the port's `git diff --stat`
 (expect ~0 lines of C) and the S3's baseline jitter (expect *worse* than the
-M0+ — external flash behind a cache; write down why before measuring).
+L476 — external flash behind a cache, a deeper pipeline, a radio core stealing
+bus cycles; write down why before measuring).
 
 ## References
 - Buttazzo, §10.1–10.3 (the week's reading; §10.4–10.5 skipped — implementation
@@ -97,7 +98,7 @@ M0+ — external flash behind a cache; write down why before measuring).
   docs.zephyrproject.org/latest/kernel/services/threads/ — the state diagram and
   the cooperative/preemptive split; *Introduction to devicetree* —
   docs.zephyrproject.org/latest/build/dts/intro.html
-- J. Yiu, *The Definitive Guide to ARM Cortex-M0/M0+*, ch. 10 — PendSV and the
-  context-switch sequence, register by register.
+- J. Yiu, *The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors*, 3rd
+  ed., ch. 10 — PendSV and the context-switch sequence, register by register.
 - FreeRTOS kernel docs, *Task states* — freertos.org/RTOS-task-states.html (the
   same lifecycle diagram, for the comparison slide).

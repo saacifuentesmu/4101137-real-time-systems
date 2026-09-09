@@ -43,10 +43,11 @@ The one system — **SoilSense Control** — is rebuilt as the course climbs the
 
 1. first as the **provided superloop** (`firmware/superloop/`, course-authored) —
    single Zephyr main thread plus ISRs — which
-   students run as their Zephyr get-started, then instrument and measure on a
-   cache-free Cortex-M0+ (STM32C0116-DK) as the baseline, then port to the ESP32-S3
-   with one devicetree overlay and re-measure (same code, two chips:
-   microarchitectural jitter made visible);
+   students run as their Zephyr get-started, then instrument and measure on the
+   NUCLEO-L476RG as the baseline — first as shipped, then with the flash cache and
+   prefetch switched off, which isolates microarchitectural jitter on one board,
+   one variable — then port to the ESP32-S3 with one devicetree overlay and
+   re-measure (same code, two chips);
 2. then **migrated to the Zephyr kernel** — a guided mapping of each superloop piece
    to its kernel counterpart: flags → message queues, polled work → threads, ISR
    bottom halves → workqueues — measured again against that baseline;
@@ -73,7 +74,7 @@ spec and verified in the traces. All course material is in English; classroom de
 | # | Module | What it covers |
 |---|--------|----------------|
 | 0 | Setup & recap | **Pre-course setup guide** (done at home, verified week 1) + prerequisite recap bridging digital systems, computation structures, and control into *why real-time*; `west`, devicetree at a glance, `native_sim`/Renode fallbacks |
-| 1 | Superloop baseline | Real-time taxonomy (hard/firm/soft) and latency anatomy; students **run and study the provided superloop** (`firmware/superloop/`, main thread + ISRs) and measure its jitter as the course baseline on the STM32C0116-DK (course-provided, cache-free Cortex-M0+) |
+| 1 | Superloop baseline | Real-time taxonomy (hard/firm/soft) and latency anatomy; students **run and study the provided superloop** (`firmware/superloop/`, main thread + ISRs) and measure its jitter as the course baseline on the NUCLEO-L476RG — the board they already own from the prerequisite courses — first with its flash cache as shipped, then switched off |
 | 2 | Zephyr kernel fundamentals | Opens with the port: the provided superloop rebuilt for the ESP32-S3 with one devicetree overlay, baseline re-measured (two chips compared). Then the **guided migration** superloop → threads, message queues, workqueues, ISR deferral — the talk maps each superloop piece to its kernel counterpart; jitter measured against the S3 baseline |
 | 3 | Workshop — scheduling & timing | RMS/EDF schedulability, response-time analysis, WCET estimation; priority inversion reproduced and fixed live (Zephyr mutexes do priority inheritance) |
 | 4 | Instrumented measurement | Two sessions bracketing the theory module: tracing (SystemView/CTF) at week 5 — so the schedulability labs verify by trace — then WCET methodology, a Zephyr driver with its devicetree binding, and multicore at week 9: partitioned scheduling via **Zephyr AMP** (sysbuild, one image per core), with global/SMP as the talk contrast. Week 9's talk is also FreeRTOS's dedicated slot |
@@ -95,8 +96,8 @@ proofs — to skip.
 
 | Week | Module | Talk (40 min) | Lab (2 h) |
 |------|--------|---------------|-----------|
-| 1 | 0 | Recap: digital systems → computation structures → control systems — converging on *why real-time*; course overview | Toolchain check (pre-course setup guide done at home), first build; blink on the STM32C0116-DK and `native_sim` |
-| 2 | 1 | Quick RT recap, then the vocabulary: taxonomy (hard/firm/soft), task models, latency anatomy (interrupt → activation → jitter) | Run the provided superloop (`firmware/superloop/`) on the C0116-DK as the Zephyr get-started; walk the code, instrument it, measure the jitter baseline table on cache-free silicon |
+| 1 | 0 | Recap: digital systems → computation structures → control systems — converging on *why real-time*; course overview | Toolchain check (pre-course setup guide done at home), first build; blink on the NUCLEO-L476RG and `native_sim` |
+| 2 | 1 | Quick RT recap, then the vocabulary: taxonomy (hard/firm/soft), task models, latency anatomy (interrupt → activation → jitter) | Run the provided superloop (`firmware/superloop/`) on the NUCLEO-L476RG as the Zephyr get-started; walk the code, instrument it, measure the jitter baseline table, then re-measure with the flash cache off |
 | 3 | 2 | The scheduler: threads, priorities, preemption | Port the provided superloop to the ESP32-S3 (one devicetree overlay — Zephyr portability, demonstrated); re-measure the baseline, compare silicon; begin the guided migration to threads |
 | 4 | 2 | IPC: message queues, workqueues, ISR deferral | Complete the threaded node; A/B measurement against the week-3 S3 baseline |
 | 5 | 5 | Instrumented measurement: Zephyr tracing (SystemView/CTF), latency/jitter/CPU load | Trace the threaded node; quantify kernel overhead vs. the baseline |
@@ -114,7 +115,7 @@ proofs — to skip.
 
 ## Hardware & tooling
 
-STM32C0116-DK (course-provided; weeks 1–2 cache-free baseline) · ESP32-S3 devkit ·
+NUCLEO-L476RG (weeks 1–2 baseline; already owned from the prerequisite courses) · ESP32-S3 devkit ·
 Zephyr (`west`, CMake, devicetree, Kconfig) · VS Code ·
 `native_sim` / Renode for no-hardware paths ·
 Zephyr tracing (SystemView/CTF) · a PREEMPT_RT Linux SBC (e.g. Raspberry Pi) for

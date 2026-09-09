@@ -26,7 +26,7 @@ system shall <response> within <deadline>*) — then the task that implements th
 
 Each entry cites the `REQ`(s) it verifies.
 
-### Week 2 — superloop baseline (C0116-DK)
+### Week 2 — superloop baseline (state the board)
 <jitter/latency table + a one-sentence reading>
 
 ### Week 3 — S3 baseline and silicon comparison

@@ -11,11 +11,11 @@ first thread."*
 | Stakeholder | Their question | How this session answers it |
 |---|---|---|
 | **Samuel** | What did changing silicon cost? | Changed lines: count them in the diff |
-| **Gustavo** | Is the S3 "worse" for real time than the M0+? | Same-code jitter comparison, two chips |
+| **Gustavo** | Is the S3 "worse" for real time than the L476? | Same-code jitter comparison, two chips |
 
 ## What you'll measure
 
-| Measurement | C0116-DK (wk 2) | S3 (today) |
+| Measurement | L476RG (wk 2) | S3 (today) |
 |---|---|---|
 | Max sampling jitter (superloop) | (copy) | ____ µs |
 | ISR → service latency | (copy) | ____ µs |
@@ -32,8 +32,9 @@ first thread."*
 
 ### Task B — Two silicons, same code
 - Repeat the week-2 baseline measurement on the S3; fill in the S3 column.
-- Where does jitter appear that the M0+ didn't have? (Hint from the talk: the
-  external flash and its cache.) Two sentences in the RET.
+- Week 2 already showed you what a flash cache does to jitter on one board. The
+  S3 adds external flash behind its cache, plus a radio core on the same bus:
+  which of the two effects dominates? Two sentences in the RET.
 - **Evidence:** comparison table + captures.
 
 ### Task C — The first thread
@@ -61,4 +62,4 @@ changing SDKs, not overlays.
 |---|---|
 | **Execution** — port via overlay, no C touched (15) · sampling thread working (25) | 40 |
 | **Evidence** — complete comparison table (20) · port diff-stat (10) | 30 |
-| **Analysis** — correct reading of M0+ vs. S3 jitter (15) · why the thread survives the blocking command (15) | 30 |
+| **Analysis** — correct reading of L476 vs. S3 jitter (15) · why the thread survives the blocking command (15) | 30 |
