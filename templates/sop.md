@@ -1,9 +1,9 @@
-# SOP-NN — <procedure>
+# SOP-NN — `<procedure>`
 
 **Serves:** `labs/labNN_*.md` · **Hardware:** <exact boards/cables>.
 Steps, checks, and troubleshooting only — the *why* lives in the lab.
 
-## 1. <step>
+## 1. `<step>`
 
 ```bash
 # exact, copy-pasteable commands
@@ -11,7 +11,7 @@ Steps, checks, and troubleshooting only — the *why* lives in the lab.
 
 **Verify:** <expected output, literal>.
 
-## 2. <step>
+## 2. `<step>`
 …
 
 ## Troubleshooting

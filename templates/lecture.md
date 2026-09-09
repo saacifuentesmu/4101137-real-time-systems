@@ -1,4 +1,4 @@
-# Week-N talk — <title> (40 min)
+# Week-N talk — `<title>` (40 min)
 
 **Precedes:** `labs/labNN_*.md` · **Audience:** students right before the lab.
 
@@ -14,7 +14,7 @@ By the end, the student can: 1. <measurable verb> … 2. … 3. …
 | 30–35 | What about FreeRTOS? | the equivalent API and when it wins |
 | 35–40 | Bridge to the lab | what they'll measure and what number should come out |
 
-## Segment 1 — <name>
+## Segment 1 — `<name>`
 - Key idea: <one sentence>.
 - **Board sketch:** <what to draw>.
 - **Question for the room:** <no answer in the student material>.

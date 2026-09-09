@@ -138,7 +138,7 @@ never answers, TASK 3 is missing: `main()` ran off the end and there is no loop.
 ### Task D — The requirements, in writing
 - From the task table in the [scenario](../PROJECT_SCENARIO.md), extract **5–8
   timing requirements** and write each as one **EARS-style** sentence
-  (*when/while <condition>, the system shall <response> within <deadline>*), with an ID:
+  (*when/while `<condition>`, the system shall `<response>` within `<deadline>`*), with an ID:
 
 | ID | Requirement |
 |---|---|

@@ -1,13 +1,16 @@
 # RET — Timing Evidence Report
 
-**Team:** <names> · **Boards:** <serials/nicknames> · **Living** document: updated
-every week; handed in at the workshop (week 8) and at the close (week 16).
-House rule: *"show me the trace"* — every timing claim cites a measurement.
+**Team:** `<names>` · **Boards:** `<serials/nicknames>`
+
+**Living document** — updated every week; handed in at the workshop (week 8) and
+at the close (week 16).
+
+**House rule:** *"show me the trace"* — every timing claim cites a measurement.
 
 ## 1. The system and its task set
 
-Requirements first — one sentence each, EARS style (*when/while <condition>, the
-system shall <response> within <deadline>*) — then the task that implements them:
+Requirements first — one sentence each, EARS style (*when/while `<condition>`, the
+system shall `<response>` within `<deadline>`*) — then the task that implements them:
 
 | ID | Requirement |
 |---|---|
@@ -19,7 +22,7 @@ system shall <response> within <deadline>*) — then the task that implements th
 
 ## 2. ADRs
 
-### ADR-001 — <title>
+### ADR-001 — `<title>`
 **Context:** … · **Decision:** … · **Justification (with numbers):** … · **Status:** …
 
 ## 3. Evidence by week
