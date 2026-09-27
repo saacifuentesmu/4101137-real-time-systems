@@ -1,6 +1,6 @@
 config LAB_FLASH_CACHE_OFF
-	bool "Run with the STM32L4 ART instruction/data cache disabled"
-	depends on SOC_SERIES_STM32L4X
+	bool "Run with the STM32L4/G4 ART instruction/data cache disabled"
+	depends on SOC_SERIES_STM32L4X || SOC_SERIES_STM32G4X
 	help
 	  Week 2's second measurement: identical binary, cache off, so the jitter
 	  difference is attributable to the flash accelerator alone. Pair it with
