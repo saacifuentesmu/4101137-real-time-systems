@@ -1,0 +1,56 @@
+/*
+ * NUCLEO-G474RE pin map for the SoilSense superloop.
+ *
+ * Instrumentation uses Arduino D3-D8.
+ * Flow pulse input uses Arduino D9.
+ * The valve uses LD2 through the existing led0 alias.
+ */
+
+#include <zephyr/dt-bindings/gpio/gpio.h>
+
+/ {
+	instr {
+		compatible = "gpio-leds";
+
+		instr_samp: instr_samp {
+			gpios = <&gpiob 3 GPIO_ACTIVE_HIGH>;  /* D3 */
+		};
+
+		instr_ctrl: instr_ctrl {
+			gpios = <&gpiob 5 GPIO_ACTIVE_HIGH>;  /* D4 */
+		};
+
+		instr_cons: instr_cons {
+			gpios = <&gpiob 4 GPIO_ACTIVE_HIGH>;  /* D5 */
+		};
+
+		instr_tele: instr_tele {
+			gpios = <&gpiob 10 GPIO_ACTIVE_HIGH>; /* D6 */
+		};
+
+		instr_flow: instr_flow {
+			gpios = <&gpioa 8 GPIO_ACTIVE_HIGH>;  /* D7 */
+		};
+
+		instr_disp: instr_disp {
+			gpios = <&gpioa 9 GPIO_ACTIVE_HIGH>;  /* D8 */
+		};
+	};
+
+	keys {
+		compatible = "gpio-keys";
+
+		flow_pulse: flow_pulse {
+			gpios = <&gpioc 7
+				 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>; /* D9 */
+		};
+	};
+};
+
+&pwm2 {
+	status = "disabled";
+};
+
+&pwm3 {
+	status = "disabled";
+};
