@@ -42,26 +42,32 @@
 <text x="774.0" y="131.0" text-anchor="start" font-size="20" font-weight="700" fill="#2563eb">10</text>
 <text x="435.0" y="442.0" text-anchor="middle" font-size="20" font-weight="400" fill="#475569">iteration step s</text>
 <text x="110.0" y="30.0" text-anchor="start" font-size="20" font-weight="400" fill="#475569">R₄ guess</text>
-<text x="840.0" y="80.0" text-anchor="start" font-size="22" font-weight="700" fill="#0f172a">Buttazzo Table 4.3</text>
-<text x="880.0" y="120.0" text-anchor="middle" font-size="20" font-weight="700" fill="#475569"></text>
-<text x="950.0" y="120.0" text-anchor="middle" font-size="20" font-weight="700" fill="#475569">C</text>
-<text x="1020.0" y="120.0" text-anchor="middle" font-size="20" font-weight="700" fill="#475569">T</text>
-<text x="1090.0" y="120.0" text-anchor="middle" font-size="20" font-weight="700" fill="#475569">D</text>
-<text x="880.0" y="155.0" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">τ1</text>
-<text x="950.0" y="155.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">1</text>
-<text x="1020.0" y="155.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">4</text>
-<text x="1090.0" y="155.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">3</text>
-<text x="880.0" y="191.0" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">τ2</text>
-<text x="950.0" y="191.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">1</text>
-<text x="1020.0" y="191.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">5</text>
-<text x="1090.0" y="191.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">4</text>
-<text x="880.0" y="227.0" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">τ3</text>
-<text x="950.0" y="227.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">2</text>
-<text x="1020.0" y="227.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">6</text>
-<text x="1090.0" y="227.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">5</text>
-<text x="880.0" y="263.0" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">τ4</text>
-<text x="950.0" y="263.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">1</text>
-<text x="1020.0" y="263.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">11</text>
-<text x="1090.0" y="263.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">10</text>
-<text x="840.0" y="330.0" text-anchor="start" font-size="22" font-weight="700" fill="#16a34a">fixed point: R₄ = 10 ≤ D₄</text>
+<text x="830.0" y="80.0" text-anchor="start" font-size="22" font-weight="700" fill="#0f172a">Buttazzo Table 4.3</text>
+<text x="870.0" y="120.0" text-anchor="middle" font-size="20" font-weight="700" fill="#475569"></text>
+<text x="932.0" y="120.0" text-anchor="middle" font-size="20" font-weight="700" fill="#475569">C</text>
+<text x="994.0" y="120.0" text-anchor="middle" font-size="20" font-weight="700" fill="#475569">T</text>
+<text x="1056.0" y="120.0" text-anchor="middle" font-size="20" font-weight="700" fill="#475569">D</text>
+<text x="1118.0" y="120.0" text-anchor="middle" font-size="20" font-weight="700" fill="#2563eb">R</text>
+<text x="870.0" y="155.0" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">τ1</text>
+<text x="932.0" y="155.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">1</text>
+<text x="994.0" y="155.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">4</text>
+<text x="1056.0" y="155.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">3</text>
+<text x="1118.0" y="155.0" text-anchor="middle" font-size="20" font-weight="700" fill="#2563eb">1</text>
+<text x="870.0" y="191.0" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">τ2</text>
+<text x="932.0" y="191.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">1</text>
+<text x="994.0" y="191.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">5</text>
+<text x="1056.0" y="191.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">4</text>
+<text x="1118.0" y="191.0" text-anchor="middle" font-size="20" font-weight="700" fill="#2563eb">2</text>
+<text x="870.0" y="227.0" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">τ3</text>
+<text x="932.0" y="227.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">2</text>
+<text x="994.0" y="227.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">6</text>
+<text x="1056.0" y="227.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">5</text>
+<text x="1118.0" y="227.0" text-anchor="middle" font-size="20" font-weight="700" fill="#2563eb">4</text>
+<text x="870.0" y="263.0" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">τ4</text>
+<text x="932.0" y="263.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">1</text>
+<text x="994.0" y="263.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">11</text>
+<text x="1056.0" y="263.0" text-anchor="middle" font-size="20" font-weight="400" fill="#0f172a">10</text>
+<text x="1118.0" y="263.0" text-anchor="middle" font-size="20" font-weight="700" fill="#2563eb">10</text>
+<text x="830.0" y="330.0" text-anchor="start" font-size="22" font-weight="700" fill="#16a34a">every R ≤ D: schedulable</text>
+<text x="830.0" y="362.0" text-anchor="start" font-size="20" font-weight="400" fill="#475569">τ4 settles at R₄ = 10 = D₄</text>
 </svg>

@@ -48,15 +48,18 @@ def iteration():
         body.append(text(sx(s) + 14, sy(r) + 26, str(r), 20, 700, C["c2"]))
     body.append(text((x0 + x1) / 2, y0 + 62, "iteration step s", 20, 400, MUTED, "middle"))
     body.append(text(x0, y1 - 20, "R₄ guess", 20, 400, MUTED))
-    tx = 840
+    tx = 830
+    rs = [rta_steps(TABLE_4_3, i)[-1] for i in range(len(TABLE_4_3))]
     body.append(text(tx, 80, "Buttazzo Table 4.3", 22, 700, INK))
-    for j, h in enumerate(("", "C", "T", "D")):
-        body.append(text(tx + 40 + j * 70, 120, h, 20, 700, MUTED, "middle"))
-    for i, (c, t, dd) in enumerate(TABLE_4_3):
+    for j, h in enumerate(("", "C", "T", "D", "R")):
+        body.append(text(tx + 40 + j * 62, 120, h, 20, 700, C["c2"] if h == "R" else MUTED, "middle"))
+    for i, ((c, t, dd), r) in enumerate(zip(TABLE_4_3, rs)):
         y = 155 + i * 36
-        for j, v in enumerate((f"τ{i + 1}", c, t, dd)):
-            body.append(text(tx + 40 + j * 70, y, str(v), 20, 700 if j == 0 else 400, INK, "middle"))
-    body.append(text(tx, 330, f"fixed point: R₄ = {steps[-1]} ≤ D₄", 22, 700, C["c3"]))
+        for j, v in enumerate((f"τ{i + 1}", c, t, dd, r)):
+            body.append(text(tx + 40 + j * 62, y, str(v), 20, 700 if j in (0, 4) else 400,
+                             C["c2"] if j == 4 else INK, "middle"))
+    body.append(text(tx, 330, "every R ≤ D: schedulable", 22, 700, C["c3"]))
+    body.append(text(tx, 362, f"τ4 settles at R₄ = {steps[-1]} = D₄", 20, 400, MUTED))
     return svg(1160, 470, body)
 
 
@@ -189,6 +192,7 @@ def inversion():
 
 if __name__ == "__main__":
     assert rta_steps(TABLE_4_3, 3) == [1, 5, 6, 7, 9, 10, 10]
+    assert [rta_steps(TABLE_4_3, i)[-1] for i in range(4)] == [1, 2, 4, 10], "book: every task meets its deadline"
     assert rta_steps(FIG_4_13, 1) == [4, 6, 8], "Fig. 4.13: τ2's R passes D = 7 at the third step"
     sem, pip = simulate(SCENARIO, False, 17), simulate(SCENARIO, True, 17)
     assert sum(s == "blocked" for s in pip["H"]) == 3 and finish(pip["H"]) == 9, "PIP: H waits for L's critical section only"

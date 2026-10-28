@@ -196,7 +196,32 @@ ratio". It counts arrows inside the window.
 19:00–20:00. Buttazzo Table 4.3, computed by img/rta_figs.py. Same loop, three
 terms in the sum instead of one. Here D < T, so priorities follow deadlines, not
 periods; RTA takes the priorities as given, whatever chose them. It settles at
-10, exactly D4: schedulable, with no slack.
+10, exactly D4: schedulable, with no slack. The R column is the next slide,
+task by task.
+-->
+
+---
+
+<!-- _class: s3 -->
+<!-- _header: 3 · Response time -->
+
+## Task by task: all four meet their deadlines
+
+| | Interrupted by | Iterations | R ≤ D |
+|---|---|---|---|
+| τ1 | nobody | 1 | 1 ≤ 3 ✓ |
+| τ2 | τ1 | 1 → 1 + ⌈1/4⌉·1 = 2 → 2 | 2 ≤ 4 ✓ |
+| τ3 | τ1, τ2 | 2 → 2 + ⌈2/4⌉·1 + ⌈2/5⌉·1 = 4 → 4 | 4 ≤ 5 ✓ |
+| τ4 | τ1, τ2, τ3 | 1 → 5 → 6 → 7 → 9 → 10 → 10 | 10 ≤ 10 ✓ |
+
+The lower the priority, the more interrupters, the longer the climb.
+
+<!--
+20:00–21:00. One loop per task, highest priority first; only the tasks above
+can interrupt. τ3: τ1's second release at t = 4 sits exactly on the edge of the
+window [0, 4), so it isn't caught and R settles at 4. τ4 is the previous chart.
+Misconception to anticipate: "checking the lowest task is enough". Each task
+has its own deadline, so each needs its own R ≤ D.
 -->
 
 ---
@@ -212,7 +237,7 @@ periods; RTA takes the priorities as given, whatever chose them. It settles at
 4. Both: average them
 
 <!--
-20:00–22:00. Answer: 3. The RTA assumes every higher-priority task releases at the
+21:00–23:00. Answer: 3. The RTA assumes every higher-priority task releases at the
 same instant; 30 s rarely contains that. If the capture ever exceeds the RTA, the
 C_i are wrong. Numbers are illustrative.
 -->
@@ -230,7 +255,7 @@ C_i are wrong. Numbers are illustrative.
 - JPL replayed the trace on Earth; the fix was one mutex attribute: priority inheritance
 
 <!--
-22:00–24:00. Pathfinder ran VxWorks; inheritance was available and off. The story
+23:00–25:00. Pathfinder ran VxWorks; inheritance was available and off. The story
 is the course's house rule in action: the trace found it.
 -->
 
@@ -244,7 +269,7 @@ is the course's house rule in action: the trace found it.
 ![h:460](img/rta_inversion.svg)
 
 <!--
-24:00–27:00. Simulated by img/rta_figs.py. Top: L takes the lock, H asks for it and
+25:00–28:00. Simulated by img/rta_figs.py. Top: L takes the lock, H asks for it and
 blocks, M (no lock at all) preempts L: H now waits for M, 9 units. Bottom: while L
 holds the lock it runs at H's priority, so M can't intervene: H waits only for L's
 critical section, 3 units. Ask which of our threads plays each role: control (H),
@@ -264,7 +289,7 @@ telemetry (M), console (L). That is this afternoon's Task B.
 4. The short critical section
 
 <!--
-27:00–29:00. Answer: 2. Misconception to anticipate: "a semaphore is a mutex". A
+28:00–30:00. Answer: 2. Misconception to anticipate: "a semaphore is a mutex". A
 binary semaphore has no owner, so the kernel can't raise anyone's priority: it
 allows exactly the top timeline. 4 bounds the critical section, not the time M
 runs. For mutual exclusion across priorities: a PI mutex, always.
@@ -284,7 +309,7 @@ $$R_i = C_i + B_i + \sum_{h < i} \left\lceil \frac{R_i}{T_h} \right\rceil C_h$$
 - Priority ceiling protocol (PCP): no deadlock, at most one blocking; worth knowing it exists
 
 <!--
-29:00–31:00. Under PIP a task can be blocked at most once per lower-priority task
+30:00–32:00. Under PIP a task can be blocked at most once per lower-priority task
 that shares a resource with it, by at most one critical section each: that is the
 min(l_i, s_i) in Theorem 7.2. The homework script takes B from Task B's GPIO pulse
 and must bound the PI-mutex capture.
@@ -302,7 +327,7 @@ and must bound the PI-mutex capture.
 - Pathfinder ran VxWorks: the lesson doesn't depend on the kernel
 
 <!--
-31:00–32:00. Most shipped RTOSes are fixed-priority, which is why the book spends
+32:00–33:00. Most shipped RTOSes are fixed-priority, which is why the book spends
 half a chapter on RM.
 -->
 
@@ -315,7 +340,7 @@ half a chapter on RM.
 > Below the bound, RM is guaranteed; above it, RTA decides. Across priorities, lock with a mutex that inherits, and add $B_i$ to the sum.
 
 <!--
-32:00–33:00. Read it aloud. It is the first line of today's RET §4 entry.
+33:00–34:00. Read it aloud. It is the first line of today's RET §4 entry.
 -->
 
 ---
@@ -335,7 +360,7 @@ half a chapter on RM.
 Predictions are due before you power the board.
 
 <!--
-33:00–37:00. Task C needs the two sums; let them start them here.
+34:00–38:00. Task C needs the two sums; let them start them here.
 For you: with the example Daniela tasks, the threads above the console hold
 U ≈ 0.72, leaving ≈ 280 ms of each second for a 401 ms calib; after k_usleep it
 needs ≈ 2 ms of CPU. The e-stop path is ≤ 1 + 10 + 1 ≈ 12 ms as shipped and
@@ -355,5 +380,5 @@ Daniela's U test and the RTA script.
 - Zephyr docs: *Scheduling* (EDF), *Mutexes* (priority inheritance)
 
 <!--
-37:00–40:00. Questions; the references slide stays up while the lab starts.
+38:00–40:00. Questions; the references slide stays up while the lab starts.
 -->
