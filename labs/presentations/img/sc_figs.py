@@ -86,16 +86,16 @@ def bounds():
     u_fig = sum(c / p for _, c, p, _ in TASKS)
     ll2 = 2 * (2 ** 0.5 - 1)
     body = []
-    rows = [("EDF", [(0, 1, "c3", "guaranteed: U ≤ 1 is exact"), (1, 1.1, "c5", "overload")]),
-            ("RM", [(0, math.log(2), "c3", "guaranteed, any n"), (math.log(2), 1, "c7", "maybe: run RTA"),
-                    (1, 1.1, "c5", "overload")])]
+    rows = [("EDF · earliest deadline first", [(0, 1, "c3", "guaranteed: U ≤ 1 is exact"), (1, 1.1, "c5", "overload")]),
+            ("RM · rate monotonic", [(0, math.log(2), "c3", "guaranteed, any n"), (math.log(2), 1, "c7", "maybe: run RTA"),
+                                     (1, 1.1, "c5", "overload")])]
     for k, (name, spans) in enumerate(rows):
-        y = 40 + k * 110
-        body.append(text(20, y + 40, name, 26, 700))
+        y = 52 + k * 120
+        body.append(text(x0, y - 12, name, 26, 700))
         for a, b, col, label in spans:
             body.append(f'<rect x="{sx(a)}" y="{y}" width="{sx(b) - sx(a)}" height="60" fill="{T[col]}" stroke="{C[col]}" stroke-width="2"/>')
             body.append(text((sx(a) + sx(b)) / 2, y + 39, label, 22 if b - a > 0.2 else 18, 700, C[col], "middle"))
-    y = 270
+    y = 290
     body.append(f'<line x1="{x0}" y1="{y}" x2="{x1}" y2="{y}" stroke="{MUTED}" stroke-width="2"/>')
     for u in (0, 0.2, 0.4, 0.6, 0.8, 1.0):
         body.append(f'<line x1="{sx(u)}" y1="{y - 6}" x2="{sx(u)}" y2="{y + 6}" stroke="{MUTED}" stroke-width="2"/>')
@@ -105,6 +105,7 @@ def bounds():
         body.append(f'<line x1="{sx(u)}" y1="{y - 54}" x2="{sx(u)}" y2="{y + dy - 22}" stroke="{INK}" stroke-width="2" stroke-dasharray="6 5"/>')
         body.append(text(sx(u) + (8 if anchor == "end" else 0), y + dy, label, 21, 700, INK, anchor))
     body.append(text(x1, y + 30, "U", 22, 700, MUTED, "end"))
+    body.insert(0, '<rect width="100%" height="100%" fill="#ffffff"/>')  # dark viewers hide the ink labels
     return svg(w, y + 140, body)
 
 
