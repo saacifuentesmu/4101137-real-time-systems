@@ -409,6 +409,30 @@ static void task_display(void)
 }
 #endif
 
+/* ---- Synthetic load (week 8, load.conf): one read per cache line of a table
+ * that lives in flash. The same load amp_node runs on PROCPU, here on the hard
+ * path's own core. */
+
+#ifdef CONFIG_APP_SYNTH_LOAD
+static const uint8_t load_table[64 * 1024] = { 1 };
+static atomic_t load_on;
+
+static void load_thread(void *p1, void *p2, void *p3)
+{
+	volatile uint32_t sum = 0;
+
+	while (1) {
+		if (!atomic_get(&load_on)) {
+			k_msleep(100);
+			continue;
+		}
+		for (size_t i = 0; i < sizeof(load_table); i += 32) {
+			sum += load_table[i];
+		}
+	}
+}
+#endif
+
 /* ---- Console (firm): poll chars, run a full command synchronously --------- */
 
 static void cmd_calib(void)
@@ -424,7 +448,8 @@ static void cmd_calib(void)
 static void console_handle(char *line)
 {
 	if (strcmp(line, "help") == 0) {
-		printk("commands: help status joy set <mv> clear calib threads\n");
+		printk("commands: help status joy set <mv> clear calib threads%s\n",
+		       IS_ENABLED(CONFIG_APP_SYNTH_LOAD) ? " load on|off" : "");
 	} else if (strcmp(line, "status") == 0) {
 		printk("p=%d mV sp=%d mV duty=%d%% flow_x100=%d estop=%d "
 		       "batches=%u backlog_peak=%ld lat_peak_us=%ld\n",
@@ -443,6 +468,11 @@ static void console_handle(char *line)
 		printk("e-stop cleared\n");
 	} else if (strcmp(line, "calib") == 0) {
 		cmd_calib();
+#ifdef CONFIG_APP_SYNTH_LOAD
+	} else if (strcmp(line, "load on") == 0 || strcmp(line, "load off") == 0) {
+		atomic_set(&load_on, line[6] == 'n');
+		printk("load %s\n", atomic_get(&load_on) ? "on" : "off");
+#endif
 #ifdef CONFIG_THREAD_ANALYZER
 	} else if (strcmp(line, "threads") == 0) {
 		thread_analyzer_print(0);
@@ -486,6 +516,7 @@ static void task_console(void)
 #define DISPLAY_PRIO   7
 #define TELEMETRY_PRIO 8
 #define CONSOLE_PRIO   9
+#define LOAD_PRIO      10
 
 #define CONSOLE_POLL_MS 5  /* the S3's 128-byte RX FIFO holds ~11 ms at 115200 */
 #define DISPLAY_POLL_MS 50
@@ -557,6 +588,10 @@ static void console_thread(void *p1, void *p2, void *p3)
 }
 K_THREAD_DEFINE(console_tid, 2048, console_thread, NULL, NULL, NULL,
 		CONSOLE_PRIO, 0, 0);
+
+#ifdef CONFIG_APP_SYNTH_LOAD
+K_THREAD_DEFINE(load_tid, 1024, load_thread, NULL, NULL, NULL, LOAD_PRIO, 0, 0);
+#endif
 
 /* Its own queue, not the system one: that runs at priority -1 (cooperative)
  * and would hold sampling off for the whole batch. */

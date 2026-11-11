@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" font-family="Inter, 'Segoe UI', 'DejaVu Sans', Arial, sans-serif">
+<defs><marker id="ar-ink" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f172a"/></marker><marker id="ar-muted" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#475569"/></marker><marker id="ar-c1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#ea580c"/></marker><marker id="ar-c2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker><marker id="ar-c3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#16a34a"/></marker><marker id="ar-c4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0d9488"/></marker><marker id="ar-c5" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e11d48"/></marker><marker id="ar-c6" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker><marker id="ar-c7" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d97706"/></marker><marker id="ar-c8" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#db2777"/></marker></defs>
+<text x="260.0" y="74.0" text-anchor="end" font-size="21" font-weight="700" fill="#2563eb">instr_samp</text>
+<text x="260.0" y="98.0" text-anchor="end" font-size="17" font-weight="400" fill="#475569">GPIO4 · APPCPU</text>
+<text x="260.0" y="164.0" text-anchor="end" font-size="21" font-weight="700" fill="#e11d48">valve</text>
+<text x="260.0" y="188.0" text-anchor="end" font-size="17" font-weight="400" fill="#475569">GPIO21 · APPCPU</text>
+<text x="260.0" y="254.0" text-anchor="end" font-size="21" font-weight="700" fill="#db2777">instr_ipm</text>
+<text x="260.0" y="278.0" text-anchor="end" font-size="17" font-weight="400" fill="#475569">GPIO18 · PROCPU</text>
+<polyline points="273.5,100.0 290.0,100.0 290.0,60.0 313.1,60.0 313.1,100.0 620.0,100.0 620.0,60.0 643.1,60.0 643.1,100.0 950.0,100.0 950.0,60.0 973.1,60.0 973.1,100.0 1148.0,100.0" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polyline points="273.5,190.0 290.0,190.0 290.0,150.0 356.0,150.0 356.0,190.0 405.5,190.0 405.5,150.0 471.5,150.0 471.5,190.0 521.0,190.0 521.0,150.0 587.0,150.0 587.0,190.0 1148.0,190.0" fill="none" stroke="#e11d48" stroke-width="3"/>
+<polyline points="273.5,280.0 692.6,280.0 692.6,240.0 1148.0,240.0" fill="none" stroke="#db2777" stroke-width="3"/>
+<line x1="620.0" y1="30.0" x2="620.0" y2="300.0" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="612.0" y="28.0" text-anchor="end" font-size="18" font-weight="700" fill="#2563eb">pressure &gt; 3000 mV in this job</text>
+<text x="653.0" y="128.0" text-anchor="start" font-size="18" font-weight="700" fill="#e11d48">valve low in the same job (ADR-005)</text>
+<line x1="620.0" y1="318.0" x2="692.6" y2="318.0" stroke="#0f172a" stroke-width="3"/>
+<line x1="620.0" y1="308.0" x2="620.0" y2="328.0" stroke="#0f172a" stroke-width="3"/>
+<line x1="692.6" y1="308.0" x2="692.6" y2="328.0" stroke="#0f172a" stroke-width="3"/>
+<text x="706.6" y="324.0" text-anchor="start" font-size="20" font-weight="700" fill="#0f172a">the hop: today's last row</text>
+<text x="40.0" y="372.0" text-anchor="start" font-size="19" font-weight="400" fill="#475569">From week 12: PROCPU sends the CAN e-stop frame → the Hub stops the pump (≤ 20 ms end to end)</text>
+<text x="1148.0" y="404.0" text-anchor="end" font-size="16" font-weight="400" fill="#475569">schematic: pulses widened, hop not to scale</text>
+</svg>

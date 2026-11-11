@@ -29,6 +29,8 @@ Three choices worth knowing before measuring:
 `status` reports `backlog_peak` and `lat_peak_us` as in week 3; `threads` prints
 each thread's stack high-water mark (week 4, Task D). Pins, console,
 `pot_esp32s3.overlay` and `display.conf` work as in the superloop.
+`load.conf` adds week 8's synthetic load (`load on|off`), for the tail
+table's one-core rows.
 
 ```bash
 west build -p -b esp32s3_devkitc/esp32s3/procpu firmware/kernel && west flash

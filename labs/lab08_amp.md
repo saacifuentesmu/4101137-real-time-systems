@@ -65,17 +65,17 @@ case; compare **maxima**, not averages.
 
 | Measurement | Prediction | Your value | Note |
 |---|---|---|---|
-| Max loop jitter, 1 core, no load | | ____ µs | reference (wk 4) |
-| Max loop jitter, 1 core, **with synthetic load** | ____ µs | ____ µs | the week-4 build plus the load thread |
-| Max loop jitter on APPCPU, load on PROCPU | ____ µs | ____ µs | partitioned |
+| Max loop jitter, 1 core, no load | (copy wk 4) | ____ µs | `firmware/kernel` + `load.conf`, `load off` (SOP-08 §4) |
+| Max loop jitter, 1 core, **with synthetic load** | ____ µs | ____ µs | same build, `load on` |
+| Max loop jitter on APPCPU, load on PROCPU | ____ µs | ____ µs | the two-core node, `load on` |
 | Max loop jitter on APPCPU in IRAM, load on PROCPU | ____ µs | ____ µs | step 4 |
 | Averages of all four cases | ____ | ____ | |
-| Inter-core hop: the detecting `instr_samp` pulse → `instr_ipm` (GPIO18), max of 5 trips | ____ µs | ____ µs | a GPIO on each side |
+| Inter-core hop: the detecting `instr_samp` pulse → `instr_ipm` (GPIO18), max of 5 trips | ____ µs | ____ µs | SOP-08 §3, a GPIO on each side |
 
 ### Step 4 — The hard path in internal RAM
-- Row 3 may surprise you. The two cores share the flash cache, so a load streaming
-  from flash on PROCPU stalls APPCPU's instruction fetches. Rebuild with
-  `iram.conf` (SOP-08 §4) and fill the last jitter row.
+- Rebuild with `iram.conf` (SOP-08 §5): the APPCPU's sampling and control path
+  moves out of flash into internal RAM. Fill the last jitter row.
+- Under the table, one sentence: what explains the gap between rows 3 and 4?
 - **Check:** `sampling_thread` sits at a `0x403…` address in the APPCPU's ELF.
 
 ### Stretch (optional) — The flow sensor as a driver

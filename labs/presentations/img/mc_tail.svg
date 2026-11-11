@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 454" font-family="Inter, 'Segoe UI', 'DejaVu Sans', Arial, sans-serif">
+<defs><marker id="ar-ink" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f172a"/></marker><marker id="ar-muted" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#475569"/></marker><marker id="ar-c1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#ea580c"/></marker><marker id="ar-c2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker><marker id="ar-c3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#16a34a"/></marker><marker id="ar-c4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0d9488"/></marker><marker id="ar-c5" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e11d48"/></marker><marker id="ar-c6" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker><marker id="ar-c7" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d97706"/></marker><marker id="ar-c8" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#db2777"/></marker></defs>
+<text x="404.0" y="62.0" text-anchor="end" font-size="21" font-weight="700" fill="#0f172a">1 core, no load</text>
+<rect x="420.0" y="36.0" width="69.5" height="38.0" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="499.5" y="62.0" text-anchor="start" font-size="20" font-weight="700" fill="#2563eb">2.25 µs</text>
+<text x="404.0" y="128.0" text-anchor="end" font-size="21" font-weight="700" fill="#0f172a">1 core, load on</text>
+<rect x="420.0" y="102.0" width="324.5" height="38.0" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="754.5" y="128.0" text-anchor="start" font-size="20" font-weight="700" fill="#2563eb">10.5 µs</text>
+<text x="404.0" y="194.0" text-anchor="end" font-size="21" font-weight="700" fill="#0f172a">APPCPU, PROCPU idle</text>
+<rect x="420.0" y="168.0" width="7.7" height="38.0" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="437.7" y="194.0" text-anchor="start" font-size="20" font-weight="700" fill="#2563eb">0.25 µs</text>
+<text x="404.0" y="260.0" text-anchor="end" font-size="21" font-weight="700" fill="#0f172a">APPCPU, load on PROCPU</text>
+<rect x="420.0" y="234.0" width="370.9" height="38.0" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<rect x="790.9" y="234.0" width="278.2" height="38.0" rx="4" fill="#f8fafc" stroke="#2563eb" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="930.0" y="260.0" text-anchor="middle" font-size="20" font-weight="700" fill="#2563eb">12–21 µs, run to run</text>
+<text x="404.0" y="326.0" text-anchor="end" font-size="21" font-weight="700" fill="#0f172a">APPCPU in IRAM, load on PROCPU</text>
+<rect x="420.0" y="300.0" width="7.7" height="38.0" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="437.7" y="326.0" text-anchor="start" font-size="20" font-weight="700" fill="#2563eb">0.25 µs</text>
+<line x1="420.0" y1="368.0" x2="1100.0" y2="368.0" stroke="#475569" stroke-width="2"/>
+<line x1="420.0" y1="368.0" x2="420.0" y2="376.0" stroke="#475569" stroke-width="2"/>
+<text x="420.0" y="398.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">0</text>
+<line x1="574.5" y1="368.0" x2="574.5" y2="376.0" stroke="#475569" stroke-width="2"/>
+<text x="574.5" y="398.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">5</text>
+<line x1="729.1" y1="368.0" x2="729.1" y2="376.0" stroke="#475569" stroke-width="2"/>
+<text x="729.1" y="398.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">10</text>
+<line x1="883.6" y1="368.0" x2="883.6" y2="376.0" stroke="#475569" stroke-width="2"/>
+<text x="883.6" y="398.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">15</text>
+<line x1="1038.2" y1="368.0" x2="1038.2" y2="376.0" stroke="#475569" stroke-width="2"/>
+<text x="1038.2" y="398.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">20</text>
+<text x="1110.0" y="398.0" text-anchor="start" font-size="18" font-weight="400" fill="#475569">µs</text>
+<text x="40.0" y="438.0" text-anchor="start" font-size="18" font-weight="400" fill="#475569">Max sampling jitter over 60 s, ESP32-S3 N16R8, 2026-10-21. Average period 1000.12 µs in every case.</text>
+</svg>

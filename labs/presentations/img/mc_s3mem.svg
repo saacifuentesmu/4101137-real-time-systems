@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 470" font-family="Inter, 'Segoe UI', 'DejaVu Sans', Arial, sans-serif">
+<defs><marker id="ar-ink" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f172a"/></marker><marker id="ar-muted" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#475569"/></marker><marker id="ar-c1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#ea580c"/></marker><marker id="ar-c2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker><marker id="ar-c3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#16a34a"/></marker><marker id="ar-c4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0d9488"/></marker><marker id="ar-c5" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e11d48"/></marker><marker id="ar-c6" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker><marker id="ar-c7" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d97706"/></marker><marker id="ar-c8" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#db2777"/></marker></defs>
+<rect x="330.0" y="24.0" width="220.0" height="64.0" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+<text x="440.0" y="64.0" text-anchor="middle" font-size="24" font-weight="700" fill="#0f172a">PROCPU</text>
+<rect x="650.0" y="24.0" width="220.0" height="64.0" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+<text x="760.0" y="64.0" text-anchor="middle" font-size="24" font-weight="700" fill="#0f172a">APPCPU</text>
+<rect x="40.0" y="170.0" width="520.0" height="92.0" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+<text x="300.0" y="210.0" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">ICache 16 KB + DCache 32 KB</text>
+<text x="300.0" y="236.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">one pair, shared by both cores</text>
+<rect x="640.0" y="170.0" width="520.0" height="92.0" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+<text x="900.0" y="210.0" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">Internal SRAM, 512 KB</text>
+<text x="900.0" y="236.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">IRAM 0x4037_0000 … 0x403D_FFFF</text>
+<rect x="40.0" y="340.0" width="520.0" height="92.0" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+<text x="300.0" y="380.0" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">External flash, over SPI0</text>
+<text x="300.0" y="406.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">code 0x4200_0000 … · constants 0x3C00_0000 …</text>
+<line x1="400.0" y1="88.0" x2="260.0" y2="168.0" stroke="#475569" stroke-width="3" marker-end="url(#ar-muted)"/>
+<line x1="720.0" y1="88.0" x2="400.0" y2="168.0" stroke="#475569" stroke-width="3" marker-end="url(#ar-muted)"/>
+<line x1="480.0" y1="88.0" x2="820.0" y2="168.0" stroke="#475569" stroke-width="3" marker-end="url(#ar-muted)"/>
+<line x1="800.0" y1="88.0" x2="980.0" y2="168.0" stroke="#475569" stroke-width="3" marker-end="url(#ar-muted)"/>
+<line x1="300.0" y1="262.0" x2="300.0" y2="338.0" stroke="#475569" stroke-width="3" marker-end="url(#ar-muted)"/>
+<text x="316.0" y="306.0" text-anchor="start" font-size="18" font-weight="400" fill="#475569">a miss from either core</text>
+<text x="316.0" y="328.0" text-anchor="start" font-size="18" font-weight="400" fill="#475569">waits on the same flash</text>
+<text x="900.0" y="296.0" text-anchor="middle" font-size="19" font-weight="400" fill="#475569">no cache in the path:</text>
+<text x="900.0" y="320.0" text-anchor="middle" font-size="19" font-weight="400" fill="#475569">same cost every fetch</text>
+<text x="900.0" y="354.0" text-anchor="middle" font-size="19" font-weight="700" fill="#2563eb">sampling_thread with iram.conf:</text>
+<text x="900.0" y="378.0" text-anchor="middle" font-size="19" font-weight="700" fill="#2563eb">0x403B_57B8</text>
+<text x="580.0" y="414.0" text-anchor="start" font-size="19" font-weight="700" fill="#2563eb">sampling_thread by default:</text>
+<text x="580.0" y="438.0" text-anchor="start" font-size="19" font-weight="700" fill="#2563eb">0x43E0_02EC, through the cache</text>
+</svg>

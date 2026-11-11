@@ -58,10 +58,8 @@ add_dependencies(app_procpu app_appcpu)
 sysbuild_add_dependencies(CONFIGURE app_procpu app_appcpu)
 ```
 
-IPM gives one slot each way over a 1 KB shared buffer: `ipm_send()` on one core
-fires `ipm_register_callback()`'s handler on the other, in interrupt context, and a
-message not yet read is overwritten by the next. So every message carries the full
-state, and the handlers copy and leave.
+Every IPM message carries the full state, and each `ipm_register_callback()`
+handler copies it and returns: the talk's IPM slide gives the reason.
 
 ## 3. Build, flash, run
 
@@ -76,7 +74,33 @@ west flash
 - `set 3300` trips the e-stop: the valve stops (APPCPU), `estop=1` in `status`
   (PROCPU); `set 1500` then `clear` resumes.
 
-## 4. The hard path in internal RAM
+**The hop row:** analyzer on GPIO4 (`instr_samp`) and GPIO18 (`instr_ipm`), trigger
+on GPIO18 rising, ≥ 4 MHz. Then, five times:
+
+1. `set 3300` and wait for the trigger (under a second).
+2. Measure from the rising edge of the `instr_samp` pulse that contains the trip
+   to the GPIO18 edge.
+3. `set 1500`, then `clear`.
+
+**Verify:** five GPIO18 edges, one per trip, each after the rising edge of its
+`instr_samp` pulse.
+
+## 4. The one-core rows
+
+The week-4 kernel node with the same synthetic load, on one core. Build it into
+its own directory so the two-core build stays in `build/`:
+
+```bash
+west build -p -d build/one_core -b esp32s3_devkitc/esp32s3/procpu firmware/kernel \
+  -- -DEXTRA_CONF_FILE=load.conf
+west flash -d build/one_core
+```
+
+**Verify:** `help` lists `load on|off`, and `instr_samp` toggles at 1 kHz. Measure
+the first row with `load off` and the second with `load on`, ≥ 60 s each. Then
+`west flash` puts the two-core node back.
+
+## 5. The hard path in internal RAM
 
 ```bash
 west build -p -b esp32s3_devkitc/esp32s3/procpu firmware/amp_node/app_procpu --sysbuild \
@@ -87,10 +111,17 @@ west flash
 `iram.conf` places the APPCPU's sampling and control path in IRAM and writes its
 pins through the GPIO registers: the GPIO driver and the pin specs live in flash.
 
-**Verify:** `xtensa-espressif_esp32s3_zephyr-elf-nm build/app_appcpu/zephyr/zephyr.elf | grep
-sampling_thread` shows an address in `0x403…` (IRAM), not `0x42…`/`0x43…` (flash).
+**Verify:** the APPCPU's `sampling_thread` sits in internal RAM. The SDK's `nm` isn't
+on your `PATH`; the build records where it is:
 
-## 5. Debugging the APPCPU
+```bash
+NM=$(sed -n 's/^CMAKE_NM:FILEPATH=//p' build/app_appcpu/CMakeCache.txt)
+$NM build/app_appcpu/zephyr/zephyr.elf | grep sampling_thread
+```
+
+The address starts with `0x403…` (IRAM), not `0x42…`/`0x43…` (flash).
+
+## 6. Debugging the APPCPU
 
 There is **no Zephyr console on the APPCPU**. If you must print during bring-up:
 
@@ -110,5 +141,7 @@ Remove it before measuring — it perturbs the loop. Measurement is by GPIO, as 
 | APPCPU GPIO never toggles, `ipm_msgs` stays 0 | Second core not started | PROCPU starts it only with IPM enabled: `CONFIG_IPM=y` and `&ipm0 { status = "okay"; };` in the **procpu** image; confirm sysbuild built both (`build/app_appcpu/` exists) |
 | `west flash` writes only one image | Built without `--sysbuild` | Rebuild with `--sysbuild`; flash from the sysbuild build dir |
 | Both cores fight over a pin | Same GPIO claimed in both DTs | Keep pin maps disjoint: the hard path's pins only in `app_appcpu/app.overlay` |
+| `load on` answers `? (try: help)` | One-core build without `load.conf` | Rebuild as in §4 |
+| GPIO18 never rises on a trip | Two-core node not flashed back after §4 | `west flash` from `build/` |
 | `iram.conf` build: `PIN_CTRL` errors | The HAL defines `PIN_CTRL` as a macro | Don't name your own symbols `PIN_*` |
 | `ets_printf` output interleaves garbage | Both cores writing the ROM UART | Print from one core at a time; delete the prints before measuring |

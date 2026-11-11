@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" font-family="Inter, 'Segoe UI', 'DejaVu Sans', Arial, sans-serif">
+<defs><marker id="ar-ink" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f172a"/></marker><marker id="ar-muted" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#475569"/></marker><marker id="ar-c1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#ea580c"/></marker><marker id="ar-c2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker><marker id="ar-c3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#16a34a"/></marker><marker id="ar-c4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0d9488"/></marker><marker id="ar-c5" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e11d48"/></marker><marker id="ar-c6" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker><marker id="ar-c7" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d97706"/></marker><marker id="ar-c8" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#db2777"/></marker></defs>
+<text x="210.0" y="40.0" text-anchor="start" font-size="22" font-weight="700" fill="#0f172a">Global, EDF or RM: one queue for both cores</text>
+<text x="196.0" y="83.0" text-anchor="end" font-size="20" font-weight="700" fill="#475569">core 0</text>
+<line x1="210.0" y1="96.0" x2="1170.0" y2="96.0" stroke="#cbd5e1" stroke-width="1"/>
+<text x="196.0" y="135.0" text-anchor="end" font-size="20" font-weight="700" fill="#475569">core 1</text>
+<line x1="210.0" y1="148.0" x2="1170.0" y2="148.0" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="210.0" y="56.0" width="153.6" height="40.0" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<text x="286.8" y="83.0" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a">τ1</text>
+<rect x="363.6" y="56.0" width="768.0" height="40.0" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="747.6" y="83.0" text-anchor="middle" font-size="19" font-weight="700" fill="#2563eb">τ3</text>
+<rect x="210.0" y="108.0" width="153.6" height="40.0" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<text x="286.8" y="135.0" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a">τ2</text>
+<rect x="978.0" y="108.0" width="153.6" height="40.0" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<text x="1054.8" y="135.0" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a">τ1</text>
+<line x1="1054.8" y1="46.0" x2="1054.8" y2="102.0" stroke="#e11d48" stroke-width="3" stroke-dasharray="8 6"/>
+<text x="1060.8" y="44.0" text-anchor="start" font-size="17" font-weight="700" fill="#e11d48">τ3 deadline</text>
+<text x="210.0" y="220.0" text-anchor="start" font-size="22" font-weight="700" fill="#0f172a">Partitioned: τ3 alone on core 1</text>
+<text x="196.0" y="263.0" text-anchor="end" font-size="20" font-weight="700" fill="#475569">core 0</text>
+<line x1="210.0" y1="276.0" x2="1170.0" y2="276.0" stroke="#cbd5e1" stroke-width="1"/>
+<text x="196.0" y="315.0" text-anchor="end" font-size="20" font-weight="700" fill="#475569">core 1</text>
+<line x1="210.0" y1="328.0" x2="1170.0" y2="328.0" stroke="#cbd5e1" stroke-width="1"/>
+<rect x="210.0" y="236.0" width="153.6" height="40.0" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<text x="286.8" y="263.0" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a">τ1</text>
+<rect x="363.6" y="236.0" width="153.6" height="40.0" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<text x="440.4" y="263.0" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a">τ2</text>
+<rect x="978.0" y="236.0" width="153.6" height="40.0" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<text x="1054.8" y="263.0" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a">τ1</text>
+<rect x="1131.6" y="236.0" width="38.4" height="40.0" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<text x="1150.8" y="263.0" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a"></text>
+<rect x="210.0" y="288.0" width="768.0" height="40.0" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="594.0" y="315.0" text-anchor="middle" font-size="19" font-weight="700" fill="#2563eb">τ3</text>
+<rect x="1054.8" y="288.0" width="115.2" height="40.0" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="1112.4" y="315.0" text-anchor="middle" font-size="19" font-weight="700" fill="#2563eb"></text>
+<line x1="1054.8" y1="278.0" x2="1054.8" y2="334.0" stroke="#e11d48" stroke-width="3" stroke-dasharray="8 6"/>
+<text x="1060.8" y="224.0" text-anchor="start" font-size="17" font-weight="700" fill="#e11d48">τ3 deadline</text>
+<rect x="1054.8" y="56.0" width="76.8" height="40.0" rx="4" fill="#ffe4e6" stroke="#e11d48" stroke-width="3"/>
+<text x="1093.2" y="83.0" text-anchor="middle" font-size="19" font-weight="700" fill="#e11d48">miss</text>
+<text x="972.0" y="350.0" text-anchor="end" font-size="18" font-weight="700" fill="#2563eb">τ3 done at 10 ms</text>
+<line x1="210.0" y1="400.0" x2="1170.0" y2="400.0" stroke="#475569" stroke-width="2" marker-end="url(#ar-muted)"/>
+<line x1="210.0" y1="394.0" x2="210.0" y2="406.0" stroke="#475569" stroke-width="2"/>
+<text x="210.0" y="428.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">0</text>
+<line x1="363.6" y1="394.0" x2="363.6" y2="406.0" stroke="#475569" stroke-width="2"/>
+<text x="363.6" y="428.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">2</text>
+<line x1="517.2" y1="394.0" x2="517.2" y2="406.0" stroke="#475569" stroke-width="2"/>
+<text x="517.2" y="428.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">4</text>
+<line x1="670.8" y1="394.0" x2="670.8" y2="406.0" stroke="#475569" stroke-width="2"/>
+<text x="670.8" y="428.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">6</text>
+<line x1="824.4" y1="394.0" x2="824.4" y2="406.0" stroke="#475569" stroke-width="2"/>
+<text x="824.4" y="428.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">8</text>
+<line x1="978.0" y1="394.0" x2="978.0" y2="406.0" stroke="#475569" stroke-width="2"/>
+<text x="978.0" y="428.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">10</text>
+<line x1="1131.6" y1="394.0" x2="1131.6" y2="406.0" stroke="#475569" stroke-width="2"/>
+<text x="1131.6" y="428.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">12</text>
+<text x="1170.0" y="388.0" text-anchor="end" font-size="18" font-weight="400" fill="#475569">ms</text>
+<text x="20.0" y="462.0" text-anchor="start" font-size="19" font-weight="400" fill="#0f172a">τ1, τ2: C = 2, T = D = 10 ms · τ3: C = 10, T = D = 11 ms · U = 0.2 + 0.2 + 0.91 = 1.31 of 2 cores (65 %)</text>
+</svg>

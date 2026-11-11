@@ -1,0 +1,7 @@
+config APP_SYNTH_LOAD
+	bool "Week 8: the synthetic load"
+	help
+	  Adds a thread below every other one that, after `load on`, streams a
+	  64 KB table out of flash: the one-core rows of week 8's tail table.
+
+source "Kconfig.zephyr"
