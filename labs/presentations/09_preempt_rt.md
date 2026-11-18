@@ -191,12 +191,15 @@ from the right: the max is the verdict, the p99 is context.
 ![w:1150](img/prt_command.svg)
 
 <!--
-21:00–23:00. -m locks memory: no page faults during the run. -S starts one thread per
+21:00–25:30. -m locks memory: no page faults during the run. -S starts one thread per
 core, each pinned, and -p90 puts them at FIFO 90, above every IRQ thread. -h 400 keeps a
 histogram up to 400 µs (anything later counts as overflow). The load: stress-ng on CPU
 and I/O plus a ping flood from a laptop: real interrupts, not just busy cores.
-Governor locked to performance; the DFS row shows why. If the demo Pi is up, start a
-loaded run now and read its max at the question two slides on.
+Governor locked to performance; the DFS row shows why. Live demo here (22:00–25:30), on the
+laptop's stock kernel, one thread so the line fits on screen: idle at FIFO 90, then under
+stress-ng at normal priority, then under stress-ng at FIFO 90. Read the Max column each
+time: run 2 against run 3 is the priority ladder; run 3's leftover tail is the stock
+kernel's non-preemptible work, which PREEMPT_RT removes.
 -->
 
 ---
@@ -209,7 +212,7 @@ loaded run now and read its max at the question two slides on.
 ![w:1150](img/prt_runmax.svg)
 
 <!--
-23:00–24:30. The running max is a staircase that only climbs. The collisions that make
+25:30–27:00. The running max is a staircase that only climbs. The collisions that make
 the tail are rare: a 30 s run often stops before the first big step, and an idle box
 may never take it. Five minutes at 1 kHz is 300 000 wake-ups per core. Production
 qualification runs hours, or days. Schematic.
@@ -228,7 +231,7 @@ qualification runs hours, or days. Schematic.
 4. The p99, since the max is an outlier
 
 <!--
-24:30–26:30. Answer: 2. The tail comes from contention; an idle box has none. 4 is
+27:00–28:30. Answer: 2. The tail comes from contention; an idle box has none. 4 is
 the soft-real-time habit this course unlearns: the max is not an outlier, it is the
 answer.
 -->
@@ -243,7 +246,7 @@ answer.
 ![w:1150](img/prt_scale.svg)
 
 <!--
-26:30–29:00. MCU (weeks 2–8): the worst case comes from a small kernel you can read,
+28:30–31:00. MCU (weeks 2–8): the worst case comes from a small kernel you can read,
 µs; the bar is our own week-8 measurement. RT Linux: from a giant one, tens to hundreds
 of µs, even with PREEMPT_RT; stock under load can reach milliseconds. The hatched bands
 are what we expect: the lab's table replaces them. That gap is the number the Hub's
@@ -261,7 +264,7 @@ FreeRTOS or Zephyr, the worst case came from a small kernel.
 ![w:1150](img/prt_dfs.svg)
 
 <!--
-29:00–30:30. MCUs rarely scale their clock; Linux SBCs do by default. At the lowest
+31:00–32:30. MCUs rarely scale their clock; Linux SBCs do by default. At the lowest
 clock every instruction on the wake-up path takes longer, and a governor that ramps up
 mid-path adds the frequency switch itself. That is row 5 of the lab, and why every
 official run locks the governor to performance first. Schematic.
@@ -276,7 +279,7 @@ official run locks the governor to performance first. Schematic.
 > PREEMPT_RT doesn't make Linux fast; it makes its worst case boundable. Measure that worst case under load, for minutes, and read the max.
 
 <!--
-30:30–31:00.
+32:30–33:00.
 -->
 
 ---
@@ -289,7 +292,7 @@ official run locks the governor to performance first. Schematic.
 ![w:1100](img/prt_lab.svg)
 
 <!--
-31:00–34:00. Predictions to write down: stock-loaded's max is the scary one;
+33:00–36:00. Predictions to write down: stock-loaded's max is the scary one;
 RT-loaded lands well under the pump loop's 10 ms, but nowhere near week 8's µs.
 SOP-09 has the image, the commands and the plot script.
 -->
@@ -303,5 +306,5 @@ SOP-09 has the image, the commands and the plot script.
 - SOP-09: the image, the runs, the histogram script
 
 <!--
-34:00–40:00. Questions, then SBC bring-up.
+36:00–40:00. Questions, then SBC bring-up.
 -->
