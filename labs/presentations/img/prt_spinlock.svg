@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" font-family="Inter, 'Segoe UI', 'DejaVu Sans', Arial, sans-serif">
+<defs><marker id="ar-ink" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f172a"/></marker><marker id="ar-muted" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#475569"/></marker><marker id="ar-c1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#ea580c"/></marker><marker id="ar-c2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker><marker id="ar-c3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#16a34a"/></marker><marker id="ar-c4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0d9488"/></marker><marker id="ar-c5" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e11d48"/></marker><marker id="ar-c6" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker><marker id="ar-c7" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d97706"/></marker><marker id="ar-c8" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#db2777"/></marker></defs>
+<text x="40.0" y="30.0" text-anchor="start" font-size="21" font-weight="800" fill="#0f172a">stock kernel, one core</text>
+<text x="230.0" y="104.0" text-anchor="end" font-size="20" font-weight="700" fill="#0f172a">driver</text>
+<text x="230.0" y="124.0" text-anchor="end" font-size="15" font-weight="400" fill="#475569">low priority</text>
+<text x="230.0" y="164.0" text-anchor="end" font-size="20" font-weight="700" fill="#e11d48">your thread</text>
+<text x="230.0" y="184.0" text-anchor="end" font-size="15" font-weight="400" fill="#475569">FIFO 90</text>
+<rect x="250.0" y="76.0" width="112.0" height="44.0" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+<text x="306.0" y="103.3" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">driver code</text>
+<rect x="366.0" y="76.0" width="518.0" height="44.0" rx="10" fill="#475569" stroke="#475569" stroke-width="2"/>
+<text x="696.6" y="104.0" text-anchor="middle" font-size="17" font-weight="700" fill="#fff">spinlock held: preemption off</text>
+<line x1="482.0" y1="52.0" x2="482.0" y2="136.0" stroke="#db2777" stroke-width="3" marker-end="url(#ar-c8)"/>
+<text x="492.0" y="66.0" text-anchor="start" font-size="17" font-weight="700" fill="#db2777">timer IRQ: wakes you</text>
+<rect x="482.0" y="140.0" width="402.0" height="40.0" rx="8" fill="#fff" stroke="#e11d48" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="685.0" y="166.0" text-anchor="middle" font-size="16" font-weight="700" fill="#e11d48">runnable, but can't switch</text>
+<rect x="888.0" y="140.0" width="228.0" height="40.0" rx="10" fill="#ffe4e6" stroke="#e11d48" stroke-width="2"/>
+<text x="1002.0" y="166.0" text-anchor="middle" font-size="18" font-weight="700" fill="#e11d48">runs</text>
+<line x1="482.0" y1="200.0" x2="884.0" y2="200.0" stroke="#0f172a" stroke-width="3"/>
+<line x1="482.0" y1="192.0" x2="482.0" y2="208.0" stroke="#0f172a" stroke-width="3"/>
+<line x1="884.0" y1="192.0" x2="884.0" y2="208.0" stroke="#0f172a" stroke-width="3"/>
+<text x="685.0" y="228.0" text-anchor="middle" font-size="18" font-weight="700" fill="#0f172a">latency = the rest of someone else's critical section</text>
+<text x="40.0" y="254.0" text-anchor="start" font-size="21" font-weight="800" fill="#0f172a">PREEMPT_RT, one core</text>
+<text x="230.0" y="328.0" text-anchor="end" font-size="20" font-weight="700" fill="#0f172a">driver</text>
+<text x="230.0" y="348.0" text-anchor="end" font-size="15" font-weight="400" fill="#475569">low priority</text>
+<text x="230.0" y="388.0" text-anchor="end" font-size="20" font-weight="700" fill="#e11d48">your thread</text>
+<text x="230.0" y="408.0" text-anchor="end" font-size="15" font-weight="400" fill="#475569">FIFO 90</text>
+<rect x="250.0" y="300.0" width="112.0" height="44.0" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+<text x="306.0" y="327.3" text-anchor="middle" font-size="16" font-weight="700" fill="#0f172a">driver code</text>
+<rect x="366.0" y="300.0" width="112.0" height="44.0" rx="10" fill="#fff" stroke="#475569" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="422.0" y="327.3" text-anchor="middle" font-size="16" font-weight="700" fill="#475569">rtmutex</text>
+<line x1="482.0" y1="322.0" x2="725.6" y2="322.0" stroke="#cbd5e1" stroke-width="3" stroke-dasharray="3 6"/>
+<text x="603.8" y="316.0" text-anchor="middle" font-size="15" font-weight="400" fill="#475569">preempted, lock still held</text>
+<rect x="725.6" y="300.0" width="274.4" height="44.0" rx="10" fill="#fff" stroke="#475569" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="862.8" y="327.3" text-anchor="middle" font-size="16" font-weight="700" fill="#475569">rtmutex … unlock</text>
+<line x1="482.0" y1="276.0" x2="482.0" y2="360.0" stroke="#db2777" stroke-width="3" marker-end="url(#ar-c8)"/>
+<text x="492.0" y="290.0" text-anchor="start" font-size="17" font-weight="700" fill="#db2777">timer IRQ: wakes you</text>
+<rect x="493.6" y="364.0" width="228.0" height="40.0" rx="10" fill="#ffe4e6" stroke="#e11d48" stroke-width="2"/>
+<text x="607.6" y="390.0" text-anchor="middle" font-size="18" font-weight="700" fill="#e11d48">runs</text>
+<text x="760.4" y="390.0" text-anchor="start" font-size="18" font-weight="700" fill="#0f172a">latency: IRQ entry + a switch, µs</text>
+<text x="40.0" y="476.0" text-anchor="start" font-size="18" font-weight="400" fill="#0f172a">spin_lock_irqsave() also masks interrupts: then even the timer IRQ waits for the unlock.</text>
+<text x="40.0" y="504.0" text-anchor="start" font-size="18" font-weight="400" fill="#0f172a">If your thread needs that same lock, it sleeps and the driver inherits FIFO 90: week 6's PIP.</text>
+</svg>

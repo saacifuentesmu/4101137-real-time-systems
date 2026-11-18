@@ -70,11 +70,36 @@ measure. Task D asks where that bound sits against the 10 ms.
 ![w:1150](img/prt_wakeup.svg)
 
 <!--
-4:30–8:00. Top row: between a timer firing and your thread running sit things
-priority can't jump: other devices' interrupt handlers, a driver holding a
-spinlock, softirq processing. On the MCU we owned every line of code; here the
-longest critical section belongs to a driver we've never read. Week 2's latency
-anatomy, at a larger scale. Segment lengths are schematic.
+4:30–6:30. Walk the top row left to right. The timer IRQ fires on time and marks your
+thread runnable; it still has to get through three kinds of work priority can't jump.
+Other devices' interrupt handlers run in hard-IRQ context, above every thread. A driver
+in a spinlock section has turned preemption off on that core. Softirqs (network
+receive, block I/O completion, timer callbacks) run on the way out of an interrupt,
+also above every thread. Latency is the longest of these, in code you didn't write. On
+the MCU we owned every line; here the critical sections belong to drivers we've never
+read. Week 2's latency anatomy, at a larger scale. Segment lengths are schematic.
+-->
+
+---
+
+<!-- _class: s1 figure -->
+<!-- _header: 1 · Why stock Linux is late -->
+
+## Inside one dark box: a driver's spinlock
+
+![w:1150](img/prt_spinlock.svg)
+
+<!--
+6:30–8:00. Zoom into the middle box, one core. A low-priority driver takes a spinlock:
+on a stock kernel spin_lock() turns preemption off on that core, because a holder
+switched out would leave every other core spinning. The timer IRQ still fires and
+marks your FIFO 90 thread runnable, but the scheduler can't switch until spin_unlock()
+turns preemption back on. Your latency is whatever is left of someone else's critical
+section. With spin_lock_irqsave() the driver also masks interrupts, so even the timer
+IRQ waits. Bottom row: on PREEMPT_RT the same spinlock_t is an rtmutex. The driver
+can be preempted while holding it; your thread runs within µs. Only if you need that
+same lock do you wait, and then the holder inherits your priority. Don't name the
+week-6 idea yet: that's the next question.
 -->
 
 ---

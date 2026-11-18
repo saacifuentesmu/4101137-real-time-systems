@@ -360,8 +360,58 @@ def lab():
     return svg(1200, 462, body)
 
 
+def spinlock():
+    """One core, two kernels: a low-priority driver holds a spinlock when the timer wakes you."""
+    x0, unit = 250, 116
+    sx = lambda t: x0 + unit * t
+    body = []
+
+    def lane_labels(y):
+        body.append(text(x0 - 20, y + 28, "driver", 20, 700, INK, "end"))
+        body.append(text(x0 - 20, y + 48, "low priority", 15, 400, MUTED, "end"))
+        body.append(text(x0 - 20, y + 88, "your thread", 20, 700, C[CTRL], "end"))
+        body.append(text(x0 - 20, y + 108, "FIFO 90", 15, 400, MUTED, "end"))
+
+    def irq(y):
+        body.append(line(sx(2), y - 24, sx(2), y + 60, C[ISR], 3, arrow=True))
+        body.append(text(sx(2) + 10, y - 10, "timer IRQ: wakes you", 17, 700, C[ISR]))
+
+    y = 76
+    body.append(text(40, 30, "stock kernel, one core", 21, 800, INK))
+    lane_labels(y)
+    body.append(nbox(sx(0), y, unit - 4, 44, "driver code", 16))
+    body.append(rect(sx(1), y, unit * 4.5 - 4, 44, MUTED, MUTED, 2, 10))
+    body.append(text(sx(3.85), y + 28, "spinlock held: preemption off", 17, 700, "#fff", "middle"))
+    irq(y)
+    body.append(rect(sx(2), y + 64, unit * 3.5 - 4, 40, "#fff", C[CTRL], 2, 8, "8 6"))
+    body.append(text(sx(3.75), y + 90, "runnable, but can't switch", 16, 700, C[CTRL], "middle"))
+    body.append(cbox(sx(5.5), y + 64, unit * 2 - 4, 40, "runs", CTRL, 18))
+    body.append(line(sx(2), y + 124, sx(5.5) - 4, y + 124, INK, 3))
+    for xx in (sx(2), sx(5.5) - 4):
+        body.append(line(xx, y + 116, xx, y + 132, INK, 3))
+    body.append(text(sx(3.75), y + 152, "latency = the rest of someone else's critical section", 18, 700, INK, "middle"))
+
+    y = 300
+    body.append(text(40, y - 46, "PREEMPT_RT, one core", 21, 800, INK))
+    lane_labels(y)
+    body.append(nbox(sx(0), y, unit - 4, 44, "driver code", 16))
+    body.append(ghost(sx(1), y, unit - 4, 44, "rtmutex", 16))
+    body.append(line(sx(2), y + 22, sx(4.1), y + 22, GRID, 3, "3 6"))
+    body.append(text(sx(3.05), y + 16, "preempted, lock still held", 15, 400, MUTED, "middle"))
+    body.append(ghost(sx(4.1), y, unit * 2.4 - 4, 44, "rtmutex … unlock", 16))
+    irq(y)
+    body.append(cbox(sx(2.1), y + 64, unit * 2 - 4, 40, "runs", CTRL, 18))
+    body.append(text(sx(4.4), y + 90, "latency: IRQ entry + a switch, µs", 18, 700, INK))
+
+    body.append(text(40, 476, "spin_lock_irqsave() also masks interrupts: then even the timer IRQ waits for the unlock.",
+                     18, 400, INK))
+    body.append(text(40, 504, "If your thread needs that same lock, it sleeps and the driver inherits FIFO 90: week 6's PIP.",
+                     18, 400, INK))
+    return svg(1200, 520, body)
+
+
 if __name__ == "__main__":
-    figs = {"prt_hub.svg": hub, "prt_wakeup.svg": wakeup, "prt_changes.svg": changes, "prt_ladder.svg": ladder,
+    figs = {"prt_hub.svg": hub, "prt_wakeup.svg": wakeup, "prt_spinlock.svg": spinlock, "prt_changes.svg": changes, "prt_ladder.svg": ladder,
             "prt_tradeoff.svg": tradeoff, "prt_measure.svg": measure, "prt_command.svg": command,
             "prt_runmax.svg": runningmax, "prt_scale.svg": scale, "prt_dfs.svg": dfs, "prt_lab.svg": lab}
     for name, fn in figs.items():
