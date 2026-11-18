@@ -130,11 +130,21 @@ code, because it isn't yours.
 ![w:1150](img/prt_changes.svg)
 
 <!--
-10:00–13:00. Back to the wake-up figure's second row: the same work, now schedulable.
-Interrupt handlers become kernel threads, spinlocks become rtmutexes that sleep and
-inherit priority (week 6's PIP, inside the kernel), softirqs run in threads. What
-remains non-preemptible is small: the hard-IRQ entry, raw spinlocks in core code.
-Mainline since 6.12; on the Pi you still boot a kernel built with it (SOP-09).
+10:00–13:00. Top: back to the wake-up figure's second row, the same work made
+schedulable. Interrupt handlers become kernel threads, spinlocks become rtmutexes that
+sleep and inherit priority (week 6's PIP, inside the kernel), softirqs run in threads.
+Bottom: what can't become a thread, and why. Someone has to wake the IRQ threads: the
+hard-IRQ entry saves state, acknowledges the controller and wakes the thread, a few µs.
+The timer tick and inter-core interrupts (IPIs) stay in hard-IRQ context because they
+are what wakes and moves RT threads; threading them would delay the very thing we want
+on time. The scheduler can't take a sleeping lock to decide who runs, so its run queues,
+the hrtimer bases and the interrupt core keep raw spinlocks: short sections the kernel
+developers audit and test (the RT community runs cyclictest farms on every release).
+Below Linux, nothing helps: firmware interrupts that freeze the CPU (SMIs on x86, the
+secure monitor on Arm) and cache or memory stalls. rt-tests ships hwlatdetect to catch
+them: a board with a 300 µs SMI can't promise 100 µs, whatever kernel it runs. That
+floor plus contention is the max they'll read today. Mainline since 6.12; on the Pi you
+still boot a kernel built with it (SOP-09).
 -->
 
 ---

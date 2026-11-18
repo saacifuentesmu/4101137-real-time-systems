@@ -123,17 +123,26 @@ def changes():
     rows = [("IRQ handler", "runs above every thread", "IRQ thread", "irq/NN-eth0 · SCHED_FIFO 50", True),
             ("spinlock", "spins, preemption off", "rtmutex", "sleeps · inherits priority (week 6)", False),
             ("softirq", "runs on the way out of an IRQ", "softirq in a thread", "scheduled like the rest", False)]
-    body = [text(60, 40, "stock kernel", 22, 800, MUTED), text(660, 40, "PREEMPT_RT", 22, 800, INK)]
+    body = [HATCH, text(60, 34, "stock kernel", 22, 800, MUTED), text(660, 34, "PREEMPT_RT", 22, 800, INK)]
     for i, (old, old_sub, new, new_sub, irq) in enumerate(rows):
-        y = 64 + i * 104
-        body.append(wall(60, y, 440, 80, old, 22, old_sub))
-        body.append(line(512, y + 40, 646, y + 40, INK, 3, arrow=True))
-        body.append(cbox(660, y, 480, 80, new, ISR, 22, new_sub) if irq else nbox(660, y, 480, 80, new, 22, new_sub))
-    body.append(text(60, 400, "Still not preemptible: the hard-IRQ entry and raw spinlocks in core code. "
-                     "Short, and the kernel's job to bound.", 19, 400, INK))
-    body.append(text(60, 430, "In mainline Linux since 6.12 (2024): a build option, not a patch.", 19, 400, MUTED))
-    return svg(1200, 446, body)
-
+        y = 52 + i * 78
+        body.append(wall(60, y, 440, 64, old, 21, old_sub))
+        body.append(line(512, y + 32, 646, y + 32, INK, 3, arrow=True))
+        body.append(cbox(660, y, 480, 64, new, ISR, 21, new_sub) if irq else nbox(660, y, 480, 64, new, 21, new_sub))
+    body.append(line(60, 300, 1140, 300, GRID, 2))
+    body.append(text(60, 334, "Still not preemptible, even on PREEMPT_RT: the floor under every max", 21, 800, INK))
+    floor = [("hard-IRQ entry", "only wakes the IRQ thread"), ("timer tick, IPIs", "stay in hard-IRQ context"),
+             ("raw spinlocks", "scheduler, timers, IRQ core")]
+    for i, (lab, sub) in enumerate(floor):
+        body.append(wall(60 + i * 274, 352, 260, 84, lab, 20, sub))
+    body.append(rect(882, 352, 258, 84, "url(#hatch)", MUTED, 2, 10, "8 6"))
+    body.append(rect(902, 368, 218, 52, "#fff", "none", 0, 6))
+    body.append(text(1011, 389, "firmware, hardware", 20, 700, INK, "middle"))
+    body.append(text(1011, 412, "SMIs, caches: below Linux", 16, 400, MUTED, "middle"))
+    body.append(text(60, 470, "The dark three are µs, and the kernel's job to keep short. The hatched one no kernel "
+                     "can fix: measure it (hwlatdetect).", 18, 400, INK))
+    body.append(text(60, 498, "In mainline Linux since 6.12 (2024): a build option, not a patch.", 18, 400, MUTED))
+    return svg(1200, 514, body)
 
 def ladder():
     ax, top, bot = 120, 70, 330
