@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 452" font-family="Inter, 'Segoe UI', 'DejaVu Sans', Arial, sans-serif">
+<defs><marker id="ar-ink" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f172a"/></marker><marker id="ar-muted" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#475569"/></marker><marker id="ar-c1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#ea580c"/></marker><marker id="ar-c2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker><marker id="ar-c3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#16a34a"/></marker><marker id="ar-c4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0d9488"/></marker><marker id="ar-c5" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e11d48"/></marker><marker id="ar-c6" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker><marker id="ar-c7" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d97706"/></marker><marker id="ar-c8" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#db2777"/></marker></defs>
+<rect x="166.6" y="30.0" width="866.7" height="70.0" rx="12" fill="#0f172a" stroke="#0f172a" stroke-width="0"/>
+<text x="190.6" y="77.0" text-anchor="start" font-size="34" font-weight="700" fill="#f8fafc" font-family="'DejaVu Sans Mono', 'Courier New', monospace">cyclictest -m -Sp90 -i 1000 -h 400 -D 5m</text>
+<line x1="190.6" y1="108.0" x2="395.3" y2="108.0" stroke="#2563eb" stroke-width="4"/>
+<line x1="293.0" y1="112.0" x2="293.0" y2="140.0" stroke="#cbd5e1" stroke-width="2"/>
+<text x="293.0" y="170.0" text-anchor="middle" font-size="19" font-weight="700" fill="#2563eb">a thread that only</text>
+<text x="293.0" y="196.0" text-anchor="middle" font-size="19" font-weight="400" fill="#0f172a">wakes up and logs</text>
+<line x1="415.8" y1="108.0" x2="456.7" y2="108.0" stroke="#0f172a" stroke-width="4"/>
+<line x1="436.3" y1="112.0" x2="436.3" y2="240.0" stroke="#cbd5e1" stroke-width="2"/>
+<text x="436.3" y="270.0" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a">lock memory:</text>
+<text x="436.3" y="296.0" text-anchor="middle" font-size="19" font-weight="400" fill="#0f172a">no page faults</text>
+<line x1="477.2" y1="108.0" x2="579.5" y2="108.0" stroke="#e11d48" stroke-width="4"/>
+<line x1="528.4" y1="112.0" x2="528.4" y2="140.0" stroke="#cbd5e1" stroke-width="2"/>
+<text x="528.4" y="170.0" text-anchor="middle" font-size="19" font-weight="700" fill="#e11d48">a thread per core,</text>
+<text x="528.4" y="196.0" text-anchor="middle" font-size="19" font-weight="400" fill="#0f172a">SCHED_FIFO 90</text>
+<line x1="600.0" y1="108.0" x2="743.3" y2="108.0" stroke="#0f172a" stroke-width="4"/>
+<line x1="671.6" y1="112.0" x2="671.6" y2="240.0" stroke="#cbd5e1" stroke-width="2"/>
+<text x="671.6" y="270.0" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a">wake every</text>
+<text x="671.6" y="296.0" text-anchor="middle" font-size="19" font-weight="400" fill="#0f172a">1000 µs</text>
+<line x1="763.7" y1="108.0" x2="886.6" y2="108.0" stroke="#0f172a" stroke-width="4"/>
+<line x1="825.1" y1="112.0" x2="825.1" y2="140.0" stroke="#cbd5e1" stroke-width="2"/>
+<text x="825.1" y="170.0" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a">histogram</text>
+<text x="825.1" y="196.0" text-anchor="middle" font-size="19" font-weight="400" fill="#0f172a">up to 400 µs</text>
+<line x1="907.0" y1="108.0" x2="1009.4" y2="108.0" stroke="#0f172a" stroke-width="4"/>
+<line x1="958.2" y1="112.0" x2="958.2" y2="240.0" stroke="#cbd5e1" stroke-width="2"/>
+<text x="958.2" y="270.0" text-anchor="middle" font-size="19" font-weight="700" fill="#0f172a">five minutes:</text>
+<text x="958.2" y="296.0" text-anchor="middle" font-size="19" font-weight="400" fill="#0f172a">300 000 wake-ups</text>
+<rect x="60.0" y="340.0" width="1080.0" height="96.0" rx="12" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+<text x="84.0" y="374.0" text-anchor="start" font-size="19" font-weight="700" fill="#475569">and around it</text>
+<text x="84.0" y="414.0" text-anchor="start" font-size="21" font-weight="700" fill="#0f172a" font-family="'DejaVu Sans Mono', 'Courier New', monospace">stress-ng --cpu 0 --io 2</text>
+<text x="430.0" y="414.0" text-anchor="start" font-size="20" font-weight="400" fill="#0f172a">+ a ping flood from a laptop</text>
+<text x="760.0" y="414.0" text-anchor="start" font-size="20" font-weight="400" fill="#0f172a">· governor:</text>
+<text x="880.0" y="414.0" text-anchor="start" font-size="21" font-weight="700" fill="#0f172a" font-family="'DejaVu Sans Mono', 'Courier New', monospace">performance</text>
+</svg>

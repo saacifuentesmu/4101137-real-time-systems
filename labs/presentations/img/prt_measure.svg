@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" font-family="Inter, 'Segoe UI', 'DejaVu Sans', Arial, sans-serif">
+<defs><marker id="ar-ink" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f172a"/></marker><marker id="ar-muted" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#475569"/></marker><marker id="ar-c1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#ea580c"/></marker><marker id="ar-c2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker><marker id="ar-c3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#16a34a"/></marker><marker id="ar-c4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0d9488"/></marker><marker id="ar-c5" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e11d48"/></marker><marker id="ar-c6" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker><marker id="ar-c7" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d97706"/></marker><marker id="ar-c8" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#db2777"/></marker></defs>
+<text x="60.0" y="40.0" text-anchor="start" font-size="20" font-weight="700" fill="#0f172a">the thread: sleep, wake, log the lateness</text>
+<line x1="50.0" y1="250.0" x2="684.0" y2="250.0" stroke="#475569" stroke-width="2" marker-end="url(#ar-muted)"/>
+<text x="684.0" y="280.0" text-anchor="end" font-size="17" font-weight="400" fill="#475569">time</text>
+<line x1="96.0" y1="90.0" x2="96.0" y2="250.0" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="96.0" y="82.0" text-anchor="middle" font-size="16" font-weight="700" fill="#475569">expected</text>
+<rect x="103.2" y="204.0" width="34.0" height="40.0" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<line x1="96.0" y1="130.0" x2="103.2" y2="130.0" stroke="#2563eb" stroke-width="3"/>
+<line x1="96.0" y1="120.0" x2="96.0" y2="140.0" stroke="#2563eb" stroke-width="3"/>
+<line x1="103.2" y1="120.0" x2="103.2" y2="140.0" stroke="#2563eb" stroke-width="3"/>
+<line x1="216.0" y1="90.0" x2="216.0" y2="250.0" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="216.0" y="82.0" text-anchor="middle" font-size="16" font-weight="700" fill="#475569">+1 ms</text>
+<rect x="225.6" y="204.0" width="34.0" height="40.0" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<line x1="216.0" y1="130.0" x2="225.6" y2="130.0" stroke="#2563eb" stroke-width="3"/>
+<line x1="216.0" y1="120.0" x2="216.0" y2="140.0" stroke="#2563eb" stroke-width="3"/>
+<line x1="225.6" y1="120.0" x2="225.6" y2="140.0" stroke="#2563eb" stroke-width="3"/>
+<line x1="336.0" y1="90.0" x2="336.0" y2="250.0" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="336.0" y="82.0" text-anchor="middle" font-size="16" font-weight="700" fill="#475569">+2 ms</text>
+<rect x="342.0" y="204.0" width="34.0" height="40.0" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<line x1="336.0" y1="130.0" x2="342.0" y2="130.0" stroke="#2563eb" stroke-width="3"/>
+<line x1="336.0" y1="120.0" x2="336.0" y2="140.0" stroke="#2563eb" stroke-width="3"/>
+<line x1="342.0" y1="120.0" x2="342.0" y2="140.0" stroke="#2563eb" stroke-width="3"/>
+<line x1="456.0" y1="90.0" x2="456.0" y2="250.0" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="456.0" y="82.0" text-anchor="middle" font-size="16" font-weight="700" fill="#475569">+3 ms</text>
+<rect x="506.4" y="204.0" width="34.0" height="40.0" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<line x1="456.0" y1="130.0" x2="506.4" y2="130.0" stroke="#2563eb" stroke-width="3"/>
+<line x1="456.0" y1="120.0" x2="456.0" y2="140.0" stroke="#2563eb" stroke-width="3"/>
+<line x1="506.4" y1="120.0" x2="506.4" y2="140.0" stroke="#2563eb" stroke-width="3"/>
+<line x1="576.0" y1="90.0" x2="576.0" y2="250.0" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="576.0" y="82.0" text-anchor="middle" font-size="16" font-weight="700" fill="#475569">+4 ms</text>
+<rect x="584.4" y="204.0" width="34.0" height="40.0" rx="4" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<line x1="576.0" y1="130.0" x2="584.4" y2="130.0" stroke="#2563eb" stroke-width="3"/>
+<line x1="576.0" y1="120.0" x2="576.0" y2="140.0" stroke="#2563eb" stroke-width="3"/>
+<line x1="584.4" y1="120.0" x2="584.4" y2="140.0" stroke="#2563eb" stroke-width="3"/>
+<text x="458.0" y="162.0" text-anchor="start" font-size="16" font-weight="700" fill="#2563eb">a long one</text>
+<text x="60.0" y="314.0" text-anchor="start" font-size="19" font-weight="700" fill="#2563eb">latency = actual − expected, every period</text>
+<text x="60.0" y="344.0" text-anchor="start" font-size="18" font-weight="400" fill="#475569">the thread runs (box) after the timer it asked for</text>
+<text x="760.0" y="40.0" text-anchor="start" font-size="20" font-weight="700" fill="#0f172a">the histogram (log scale)</text>
+<rect x="762.0" y="80.0" width="29.3" height="220.0" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<rect x="795.3" y="97.6" width="29.3" height="202.4" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<rect x="828.7" y="132.8" width="29.3" height="167.2" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<rect x="862.0" y="172.4" width="29.3" height="127.6" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<rect x="895.3" y="212.0" width="29.3" height="88.0" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<rect x="928.7" y="247.2" width="29.3" height="52.8" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<rect x="962.0" y="273.6" width="29.3" height="26.4" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<rect x="1028.7" y="286.8" width="29.3" height="13.2" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<rect x="1128.7" y="286.8" width="29.3" height="13.2" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<line x1="760.0" y1="300.0" x2="1170.0" y2="300.0" stroke="#475569" stroke-width="2" marker-end="url(#ar-muted)"/>
+<line x1="1143.3" y1="306.0" x2="1143.3" y2="80.0" stroke="#0f172a" stroke-width="3"/>
+<text x="1143.3" y="72.0" text-anchor="end" font-size="18" font-weight="700" fill="#0f172a">max: the verdict</text>
+<line x1="976.7" y1="306.0" x2="976.7" y2="110.0" stroke="#475569" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="970.7" y="106.0" text-anchor="end" font-size="17" font-weight="700" fill="#475569">p99: context</text>
+<text x="1160.0" y="330.0" text-anchor="end" font-size="17" font-weight="400" fill="#475569">latency →</text>
+<text x="1160.0" y="404.0" text-anchor="end" font-size="16" font-weight="400" fill="#475569">schematic</text>
+</svg>

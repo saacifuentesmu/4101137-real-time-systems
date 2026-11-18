@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 446" font-family="Inter, 'Segoe UI', 'DejaVu Sans', Arial, sans-serif">
+<defs><marker id="ar-ink" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f172a"/></marker><marker id="ar-muted" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#475569"/></marker><marker id="ar-c1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#ea580c"/></marker><marker id="ar-c2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker><marker id="ar-c3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#16a34a"/></marker><marker id="ar-c4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0d9488"/></marker><marker id="ar-c5" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e11d48"/></marker><marker id="ar-c6" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker><marker id="ar-c7" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d97706"/></marker><marker id="ar-c8" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#db2777"/></marker></defs>
+<text x="60.0" y="40.0" text-anchor="start" font-size="22" font-weight="800" fill="#475569">stock kernel</text>
+<text x="660.0" y="40.0" text-anchor="start" font-size="22" font-weight="800" fill="#0f172a">PREEMPT_RT</text>
+<rect x="60.0" y="64.0" width="440.0" height="80.0" rx="10" fill="#475569" stroke="#475569" stroke-width="2"/>
+<text x="280.0" y="99.0" text-anchor="middle" font-size="22" font-weight="700" fill="#fff">IRQ handler</text>
+<text x="280.0" y="125.0" text-anchor="middle" font-size="18" font-weight="400" fill="#e2e8f0">runs above every thread</text>
+<line x1="512.0" y1="104.0" x2="646.0" y2="104.0" stroke="#0f172a" stroke-width="3" marker-end="url(#ar-ink)"/>
+<rect x="660.0" y="64.0" width="480.0" height="80.0" rx="10" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+<text x="900.0" y="99.0" text-anchor="middle" font-size="22" font-weight="700" fill="#db2777">IRQ thread</text>
+<text x="900.0" y="125.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">irq/NN-eth0 · SCHED_FIFO 50</text>
+<rect x="60.0" y="168.0" width="440.0" height="80.0" rx="10" fill="#475569" stroke="#475569" stroke-width="2"/>
+<text x="280.0" y="203.0" text-anchor="middle" font-size="22" font-weight="700" fill="#fff">spinlock</text>
+<text x="280.0" y="229.0" text-anchor="middle" font-size="18" font-weight="400" fill="#e2e8f0">spins, preemption off</text>
+<line x1="512.0" y1="208.0" x2="646.0" y2="208.0" stroke="#0f172a" stroke-width="3" marker-end="url(#ar-ink)"/>
+<rect x="660.0" y="168.0" width="480.0" height="80.0" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+<text x="900.0" y="203.0" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">rtmutex</text>
+<text x="900.0" y="229.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">sleeps · inherits priority (week 6)</text>
+<rect x="60.0" y="272.0" width="440.0" height="80.0" rx="10" fill="#475569" stroke="#475569" stroke-width="2"/>
+<text x="280.0" y="307.0" text-anchor="middle" font-size="22" font-weight="700" fill="#fff">softirq</text>
+<text x="280.0" y="333.0" text-anchor="middle" font-size="18" font-weight="400" fill="#e2e8f0">runs on the way out of an IRQ</text>
+<line x1="512.0" y1="312.0" x2="646.0" y2="312.0" stroke="#0f172a" stroke-width="3" marker-end="url(#ar-ink)"/>
+<rect x="660.0" y="272.0" width="480.0" height="80.0" rx="10" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+<text x="900.0" y="307.0" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">softirq in a thread</text>
+<text x="900.0" y="333.0" text-anchor="middle" font-size="18" font-weight="400" fill="#475569">scheduled like the rest</text>
+<text x="60.0" y="400.0" text-anchor="start" font-size="19" font-weight="400" fill="#0f172a">Still not preemptible: the hard-IRQ entry and raw spinlocks in core code. Short, and the kernel's job to bound.</text>
+<text x="60.0" y="430.0" text-anchor="start" font-size="19" font-weight="400" fill="#475569">In mainline Linux since 6.12 (2024): a build option, not a patch.</text>
+</svg>

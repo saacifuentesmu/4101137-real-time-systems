@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" font-family="Inter, 'Segoe UI', 'DejaVu Sans', Arial, sans-serif">
+<defs><marker id="ar-ink" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f172a"/></marker><marker id="ar-muted" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#475569"/></marker><marker id="ar-c1" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#ea580c"/></marker><marker id="ar-c2" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2563eb"/></marker><marker id="ar-c3" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#16a34a"/></marker><marker id="ar-c4" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0d9488"/></marker><marker id="ar-c5" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#e11d48"/></marker><marker id="ar-c6" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#7c3aed"/></marker><marker id="ar-c7" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#d97706"/></marker><marker id="ar-c8" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#db2777"/></marker></defs>
+<defs><pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#fff"/><rect width="4" height="10" fill="#cbd5e1"/></pattern></defs>
+<rect x="30.0" y="30.0" width="660.0" height="370.0" rx="16" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+<text x="54.0" y="68.0" text-anchor="start" font-size="22" font-weight="700" fill="#0f172a">the Hub · Raspberry Pi · one Linux kernel</text>
+<text x="54.0" y="112.0" text-anchor="start" font-size="18" font-weight="700" fill="#475569">soft: the average matters</text>
+<rect x="54.0" y="126.0" width="196.0" height="76.0" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+<text x="152.0" y="159.0" text-anchor="middle" font-size="23" font-weight="700" fill="#d97706">GUI</text>
+<text x="152.0" y="186.0" text-anchor="middle" font-size="19" font-weight="400" fill="#475569">touch, web HMI</text>
+<rect x="266.0" y="126.0" width="196.0" height="76.0" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+<text x="364.0" y="159.0" text-anchor="middle" font-size="23" font-weight="700" fill="#16a34a">routing</text>
+<text x="364.0" y="186.0" text-anchor="middle" font-size="19" font-weight="400" fill="#475569">CAN ↔ IP</text>
+<rect x="478.0" y="126.0" width="190.0" height="76.0" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+<text x="573.0" y="159.0" text-anchor="middle" font-size="23" font-weight="700" fill="#16a34a">cloud</text>
+<text x="573.0" y="186.0" text-anchor="middle" font-size="19" font-weight="400" fill="#475569">upload, logs</text>
+<text x="54.0" y="246.0" text-anchor="start" font-size="18" font-weight="700" fill="#e11d48">hard: the worst case matters</text>
+<rect x="54.0" y="260.0" width="300.0" height="100.0" rx="10" fill="#ffe4e6" stroke="#e11d48" stroke-width="2"/>
+<text x="204.0" y="305.0" text-anchor="middle" font-size="26" font-weight="700" fill="#e11d48">pump loop</text>
+<text x="204.0" y="335.0" text-anchor="middle" font-size="22" font-weight="400" fill="#475569">deadline 10 ms</text>
+<rect x="370.0" y="260.0" width="298.0" height="100.0" rx="10" fill="#ffe4e6" stroke="#e11d48" stroke-width="2"/>
+<text x="519.0" y="305.0" text-anchor="middle" font-size="26" font-weight="700" fill="#e11d48">interlock</text>
+<text x="519.0" y="335.0" text-anchor="middle" font-size="22" font-weight="400" fill="#475569">stops the pump</text>
+<text x="740.0" y="112.0" text-anchor="start" font-size="20" font-weight="700" fill="#0f172a">the pump loop's 10 ms</text>
+<rect x="740.0" y="126.0" width="430.0" height="54.0" rx="6" fill="#fff" stroke="#e11d48" stroke-width="2"/>
+<rect x="740.0" y="126.0" width="70.0" height="54.0" rx="6" fill="url(#hatch)" stroke="#e11d48" stroke-width="2"/>
+<text x="775.0" y="160.0" text-anchor="middle" font-size="24" font-weight="800" fill="#e11d48">?</text>
+<rect x="810.0" y="126.0" width="120.0" height="54.0" rx="0" fill="#ffe4e6" stroke="#e11d48" stroke-width="2"/>
+<text x="870.0" y="159.0" text-anchor="middle" font-size="17" font-weight="700" fill="#e11d48">compute</text>
+<text x="1010.0" y="159.0" text-anchor="middle" font-size="17" font-weight="400" fill="#475569">slack</text>
+<line x1="775.0" y1="184.0" x2="775.0" y2="232.0" stroke="#e11d48" stroke-width="2"/>
+<text x="740.0" y="258.0" text-anchor="start" font-size="20" font-weight="700" fill="#0f172a">wake-up latency:</text>
+<text x="740.0" y="288.0" text-anchor="start" font-size="19" font-weight="400" fill="#0f172a">stock Linux gives it no bound;</text>
+<text x="740.0" y="316.0" text-anchor="start" font-size="19" font-weight="400" fill="#0f172a">PREEMPT_RT gives one you measure.</text>
+<text x="740.0" y="368.0" text-anchor="start" font-size="20" font-weight="700" fill="#e11d48">today: measure that bound</text>
+</svg>
